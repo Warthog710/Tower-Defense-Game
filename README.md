@@ -35,3 +35,7 @@ strategy along the path. No animation is required for enemies or towers.
 
 <b>For documentation purposes:<b></br>
 https://docs.google.com/document/d/1jzjNmYaw-pGcg-SYwLC3hfwqSHZ0u_GVHPIjyIMxmWo/edit?usp=sharing
+ </br>
+ </br>
+ <b>For clarifying hierarchy:<b></br>
+
