@@ -12,6 +12,7 @@ strategy along the path. No animation is required for enemies or towers.
 
 <b>Tasks:</b>
 * [ ] Develop initial class hierarchy and control structure
+* [ ] Create CRC cards
 * [ ] Implement "GameWorld" which holds a collection of game objects and other state variables
 * [ ] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
 * [ ] Implement a GameView class which will assume the responsibility of displaying information about the state of the game
