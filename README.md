@@ -15,10 +15,10 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Create CRC cards
 * [ ] Implement "GameWorld" which holds a collection of game objects and other state variables
 * [ ] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
-* [ ] Implement a GameView class which will assume the responsibility of displaying information about the state of the game
-* [ ] Implement abstract GameObject (implement fixed & moveable interfaces for different types
+* [ ] Implement a GameView class which will assume the responsibility of displaying information about the state of the game (Quinn)
+* [ ] Implement abstract GameObject (implement fixed & moveable interfaces for different types (Quinn)
 * [ ] Implement a single tower type. Not rotational and with a fixed location and cost.
-* [ ] Implement a single enemy type. That follows a basic movement strategy
+* [ ] Implement a single enemy type. That follows a basic movement strategy (Quinn)
 * [ ] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
 
 <b>Notes:</b>
