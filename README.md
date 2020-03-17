@@ -39,5 +39,5 @@ https://docs.google.com/document/d/1jzjNmYaw-pGcg-SYwLC3hfwqSHZ0u_GVHPIjyIMxmWo/
  </br>
  </br>
  <b>For clarifying hierarchy:<b></br>
-![](Images/Tower%20UML.png)</br>
+![](Images/tower.png)</br>
 see Image folder for uml diagram
