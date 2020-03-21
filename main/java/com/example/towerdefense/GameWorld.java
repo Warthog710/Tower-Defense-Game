@@ -1,8 +1,9 @@
 package com.example.towerdefense;
 
 import android.content.Context;
+import android.graphics.Point;
 
-final class GameState
+class GameWorld
 {
     private static volatile boolean mThreadRunning = false;
     private static volatile boolean mPaused = true;
@@ -10,13 +11,22 @@ final class GameState
     private static volatile boolean mDrawing = false;
 
     private GameStarter gameStarter;
+    private Context context;
+    private Point size;
+
+    //Collection of game objects go here...
+    AlienEnemy enemy;
 
     //Could save scores here if you wanted...
 
     //Class constructor
-    GameState(GameStarter gameStarter, Context context)
+    GameWorld(GameStarter gameStarter, Context context, Point size)
     {
         this.gameStarter = gameStarter;
+        this.context = context;
+        this.size = size;
+
+        enemy = new AlienEnemy(context, size, "drone");
     }
 
     private void endGame()

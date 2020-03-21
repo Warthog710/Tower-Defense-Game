@@ -1,41 +1,49 @@
 package com.example.towerdefense;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-class Renderer
+class GameView
 {
+    private Context context;
     private Canvas mCanvas;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
 
-    Renderer(SurfaceView surfaceView)
+    GameView(SurfaceView surfaceView, Context context)
     {
+        this.context = context;
         mSurfaceHolder = surfaceView.getHolder();
         mPaint = new Paint();
     }
 
-    void draw(GameState gamestate)
+    void draw(GameWorld gameWorld)
     {
         if(mSurfaceHolder.getSurface().isValid())
         {
             mCanvas = mSurfaceHolder.lockCanvas();
-            mCanvas.drawColor(Color.argb(255, 0, 0, 0));
 
-            //Test code to verify the program is drawing... DELETE ME!!!
-            mPaint.setTextSize(100);
-            mPaint.setColor(Color.argb(255, 255, 255, 255));
-            mCanvas.drawText("This is a test!!!", 100, 500, mPaint);
+            //Draw game background
+            //Note this should change to use a Map object...
+            Bitmap background = BitmapFactory.decodeResource(context.getResources(), R.drawable.test);
+            mCanvas.drawBitmap(background, 0, 0, null);
 
-            if (gamestate.getDrawing())
+            //Test draw
+            gameWorld.enemy.alien.draw(mCanvas, mPaint);
+
+
+            if (gameWorld.getDrawing())
             {
                 //Draw all game objects...
             }
 
-            if(gamestate.getGameOver())
+            if(gameWorld.getGameOver())
             {
                 //Draw game over screen...
             }

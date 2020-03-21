@@ -1,7 +1,6 @@
 package com.example.towerdefense;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,9 +9,11 @@ import android.view.SurfaceView;
 public class GameEngine extends SurfaceView implements Runnable, GameStarter
 {
     //Class Variables
-    private Renderer mRenderer;
-    private GameState mGameState;
+    private GameView mGameView;
+    private GameWorld mGameWorld;
+    private Context context;
     private Thread mThread = null;
+    private Point size;
     private long mFPS;
 
     //Class constructor
@@ -20,23 +21,27 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter
     {
         super(context);
 
-        mGameState = new GameState(this, context);
-        mRenderer = new Renderer(this);
+        this.context = context;
+        this.size = size;
+        mGameWorld = new GameWorld(this, this.context, size);
+        mGameView = new GameView(this, this.context);
     }
 
     @Override
     public void run()
     {
-        while (mGameState.getThreadRunning())
+        while (mGameWorld.getThreadRunning())
         {
             long frameStartTime = System.currentTimeMillis();
 
-            if (!mGameState.getPaused()) {
+            if (!mGameWorld.getPaused()) {
                 //The game is paused...
             }
 
             //Update all game objects here...
-            mRenderer.draw(mGameState);
+
+            //Draw all game objects here...
+            mGameView.draw(mGameWorld);
 
             //Measure FPS
             long timeThisFrame = System.currentTimeMillis() - frameStartTime;
@@ -59,7 +64,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter
     public void stopThread()
     {
         //More code will be needed...
-        mGameState.stopEverything();
+        mGameWorld.stopEverything();
 
         try
         {
@@ -74,7 +79,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter
     public void startThread()
     {
         //More code will be needed...
-        mGameState.startThread();
+        mGameWorld.startThread();
 
         mThread = new Thread(this);
         mThread.start();
