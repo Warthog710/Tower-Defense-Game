@@ -1,5 +1,6 @@
 package com.example.towerdefense;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Context;
 import android.graphics.Canvas;

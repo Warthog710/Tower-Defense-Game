@@ -9,8 +9,9 @@ public abstract class GameObject
 {
     //Class variables
     Point mLocation;
-    int attributeSize;
+    private int mAttributeSize;
     Bitmap mBitmap;
+    private boolean sizeSet=false;
 
     //Default draw method
     void draw (Canvas canvas, Paint paint)
@@ -20,7 +21,13 @@ public abstract class GameObject
 
     //Getters
     public Point getLocation() { return mLocation; }
-    public int getAttributeSize(){ return attributeSize; }
+    public int getAttributeSize(){ return mAttributeSize; }
+    public void setAttributeSize(int size){
+        if(!sizeSet){
+            mAttributeSize=size;
+            sizeSet=true;
+        }
+    }
 
     //Setters
     public void setLocation(Point mLocation){ this.mLocation = mLocation; }
