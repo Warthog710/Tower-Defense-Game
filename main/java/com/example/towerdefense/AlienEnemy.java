@@ -3,7 +3,7 @@ package com.example.towerdefense;
 import android.content.Context;
 import android.graphics.Point;
 
-public class AlienEnemy
+public class AlienEnemy extends GameObject
 {
     Alien alien;
     private Movable strategy;

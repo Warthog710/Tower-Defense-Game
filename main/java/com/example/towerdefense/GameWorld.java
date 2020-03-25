@@ -3,19 +3,30 @@ package com.example.towerdefense;
 import android.content.Context;
 import android.graphics.Point;
 
+import java.util.ArrayList;
+
 class GameWorld
 {
     private static volatile boolean mThreadRunning = false;
     private static volatile boolean mPaused = true;
     private static volatile boolean mGameOver = true;
     private static volatile boolean mDrawing = false;
+    private static volatile boolean mPlacing = false;
+    private static volatile int mTowerType;
 
     private GameStarter gameStarter;
     private Context context;
     private Point size;
+    private int mLives;
+    private int mCash;
 
     //Collection of game objects go here...
     AlienEnemy enemy;
+    Tower testTower;
+
+    ArrayList<ProjectileMoveable> mProjectiles;
+    ArrayList<Tower> mTowers;
+    ArrayList<AlienEnemy> mAliens;
 
     //Could save scores here if you wanted...
 
@@ -26,13 +37,17 @@ class GameWorld
         this.context = context;
         this.size = size;
 
-        enemy = new AlienEnemy(context, size, "drone");
+        enemy=new AlienEnemy(context, size, "drone");
     }
 
     private void endGame()
     {
         mGameOver = true;
         mPaused = true;
+    }
+
+    public ArrayList<Tower> getTowers(){
+        return mTowers;
     }
 
     void startNewGame()
@@ -58,6 +73,17 @@ class GameWorld
 
     private void stopDrawing() { mDrawing = false; }
     private void startDrawing() { mDrawing = true; }
+    public void setmPlacing() { mPlacing=true;}
+    public void closemPlacing(){ mPlacing=false;}
+    public void setmTowerType(int towerType){mTowerType=towerType;}
+    public boolean getmPlacing(){ return mPlacing;}
+    public int getmTowerType(){return mTowerType;}
+
+    public void addTower(Tower tower){
+        mTowers.add(tower);
+
+    }
+
 
     void stopEverything()
     {
@@ -65,4 +91,14 @@ class GameWorld
         mGameOver = true;
         mThreadRunning = false;
     }
+
+    public int getLives() {
+        return mLives;
+    }
+    public void setLives(){
+        mLives=20;
+    }
+    public int getCash(){ return mCash;}
+    public void resetCash(){mCash=0;}
+    public void addCash(){mCash+=10;}
 }
