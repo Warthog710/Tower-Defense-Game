@@ -1,7 +1,7 @@
 package com.example.towerdefense;
 
-public abstract class MovableClass {
-    Angle heading;
-    int speed;
+public abstract class MovableClass extends GameObject{
+    Angle mHeading;
+    int mSpeed;
     abstract void move();
 }

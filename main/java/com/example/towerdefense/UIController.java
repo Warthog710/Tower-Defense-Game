@@ -45,7 +45,7 @@ public class UIController implements InputObserver {
                 gameState.setmTowerType(HUD.PlasmaTower);
             }else if (gameState.getmPlacing() && !gameState.getPaused()){ //place tower
                 gameState.closemPlacing();
-                gameState.addTower(new PlasmaTower (context,new Point(x-(Tower.SIZE/2),y-(Tower.SIZE/2))));
+                gameState.addTower(new PlasmaTower (context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
 
             }
         }

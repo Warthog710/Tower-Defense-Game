@@ -14,10 +14,15 @@ public class PlasmaTower extends Tower {
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.test_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
-        this.mToweData.mDamage=5;
-        this.mToweData.mCost=10;
-        this.mToweData.mRange=600;
-        this.mToweData.mRateOfFire=2;
+        this.mTowerData=new TowerData();
+        this.mTowerData.mProjectileData=new ProjectileData();
+        this.mTowerData.mProjectileData.mDamage=5;
+        this.mTowerData.mCost=10;
+        this.mTowerData.mRange=600;
+        this.mTowerData.mRateOfFire=2;
+        this.mTowerData.mProjectileData.mProjectileBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_bullet);
+        this.mTowerData.mProjectileData.mProjectileSpeed=2200;
+        this.mTowerData.mProjectileData.mProjectileSize=10;
         lastShot=System.currentTimeMillis();
     }
     @Override
@@ -28,10 +33,8 @@ public class PlasmaTower extends Tower {
             Iterator<AlienEnemy> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){
                 AlienEnemy alien=alienIterator.next();
-                System.out.println("inShoot");
                 if(inRange(alien)){
-                    System.out.println("shooting");
-                    gameWorld.mProjectiles.add(new ProjectileMoveable(mToweData, mLocation, alien.alien.getLocation() ));
+                    gameWorld.mProjectiles.add(new Projectile(mTowerData, mLocation, alien.alien.getLocation() ));
 
                 }
             }
@@ -43,7 +46,7 @@ public class PlasmaTower extends Tower {
     private boolean inRange(AlienEnemy alien){
         int x=mLocation.x-alien.alien.getLocation().x;
         int y=mLocation.y-alien.alien.getLocation().y;
-        if (Math.sqrt(x*x+y*y)<=mRange){
+        if (Math.sqrt(x*x+y*y)<=mTowerData.mRange){
             return true;
         }else{
             return false;

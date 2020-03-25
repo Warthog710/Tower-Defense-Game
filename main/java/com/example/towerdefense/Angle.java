@@ -1,9 +1,9 @@
 package com.example.towerdefense;
 
 public class Angle {
-    double angle;
+    int angle;
     public Angle(){}
-    public Angle(double angle){
+    public Angle(int angle){
         this.angle=angle%360;
     }
 
@@ -11,7 +11,7 @@ public class Angle {
         this.angle = angle%360;
     }
 
-    public double getAngle() {
+    public int getAngle() {
         return angle;
     }
 }

@@ -36,7 +36,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mHUD= new HUD(size);
         mHUD.setGraphics(context);
         mGameWorld.mTowers=new ArrayList<Tower>();
-        mGameWorld.mProjectiles=new ArrayList<ProjectileMoveable>();
+        mGameWorld.mProjectiles=new ArrayList<Projectile>();
         mGameWorld.mAliens=new ArrayList<AlienEnemy>();
         mGameWorld.mAliens.add(new AlienEnemy(context, size, "drone"));
         mGameWorld.setLives();
@@ -83,21 +83,20 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         //System.out.println(mGameWorld.mTowers != null);
         //Update all game objects here...
         if(!mGameWorld.getPaused()){
-            ArrayList<ProjectileMoveable> projectilesToRemove = new ArrayList<>();
+            ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
             if (mGameWorld.mProjectiles != null){
-                Iterator<ProjectileMoveable> projectileIterator = mGameWorld.mProjectiles.iterator();
+                Iterator<Projectile> projectileIterator = mGameWorld.mProjectiles.iterator();
                 while(projectileIterator.hasNext()){
-                    ProjectileMoveable projectile= projectileIterator.next();
+                    Projectile projectile= projectileIterator.next();
                     projectile.move();
                     if(projectile.collision(mGameWorld)){
                         projectilesToRemove.add(projectile);
                     }
                 }
-                System.out.println("projectiles: "+mGameWorld.mProjectiles.size());
             }
 
             //remove projectiles
-            Iterator<ProjectileMoveable> projectileMoveableIterator = projectilesToRemove.iterator();
+            Iterator<Projectile> projectileMoveableIterator = projectilesToRemove.iterator();
             while(projectileMoveableIterator.hasNext()){
                 mGameWorld.mProjectiles.remove(projectileMoveableIterator.next());
 

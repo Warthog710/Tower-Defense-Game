@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -63,7 +62,7 @@ class GameView
                 //draw towers
                 if (gameWorld.mProjectiles != null){
                     //System.out.println("Drawing tower");
-                    Iterator<ProjectileMoveable> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
+                    Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
                     while(projectileMoveableIterator.hasNext()){
                         projectileMoveableIterator.next().draw(mCanvas,mPaint);
                     }

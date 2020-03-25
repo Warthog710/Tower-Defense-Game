@@ -24,7 +24,7 @@ class GameWorld
     AlienEnemy enemy;
     Tower testTower;
 
-    ArrayList<ProjectileMoveable> mProjectiles;
+    ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
     ArrayList<AlienEnemy> mAliens;
 
