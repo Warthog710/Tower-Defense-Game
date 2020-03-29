@@ -17,18 +17,16 @@ class GameWorld
     private GameStarter gameStarter;
     private Context context;
     private Point size;
-    private int mLives;
-    private int mCash;
 
     //Collection of game objects go here...
-    AlienEnemy enemy;
-    Tower testTower;
-
     ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
-    ArrayList<AlienEnemy> mAliens;
+    ArrayList<Alien> mAliens;
+    GameMap mMap;
 
-    //Could save scores here if you wanted...
+    //Game variables
+    private int mLives;
+    private int mCash;
 
     //Class constructor
     GameWorld(GameStarter gameStarter, Context context, Point size)
@@ -36,8 +34,6 @@ class GameWorld
         this.gameStarter = gameStarter;
         this.context = context;
         this.size = size;
-
-        enemy=new AlienEnemy(context, size, "drone");
     }
 
     private void endGame()
@@ -79,11 +75,15 @@ class GameWorld
     public boolean getmPlacing(){ return mPlacing;}
     public int getmTowerType(){return mTowerType;}
 
-    public void addTower(Tower tower){
+    public void addTower(Tower tower)
+    {
         mTowers.add(tower);
-
     }
 
+    public void addEnemy(Alien alien)
+    {
+        mAliens.add(alien);
+    }
 
     void stopEverything()
     {
@@ -101,4 +101,5 @@ class GameWorld
     public int getCash(){ return mCash;}
     public void resetCash(){mCash=0;}
     public void addCash(){mCash+=10;}
+    public void loseLife() { mLives -= 1; }
 }

@@ -1,5 +1,6 @@
 package com.example.towerdefense;
 
-public interface GameEngineBroadcaster {
+public interface GameEngineBroadcaster
+{
     void addObserver(InputObserver o);
 }
