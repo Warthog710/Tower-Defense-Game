@@ -3,12 +3,13 @@ package com.example.towerdefense;
 import android.graphics.Bitmap;
 
 public class ProjectileData {
-    public int mDamage; //ammount of damage each projectile does
+    public int mDamage; //amount of damage each projectile does
     public int mProjectileSpeed; //speed of projectile
     public Bitmap mProjectileBitMap;
     public int mProjectileSize;
 
-    public ProjectileData(){
+    public ProjectileData()
+    {
 
     }
 

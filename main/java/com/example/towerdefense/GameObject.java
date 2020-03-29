@@ -22,13 +22,15 @@ public abstract class GameObject
     //Getters
     public Point getLocation() { return mLocation; }
     public int getAttributeSize(){ return mAttributeSize; }
-    public void setAttributeSize(int size){
-        if(!sizeSet){
-            mAttributeSize=size;
-            sizeSet=true;
-        }
-    }
 
     //Setters
     public void setLocation(Point mLocation){ this.mLocation = mLocation; }
+    public void setAttributeSize(int size)
+    {
+        if (!sizeSet)
+        {
+            mAttributeSize = size;
+            sizeSet = true;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 package com.example.towerdefense;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import java.util.ArrayList;
-class HUD {
+
+class HUD
+{
     private int mTextFormatting;
     private int mScreenHeight;
     private int mScreenWidth;
@@ -22,8 +25,8 @@ class HUD {
     private int buttonWidth;
     private int buttonHeight;
 
-
-    HUD(Point size){
+    HUD(Point size)
+    {
         mScreenHeight = size.y;
         mScreenWidth = size.x;
         mTextFormatting = size.x / 50;
@@ -31,7 +34,9 @@ class HUD {
         buttonHeight = mScreenHeight / 12;
         prepareControls();
     }
-    private void prepareControls(){
+
+    private void prepareControls()
+    {
         int buttonPadding = mScreenWidth / 90;
         Rect pause = new Rect(
                 mScreenWidth - buttonPadding - buttonWidth, buttonPadding,
@@ -50,7 +55,9 @@ class HUD {
         mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding);
 
     }
-    void draw(Canvas c, Paint p, GameWorld mGameWorld){
+
+    void draw(Canvas c, Paint p, GameWorld mGameWorld)
+    {
         // Draw the HUD
         p.setColor(black);
         p.setTextSize(mTextFormatting);
@@ -60,39 +67,50 @@ class HUD {
         c.drawText("Cash: " + mGameWorld.getCash(),
                 mTextFormatting*6, mTextFormatting * 2,p);
 
-        if(mGameWorld.getGameOver()){
+        if(mGameWorld.getGameOver())
+        {
             p.setTextSize(mTextFormatting * 5);
             c.drawText("PRESS PLAY",
                     mScreenWidth /4, mScreenHeight /2 ,p);
         }
-        if(mGameWorld.getPaused() && !mGameWorld.getGameOver()){
+
+        if(mGameWorld.getPaused() && !mGameWorld.getGameOver())
+        {
             p.setTextSize(mTextFormatting * 5);
             c.drawText("PAUSED",
                     mScreenWidth /3, mScreenHeight /2 ,p);
         }
+
         drawControls(c, p);
         drawGraphics(c,p);
     }
-    private void drawControls(Canvas c, Paint p){
+
+    private void drawControls(Canvas c, Paint p)
+    {
         p.setColor(black);
-        for(Rect r : controls){
+        for(Rect r : controls)
+        {
             c.drawRect(r.left, r.top, r.right, r.bottom, p);
         }
+
         // Set the colors back
         p.setColor(white);
     }
     ArrayList<Rect> getControls(){
         return controls;
     }
-    public void setGraphics(Context context){
+
+    public void setGraphics(Context context)
+    {
         mPauseBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
         mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
         mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_turret);
         mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
     }
-    private void drawGraphics(Canvas canvas, Paint p){
+
+    private void drawGraphics(Canvas canvas, Paint p)
+    {
         canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
-
     }
 }

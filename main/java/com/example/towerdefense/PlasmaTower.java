@@ -7,9 +7,11 @@ import android.graphics.Point;
 
 import java.util.Iterator;
 
-public class PlasmaTower extends Tower {
+public class PlasmaTower extends Tower
+{
 
-    public PlasmaTower(Context context, Point location){
+    public PlasmaTower(Context context, Point location)
+    {
         setSize();
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.test_turret);
@@ -25,33 +27,37 @@ public class PlasmaTower extends Tower {
         this.mTowerData.mProjectileData.mProjectileSize=10;
         lastShot=System.currentTimeMillis();
     }
+
     @Override
-    public void shoot(GameWorld gameWorld) {
+    public void shoot(GameWorld gameWorld)
+    {
         System.out.println(System.currentTimeMillis()-lastShot);
         if (System.currentTimeMillis()-lastShot>(1000)){
             lastShot=System.currentTimeMillis();
-            Iterator<AlienEnemy> alienIterator = gameWorld.mAliens.iterator();
+            Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){
-                AlienEnemy alien=alienIterator.next();
+                Alien alien=alienIterator.next();
                 if(inRange(alien)){
-                    gameWorld.mProjectiles.add(new Projectile(mTowerData, mLocation, alien.alien.getLocation() ));
+                    gameWorld.mProjectiles.add(new Projectile(mTowerData, mLocation, alien.getLocation() ));
+                    alien.onHit(mTowerData.mProjectileData.mDamage);
+                    break;
 
                 }
             }
         }
-
-
-
     }
-    private boolean inRange(AlienEnemy alien){
-        int x=mLocation.x-alien.alien.getLocation().x;
-        int y=mLocation.y-alien.alien.getLocation().y;
-        if (Math.sqrt(x*x+y*y)<=mTowerData.mRange){
+
+    private boolean inRange(Alien alien)
+    {
+        int x=mLocation.x-alien.getLocation().x;
+        int y=mLocation.y-alien.getLocation().y;
+        if (Math.sqrt(x*x+y*y)<=mTowerData.mRange)
+        {
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
-
     }
-
 }

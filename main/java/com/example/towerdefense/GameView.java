@@ -31,54 +31,54 @@ class GameView
             mCanvas = mSurfaceHolder.lockCanvas();
 
             //Draw game background
-            //Note this should change to use a Map object...
-            Bitmap background = BitmapFactory.decodeResource(context.getResources(), R.drawable.test);
-            mCanvas.drawBitmap(background, 0, 0, null);
+            gameWorld.mMap.draw(mCanvas, mPaint);
 
-
-
+            //If currently drawing...
             if (gameWorld.getDrawing())
             {
 
-                //draw towers
-                if (gameWorld.mTowers != null){
-                    //System.out.println("Drawing tower");
+                //Draw towers
+                if (gameWorld.mTowers != null)
+                {
                     Iterator<Tower> towerIterator = gameWorld.mTowers.iterator();
-                    while(towerIterator.hasNext()){
+                    while(towerIterator.hasNext())
+                    {
                         towerIterator.next().draw(mCanvas,mPaint);
                     }
 
                 }
 
-                //draw aliens, currently not working
-                if (gameWorld.mAliens != null){ //update later
-                    //System.out.println("Drawing alien");
-                    Iterator<AlienEnemy> alienIterator = gameWorld.mAliens.iterator();
-                    while(alienIterator.hasNext()){
-                        (alienIterator.next()).alien.draw(mCanvas,mPaint);
+                //Draw aliens
+                if (gameWorld.mAliens != null)
+                {
+                    Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
+                    while(alienIterator.hasNext())
+                    {
+                        (alienIterator.next()).draw(mCanvas,mPaint);
                     }
-
                 }
-                //draw towers
-                if (gameWorld.mProjectiles != null){
-                    //System.out.println("Drawing tower");
+
+                //Draw projectiles
+                if (gameWorld.mProjectiles != null)
+                {
                     Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
-                    while(projectileMoveableIterator.hasNext()){
+                    while(projectileMoveableIterator.hasNext())
+                    {
                         projectileMoveableIterator.next().draw(mCanvas,mPaint);
                     }
-
                 }
             }
 
+            //If the game is over...
             if(gameWorld.getGameOver())
             {
                 //Draw game over screen...
             }
 
-            //draw HUD
-
+            //Draw HUD
             mHUD.draw(mCanvas, mPaint, gameWorld);
 
+            //Unlock and post
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }
     }

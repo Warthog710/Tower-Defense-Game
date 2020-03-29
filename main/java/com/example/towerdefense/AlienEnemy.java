@@ -3,24 +3,23 @@ package com.example.towerdefense;
 import android.content.Context;
 import android.graphics.Point;
 
-public class AlienEnemy extends GameObject
+public class AlienEnemy
 {
     Alien alien;
-    private Movable strategy;
 
     //Select correct enemy to build, and the corresponding movement strategy.
-    public AlienEnemy(Context context, Point size, String type)
+    public AlienEnemy(Context context, Point size, int pathHeight, String type)
     {
         if (type.equals("drone"))
         {
-            this.alien = new Drone(context, size);
-            strategy = new DroneMovementStrategy();
+            this.alien = new Drone(context, size, new DroneMovementStrategy(), pathHeight);
         }
     }
 
-    //Call the corresponding movement strategy.
-    public void move()
+    //Return the created alien
+    public Alien getAlien()
     {
-        strategy.move();
+        return this.alien;
     }
+
 }
