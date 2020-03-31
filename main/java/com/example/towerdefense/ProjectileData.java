@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 public class ProjectileData {
     public int mDamage; //amount of damage each projectile does
     public int mProjectileSpeed; //speed of projectile
-    public Bitmap mProjectileBitMap;
-    public int mProjectileSize;
+    public Bitmap mProjectileBitMap; //projectile image
+    public int mProjectileSize; //size of projectile
 
     public ProjectileData()
     {
@@ -15,5 +15,5 @@ public class ProjectileData {
 
     public void upgradeDamage(){
         this.mDamage=(int) (1.1*this.mDamage);
-    }
+    } //increase the damage
 }

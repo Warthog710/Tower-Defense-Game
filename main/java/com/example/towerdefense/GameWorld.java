@@ -22,6 +22,7 @@ class GameWorld
     ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
     ArrayList<Alien> mAliens;
+    Circle range;
     GameMap mMap;
 
     //Game variables
@@ -73,17 +74,12 @@ class GameWorld
     public void closemPlacing(){ mPlacing=false;}
     public void setmTowerType(int towerType){mTowerType=towerType;}
     public boolean getmPlacing(){ return mPlacing;}
-    public int getmTowerType(){return mTowerType;}
 
     public void addTower(Tower tower)
     {
         mTowers.add(tower);
     }
 
-    public void addEnemy(Alien alien)
-    {
-        mAliens.add(alien);
-    }
 
     void stopEverything()
     {
@@ -99,7 +95,8 @@ class GameWorld
         mLives=20;
     }
     public int getCash(){ return mCash;}
-    public void resetCash(){mCash=0;}
-    public void addCash(){mCash+=10;}
+    public void resetCash(){this.mCash=100;}
+    public void addCash(){this.mCash+=10;}
+    public void loseCash(int amount){this.mCash-=amount;}
     public void loseLife() { mLives -= 1; }
 }

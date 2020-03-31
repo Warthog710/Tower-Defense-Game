@@ -36,6 +36,15 @@ class GameView
             //If currently drawing...
             if (gameWorld.getDrawing())
             {
+                //Draw projectiles
+                if (gameWorld.mProjectiles != null)
+                {
+                    Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
+                    while(projectileMoveableIterator.hasNext())
+                    {
+                        projectileMoveableIterator.next().draw(mCanvas,mPaint);
+                    }
+                }
 
                 //Draw towers
                 if (gameWorld.mTowers != null)
@@ -58,15 +67,11 @@ class GameView
                     }
                 }
 
-                //Draw projectiles
-                if (gameWorld.mProjectiles != null)
-                {
-                    Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
-                    while(projectileMoveableIterator.hasNext())
-                    {
-                        projectileMoveableIterator.next().draw(mCanvas,mPaint);
-                    }
+                if (gameWorld.range != null){
+                    gameWorld.range.draw(mCanvas, mPaint);
                 }
+
+
             }
 
             //If the game is over...
