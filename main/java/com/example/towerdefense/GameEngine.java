@@ -44,6 +44,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.resetCash();
         mGameWorld.mMap = new GameMap(context, size);
         mUIController = new UIController(this, context);
+        mGameWorld.range=null;
     }
 
     @Override
@@ -67,6 +68,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
 
             if (mGameWorld.mAliens.isEmpty())
             {
+                
                 mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
                 currentWave++;
 

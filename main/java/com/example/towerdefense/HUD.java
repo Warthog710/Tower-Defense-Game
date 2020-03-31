@@ -104,7 +104,7 @@ class HUD
     {
         mPauseBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
         mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
-        mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_turret);
+        mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
     }
 

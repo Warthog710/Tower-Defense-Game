@@ -6,6 +6,7 @@ public class ProjectileData {
     public int mDamage; //amount of damage each projectile does
     public int mProjectileSpeed; //speed of projectile
     public Bitmap mProjectileBitMap;
+    public Bitmap mProjectileBitMapHolder;
     public int mProjectileSize;
 
     public ProjectileData()

@@ -11,6 +11,13 @@ public class TowerData {
     public TowerData(){
 
     }
+    public void typePlasma(){
+        this.mProjectileData=new ProjectileData();
+        this.mProjectileData.mDamage=5;
+        this.mCost=10;
+        this.mRange=300;
+        this.mRateOfFire=4;
+    }
 
     public void upgradeRange(){
         this.mRange=(int)(1.1*this.mRange);

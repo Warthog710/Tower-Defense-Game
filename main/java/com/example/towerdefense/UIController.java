@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class UIController implements InputObserver
 {
@@ -25,6 +26,7 @@ public class UIController implements InputObserver
         if(eventType == MotionEvent.ACTION_UP ||
                 eventType == MotionEvent.ACTION_POINTER_UP)
         {
+            //check if tower is touched
 
             if (buttons.get(HUD.PAUSE).contains(x, y))
             {
@@ -48,16 +50,41 @@ public class UIController implements InputObserver
                 {
                     gameState.resume();
                 }
+                gameState.range=null;
             }
             else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused())
             {
-                gameState.setmPlacing();
-                gameState.setmTowerType(HUD.PlasmaTower);
+                if(gameState.getCash()>=50){
+                    gameState.setmPlacing();
+                    gameState.setmTowerType(HUD.PlasmaTower);
+                    gameState.loseCash(50);
+                }
+                gameState.range=null;
             }
             else if (gameState.getmPlacing() && !gameState.getPaused())
             { //place tower
                 gameState.closemPlacing();
                 gameState.addTower(new PlasmaTower (context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
+                gameState.range=null;
+            }
+            else if (gameState.mTowers != null)
+            {
+
+                Iterator<Tower> towerIterator = gameState.mTowers.iterator();
+                while(towerIterator.hasNext())
+                {
+                    System.out.println("checcking towers");
+                    Tower currentTower = towerIterator.next();
+                    if (currentTower.contains(new Point (x,y))){
+                        gameState.range=new Circle(currentTower.mLocation, currentTower.mTowerData.mRange);
+                        System.out.println("clicked tower");
+
+                    }
+                }
+
+            }else
+            {
+                gameState.range=null;
             }
         }
     }

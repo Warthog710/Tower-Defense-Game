@@ -3,6 +3,7 @@ package com.example.towerdefense;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
 
 import java.util.Iterator;
@@ -14,25 +15,21 @@ public class PlasmaTower extends Tower
     {
         setSize();
         this.mLocation=location;
-        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.test_turret);
+        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
         this.mTowerData=new TowerData();
-        this.mTowerData.mProjectileData=new ProjectileData();
-        this.mTowerData.mProjectileData.mDamage=5;
-        this.mTowerData.mCost=10;
-        this.mTowerData.mRange=600;
-        this.mTowerData.mRateOfFire=2;
-        this.mTowerData.mProjectileData.mProjectileBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_bullet);
+        this.mTowerData.typePlasma();
+        this.bitmapHolder=mBitmap;
+        this.mTowerData.mProjectileData.mProjectileBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_plasma);
         this.mTowerData.mProjectileData.mProjectileSpeed=2200;
-        this.mTowerData.mProjectileData.mProjectileSize=10;
+        this.mTowerData.mProjectileData.mProjectileSize=50;
         lastShot=System.currentTimeMillis();
     }
 
     @Override
     public void shoot(GameWorld gameWorld)
     {
-        System.out.println(System.currentTimeMillis()-lastShot);
-        if (System.currentTimeMillis()-lastShot>(1000)){
+        if (System.currentTimeMillis()-lastShot>(1000/mTowerData.mRateOfFire)){
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){
@@ -40,8 +37,13 @@ public class PlasmaTower extends Tower
                 if(inRange(alien)){
                     gameWorld.mProjectiles.add(new Projectile(mTowerData, mLocation, alien.getLocation() ));
                     alien.onHit(mTowerData.mProjectileData.mDamage);
+                    int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(angle);
+                    mBitmap = Bitmap
+                            .createBitmap(bitmapHolder,
+                                    0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
                     break;
-
                 }
             }
         }
