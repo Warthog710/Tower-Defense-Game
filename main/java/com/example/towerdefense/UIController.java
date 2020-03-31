@@ -23,6 +23,7 @@ public class UIController implements InputObserver
         int x = (int) event.getX(i);
         int y = (int) event.getY(i);
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
+        TowerFactory towerFactory = new TowerFactory();
         if(eventType == MotionEvent.ACTION_UP ||
                 eventType == MotionEvent.ACTION_POINTER_UP)
         {
@@ -64,7 +65,7 @@ public class UIController implements InputObserver
             else if (gameState.getmPlacing() && !gameState.getPaused())
             { //place tower
                 gameState.closemPlacing();
-                gameState.addTower(new PlasmaTower (context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
+                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
                 gameState.range=null;
             }
             else if (gameState.mTowers != null)
@@ -73,12 +74,9 @@ public class UIController implements InputObserver
                 Iterator<Tower> towerIterator = gameState.mTowers.iterator();
                 while(towerIterator.hasNext())
                 {
-                    System.out.println("checcking towers");
                     Tower currentTower = towerIterator.next();
                     if (currentTower.contains(new Point (x,y))){
                         gameState.range=new Circle(currentTower.mLocation, currentTower.mTowerData.mRange);
-                        System.out.println("clicked tower");
-
                     }
                 }
 

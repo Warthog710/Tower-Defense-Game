@@ -7,16 +7,10 @@ public class TowerData {
     public int mRateOfFire; //shots per second
     public int mCost; //cost of the tower
     public ProjectileData mProjectileData;
+    public Bitmap bitmapHolder;
 
     public TowerData(){
 
-    }
-    public void typePlasma(){
-        this.mProjectileData=new ProjectileData();
-        this.mProjectileData.mDamage=5;
-        this.mCost=10;
-        this.mRange=300;
-        this.mRateOfFire=4;
     }
 
     public void upgradeRange(){

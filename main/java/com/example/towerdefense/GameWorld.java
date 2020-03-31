@@ -74,17 +74,12 @@ class GameWorld
     public void closemPlacing(){ mPlacing=false;}
     public void setmTowerType(int towerType){mTowerType=towerType;}
     public boolean getmPlacing(){ return mPlacing;}
-    public int getmTowerType(){return mTowerType;}
 
     public void addTower(Tower tower)
     {
         mTowers.add(tower);
     }
 
-    public void addEnemy(Alien alien)
-    {
-        mAliens.add(alien);
-    }
 
     void stopEverything()
     {

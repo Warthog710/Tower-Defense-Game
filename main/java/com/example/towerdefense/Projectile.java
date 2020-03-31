@@ -26,7 +26,6 @@ public class Projectile extends MovableClass
         mBitmap = Bitmap
                 .createBitmap(mBitmap,
                         0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
-        System.out.println("heading: "+ mHeading.getAngle());
         this.mSpeed=(int)(towerData.mProjectileData.mProjectileSpeed/GameEngine.TARGET_FPS);
     }
 

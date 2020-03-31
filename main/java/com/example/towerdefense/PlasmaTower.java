@@ -14,15 +14,11 @@ public class PlasmaTower extends Tower
     public PlasmaTower(Context context, Point location)
     {
         setSize();
+        TowerDataFactory towerDataFactory= new TowerDataFactory();
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
-        this.mTowerData=new TowerData();
-        this.mTowerData.typePlasma();
-        this.bitmapHolder=mBitmap;
-        this.mTowerData.mProjectileData.mProjectileBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_plasma);
-        this.mTowerData.mProjectileData.mProjectileSpeed=2200;
-        this.mTowerData.mProjectileData.mProjectileSize=50;
+        this.mTowerData=towerDataFactory.getTowerData(TowerType.PLASMA, context);
         lastShot=System.currentTimeMillis();
     }
 
@@ -41,7 +37,7 @@ public class PlasmaTower extends Tower
                     Matrix matrix = new Matrix();
                     matrix.postRotate(angle);
                     mBitmap = Bitmap
-                            .createBitmap(bitmapHolder,
+                            .createBitmap(mTowerData.bitmapHolder,
                                     0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
                     break;
                 }

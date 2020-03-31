@@ -68,7 +68,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
 
             if (mGameWorld.mAliens.isEmpty())
             {
-                
+
                 mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
                 currentWave++;
 
