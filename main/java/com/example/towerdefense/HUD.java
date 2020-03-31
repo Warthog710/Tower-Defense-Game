@@ -38,11 +38,11 @@ class HUD
     private void prepareControls()
     {
         int buttonPadding = mScreenWidth / 90;
-        Rect pause = new Rect(
+        Rect pause = new Rect( //pause button
                 mScreenWidth - buttonPadding - buttonWidth, buttonPadding,
                 mScreenWidth - buttonPadding,
                 buttonPadding + buttonHeight);
-        Rect plasmaTower = new Rect(
+        Rect plasmaTower = new Rect( //tower button
                 mScreenWidth - (buttonPadding*2) - (buttonWidth*2),
                 buttonPadding,
                 mScreenWidth - buttonPadding*2-buttonWidth,
@@ -56,25 +56,24 @@ class HUD
 
     }
 
-    void draw(Canvas c, Paint p, GameWorld mGameWorld)
+    void draw(Canvas c, Paint p, GameWorld mGameWorld) //draw the HUD
     {
-        // Draw the HUD
         p.setColor(black);
         p.setTextSize(mTextFormatting);
 
-        c.drawText("Lives: " + mGameWorld.getLives(),
+        c.drawText("Lives: " + mGameWorld.getLives(), //draw lives
                 mTextFormatting, mTextFormatting * 2,p);
-        c.drawText("Cash: " + mGameWorld.getCash(),
+        c.drawText("Cash: " + mGameWorld.getCash(), //draw cash
                 mTextFormatting*6, mTextFormatting * 2,p);
 
-        if(mGameWorld.getGameOver())
+        if(mGameWorld.getGameOver()) //if the game is over
         {
             p.setTextSize(mTextFormatting * 5);
             c.drawText("PRESS PLAY",
                     mScreenWidth /4, mScreenHeight /2 ,p);
         }
 
-        if(mGameWorld.getPaused() && !mGameWorld.getGameOver())
+        if(mGameWorld.getPaused() && !mGameWorld.getGameOver()) //if the game is paused
         {
             p.setTextSize(mTextFormatting * 5);
             c.drawText("PAUSED",
@@ -82,25 +81,25 @@ class HUD
         }
 
         drawControls(c, p);
-        drawGraphics(c,p);
+        drawGraphics(c);
     }
 
     private void drawControls(Canvas c, Paint p)
     {
-        p.setColor(black);
+        p.setColor(black); //set color to black
         for(Rect r : controls)
         {
             c.drawRect(r.left, r.top, r.right, r.bottom, p);
         }
 
-        // Set the colors back
+        // Set the color to white
         p.setColor(white);
     }
     ArrayList<Rect> getControls(){
         return controls;
     }
 
-    public void setGraphics(Context context)
+    public void setGraphics(Context context) //add graphics to the buttons
     {
         mPauseBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
         mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
@@ -108,7 +107,7 @@ class HUD
         mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
     }
 
-    private void drawGraphics(Canvas canvas, Paint p)
+    private void drawGraphics(Canvas canvas) //draw the graphics for the buttons
     {
         canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);

@@ -9,7 +9,7 @@ public class TowerFactory {
         Tower tower=null;
         switch(towerType)
         {
-            case PLASMA:
+            case PLASMA: //make a plasma tower
                 tower = new PlasmaTower(context, mLocation);
                 break;
         }

@@ -9,15 +9,15 @@ public class TowerDataFactory {
         TowerData towerData=null;
         switch(towerType)
         {
-            case PLASMA:
+            case PLASMA: //set up all the data for a plasma tower
                 towerData = new TowerData();
-                towerData.mRateOfFire=4;
-                towerData.mRange=300;
-                towerData.mCost=50;
+                towerData.mRateOfFire=4; //shots per second
+                towerData.mRange=300; //range in pixels
+                towerData.mCost=50; //cost of the tower
                 towerData.mProjectileData= new ProjectileData();
-                towerData.mProjectileData.mProjectileSize=50;
-                towerData.mProjectileData.mDamage=5;
-                towerData.mProjectileData.mProjectileSpeed=2200;
+                towerData.mProjectileData.mProjectileSize=50; //size of projectile
+                towerData.mProjectileData.mDamage=5; //projectile damage
+                towerData.mProjectileData.mProjectileSpeed=2200; //projectile speed (pixels per second)
                 towerData.mProjectileData.mProjectileBitMap= BitmapFactory.decodeResource(context.getResources(), R.drawable.test_plasma);
                 towerData.bitmapHolder= BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
                 towerData.bitmapHolder = Bitmap.createScaledBitmap(towerData.bitmapHolder, Tower.towerSize, Tower.towerSize, false);

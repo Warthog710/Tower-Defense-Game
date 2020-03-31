@@ -25,5 +25,5 @@ public class Angle
 
     public int getAngle() {
         return angle;
-    }
+    } //return the angle
 }

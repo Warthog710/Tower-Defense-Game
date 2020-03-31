@@ -9,10 +9,11 @@ import java.util.Iterator;
 
 public class UIController implements InputObserver
 {
-    Context context;
-    public UIController(GameEngineBroadcaster b, Context context)
+    Context context; //hold onto the context for later use
+
+    public UIController(GameEngineBroadcaster b, Context context) //make the controller
     {
-        b.addObserver(this);
+        b.addObserver(this); //add it as an observer
         this.context=context;
     }
 
@@ -27,13 +28,9 @@ public class UIController implements InputObserver
         if(eventType == MotionEvent.ACTION_UP ||
                 eventType == MotionEvent.ACTION_POINTER_UP)
         {
-            //check if tower is touched
 
-            if (buttons.get(HUD.PAUSE).contains(x, y))
+            if (buttons.get(HUD.PAUSE).contains(x, y)) //the player has hit the pause button
             {
-                // Player pressed the pause button
-                // Respond differently depending
-                // upon the game's state
                 // If the game is not paused
                 if (!gameState.getPaused())
                 {
@@ -53,6 +50,7 @@ public class UIController implements InputObserver
                 }
                 gameState.range=null;
             }
+            //if the player hits the plasma tower and the game is not paused
             else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused())
             {
                 if(gameState.getCash()>=50){
@@ -62,12 +60,14 @@ public class UIController implements InputObserver
                 }
                 gameState.range=null;
             }
+            //if the player has a tower to place and the game is not paused
             else if (gameState.getmPlacing() && !gameState.getPaused())
             { //place tower
                 gameState.closemPlacing();
                 gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
                 gameState.range=null;
             }
+            //if the player has clicked a tower
             else if (gameState.mTowers != null)
             {
 
@@ -80,7 +80,7 @@ public class UIController implements InputObserver
                     }
                 }
 
-            }else
+            }else //remove later
             {
                 gameState.range=null;
             }

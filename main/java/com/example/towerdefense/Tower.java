@@ -1,21 +1,20 @@
 package com.example.towerdefense;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 public abstract class Tower extends GameObject
 {
-    public TowerData mTowerData;
-    public long lastShot;
-    final static int towerSize=100;
-    enum TowerType {PLASMA}
+    public TowerData mTowerData; //tower data
+    public long lastShot; //time that the last shot was taken
+    final static int towerSize=100; //size of all the towers
+    enum TowerType {PLASMA} //types of towers
 
-    public abstract void shoot(GameWorld gameWorld);
-    public void setSize(){setAttributeSize(towerSize);}
-    public boolean contains(Point point){
+    public abstract void shoot(GameWorld gameWorld); //method that calls the tower to shoot
+
+    public void setSize(){setAttributeSize(towerSize);} //set the size of the tower
+
+    public boolean contains(Point point){ //check to see if a point exists on the tower
         Rect hitbox = new Rect(mLocation.x, mLocation.y,
                 mLocation.x + getAttributeSize(), mLocation.y + getAttributeSize());
         return hitbox.contains(point.x,point.y);

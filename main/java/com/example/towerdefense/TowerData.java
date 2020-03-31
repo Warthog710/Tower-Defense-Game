@@ -6,8 +6,8 @@ public class TowerData {
     public int mRange; //range in pixels
     public int mRateOfFire; //shots per second
     public int mCost; //cost of the tower
-    public ProjectileData mProjectileData;
-    public Bitmap bitmapHolder;
+    public ProjectileData mProjectileData; //data about the projectile
+    public Bitmap bitmapHolder; //holds the original copy of the bitmap
 
     public TowerData(){
 

@@ -6,13 +6,13 @@ import android.graphics.Point;
 
 public class Projectile extends MovableClass
 {
-    Point mDestination;
-    Point mOrigin;
-    int mDamage;
+    Point mDestination; //where the projectile is going to
+    Point mOrigin; //where the projectile came from
+    int mDamage; //amount of damage
 
     public Projectile(TowerData towerData, Point mLocation, Point mDestination)
     {
-        this.mDamage=towerData.mProjectileData.mDamage;
+        this.mDamage=towerData.mProjectileData.mDamage; //set damage
         this.mDestination=mDestination;
         this.mLocation=new Point((mLocation.x+Tower.towerSize/2),(mLocation.y+Tower.towerSize/2));
         this.setAttributeSize(towerData.mProjectileData.mProjectileSize);
@@ -30,7 +30,7 @@ public class Projectile extends MovableClass
     }
 
     @Override
-    public void move()
+    public void move() //move to projectile
     {
         int xSpeed=((int)(Math.cos(Math.toRadians(mHeading.getAngle()-90))*mSpeed));
         int ySpeed=((int)(Math.sin(Math.toRadians(mHeading.getAngle()-90))*mSpeed));
@@ -38,7 +38,7 @@ public class Projectile extends MovableClass
 
     }
 
-    public boolean collision(GameWorld gameWorld)
+    public boolean collision(GameWorld gameWorld) //check if the projectile has moved past the destination (more added later)
     {
         if(Math.signum(mDestination.x-mOrigin.x)!=Math.signum(mDestination.x-mLocation.x) ||
                 Math.signum(mDestination.y-mOrigin.y)!=Math.signum(mDestination.y-mLocation.y))
