@@ -1,8 +1,8 @@
 package com.example.towerdefense;
 
-import android.graphics.Point;
-
-public interface Movable
+public abstract class Movable extends GameObject
 {
-    Point move(Point mLocation);
+    Angle mHeading; //angle that the object is heading
+    int mSpeed; //speed
+    abstract void move(); //how it moves
 }

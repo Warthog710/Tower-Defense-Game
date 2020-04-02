@@ -12,7 +12,7 @@ public class AlienEnemy
     {
         if (type.equals("drone"))
         {
-            this.alien = new Drone(context, size, new DroneMovementStrategy(), pathHeight);
+            this.alien = new Drone(context, size, new DroneMovementStrategy(5), pathHeight, 36);
         }
     }
 

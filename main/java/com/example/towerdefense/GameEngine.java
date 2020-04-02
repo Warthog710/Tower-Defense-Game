@@ -33,7 +33,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         this.context = context;
         this.size = size;
         mGameWorld = new GameWorld(this, this.context, size);
-        mGameView = new GameView(this, this.context);
+        mGameView = new GameView(this, this.context, size);
         mHUD= new HUD(size);
         mHUD.setGraphics(context);
         mGameWorld.mTowers=new ArrayList<Tower>();
@@ -70,13 +70,16 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             {
 
                 mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
-                currentWave++;
 
                 //If the number of waves is greater than the number of waves for the map. You won.
+                if (currentWave > mGameWorld.mMap.getWaveCount())
+                    mGameWorld.endGame();
+
+                currentWave++;
             }
 
             //Draw all game objects here...
-            mGameView.draw(mGameWorld, mHUD);
+            mGameView.draw(mGameWorld, mHUD, mFPS);
 
             //Measure FPS
             long timeThisFrame = System.currentTimeMillis() - frameStartTime;
@@ -214,10 +217,17 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mThread.start();
     }
 
+    //Called to restart the game.
     public void restart()
     {
         //This method will despawn and respawn all game objects.
-        //Called to restart the game.
+        mGameWorld.resetCash();
+        mGameWorld.setLives();
+        mGameWorld.mAliens = new ArrayList<>();
+        mGameWorld.mTowers = new ArrayList<>();
+        mGameWorld.mProjectiles = new ArrayList<>();
+        currentWave = 0;
+
     }
 
     public void addObserver(InputObserver o)

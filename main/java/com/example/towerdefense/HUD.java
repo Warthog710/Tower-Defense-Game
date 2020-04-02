@@ -56,7 +56,7 @@ class HUD
 
     }
 
-    void draw(Canvas c, Paint p, GameWorld mGameWorld) //draw the HUD
+    void draw(Canvas c, Paint p, GameWorld mGameWorld, long FPS) //draw the HUD
     {
         p.setColor(black);
         p.setTextSize(mTextFormatting);
@@ -66,11 +66,33 @@ class HUD
         c.drawText("Cash: " + mGameWorld.getCash(), //draw cash
                 mTextFormatting*6, mTextFormatting * 2,p);
 
+        //TEMPORARY
+        c.drawText("FPS: " + FPS, //draw FPS
+                mTextFormatting*12, mTextFormatting * 2,p);
+
         if(mGameWorld.getGameOver()) //if the game is over
         {
-            p.setTextSize(mTextFormatting * 5);
-            c.drawText("PRESS PLAY",
-                    mScreenWidth /4, mScreenHeight /2 ,p);
+            //If you don't have any lives you must've lost
+            if (mGameWorld.getLives() < 0)
+            {
+                p.setTextSize(mTextFormatting * 5);
+                c.drawText("YOU LOST",
+                        mScreenWidth /4, mScreenHeight /2 ,p);
+            }
+            //If gameWon is true you must've won
+            else if (mGameWorld.getmGameWon())
+            {
+                p.setTextSize(mTextFormatting * 5);
+                c.drawText("YOU WON",
+                        mScreenWidth /4, mScreenHeight /2 ,p);
+            }
+            //Must be a new game...
+            else
+            {
+                p.setTextSize(mTextFormatting * 5);
+                c.drawText("PRESS PLAY",
+                        mScreenWidth /4, mScreenHeight /2 ,p);
+            }
         }
 
         if(mGameWorld.getPaused() && !mGameWorld.getGameOver()) //if the game is paused

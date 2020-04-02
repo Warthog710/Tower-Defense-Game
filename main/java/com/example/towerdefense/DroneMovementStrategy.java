@@ -1,20 +1,18 @@
 package com.example.towerdefense;
 
-import android.graphics.Point;
-
-public class DroneMovementStrategy implements Movable
+//Basic movement strategy for the Drone
+public class DroneMovementStrategy extends Movable
 {
-    private int speed = 5;
-    private int heading = 90;
-
-    public Point move(Point mLocation)
+    public DroneMovementStrategy(int speed)
     {
-        //Move X direction
-        mLocation.x += speed;
+        this.mSpeed = speed;
+    }
+
+    public void move()
+    {
+        //Move X direcion
+        mLocation.x += mSpeed;
 
         //Move Y direction
-
-        return mLocation;
-
     }
 }

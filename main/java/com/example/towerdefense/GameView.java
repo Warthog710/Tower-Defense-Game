@@ -1,10 +1,9 @@
 package com.example.towerdefense;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -16,15 +15,17 @@ class GameView
     private Canvas mCanvas;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
+    private Point size;
 
-    GameView(SurfaceView surfaceView, Context context)
+    GameView(SurfaceView surfaceView, Context context, Point size)
     {
         this.context = context;
         mSurfaceHolder = surfaceView.getHolder();
         mPaint = new Paint();
+        this.size = size;
     }
 
-    void draw(GameWorld gameWorld, HUD mHUD)
+    void draw(GameWorld gameWorld, HUD mHUD, long FPS)
     {
         if(mSurfaceHolder.getSurface().isValid())
         {
@@ -70,18 +71,10 @@ class GameView
                 if (gameWorld.range != null){
                     gameWorld.range.draw(mCanvas, mPaint);
                 }
-
-
-            }
-
-            //If the game is over...
-            if(gameWorld.getGameOver())
-            {
-                //Draw game over screen...
             }
 
             //Draw HUD
-            mHUD.draw(mCanvas, mPaint, gameWorld);
+            mHUD.draw(mCanvas, mPaint, gameWorld, FPS);
 
             //Unlock and post
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
