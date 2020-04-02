@@ -37,12 +37,14 @@ public class UIController implements InputObserver
                     // Pause the game
                     gameState.pause();
                 }
-                // If game is over start a new game
+
+                //If game is over start a new game
                 else if (gameState.getGameOver())
                 {
                     gameState.startNewGame();
                 }
-                // Paused and not game over
+
+                //Paused and not game over
                 else if (gameState.getPaused()
                         && !gameState.getGameOver())
                 {

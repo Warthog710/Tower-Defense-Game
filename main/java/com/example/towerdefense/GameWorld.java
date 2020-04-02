@@ -12,6 +12,7 @@ class GameWorld
     private static volatile boolean mGameOver = true;
     private static volatile boolean mDrawing = false;
     private static volatile boolean mPlacing = false;
+    private static volatile boolean mGameWon = false;
     private static volatile int mTowerType;
 
     private GameStarter gameStarter;
@@ -37,10 +38,14 @@ class GameWorld
         this.size = size;
     }
 
-    private void endGame()
+    public void endGame()
     {
         mGameOver = true;
         mPaused = true;
+
+        //If you still have lives, you won!
+        if (mLives > 0)
+            mGameWon = true;
     }
 
     public ArrayList<Tower> getTowers(){
@@ -74,6 +79,7 @@ class GameWorld
     public void closemPlacing(){ mPlacing=false;}
     public void setmTowerType(int towerType){mTowerType=towerType;}
     public boolean getmPlacing(){ return mPlacing;}
+    public boolean getmGameWon() { return mGameWon; }
 
     public void addTower(Tower tower)
     {
@@ -98,5 +104,12 @@ class GameWorld
     public void resetCash(){this.mCash=100;}
     public void addCash(){this.mCash+=10;}
     public void loseCash(int amount){this.mCash-=amount;}
-    public void loseLife() { mLives -= 1; }
+
+    public void loseLife() {
+        mLives -= 1;
+
+        //Check for death
+        if (mLives < 0)
+            endGame();
+    }
 }

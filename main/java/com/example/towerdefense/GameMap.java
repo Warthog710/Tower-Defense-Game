@@ -14,6 +14,8 @@ public class GameMap
     Bitmap mMap, base, path;
     Point size;
 
+    private int waveCount = 3;
+
     //GameMap constructor
     public GameMap(Context context, Point size)
     {
@@ -75,4 +77,6 @@ public class GameMap
         }
         return newAliens;
     }
+
+    public int getWaveCount() { return waveCount; }
 }

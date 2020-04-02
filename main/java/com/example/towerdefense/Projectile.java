@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 
-public class Projectile extends MovableClass
+public class Projectile extends Movable
 {
     Point mDestination; //where the projectile is going to
     Point mOrigin; //where the projectile came from
