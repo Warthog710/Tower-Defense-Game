@@ -11,10 +11,18 @@ basic enemy and tower type. Towers are fixed, and enemies follow a basic movemen
 strategy along the path. No animation is required for enemies or towers.
 
 <b>Tasks:</b>
-* [ ] Develop initial class hierarchy and control structure
-* [ ] Create CRC cards
+* [ ] Create CRC cards.
+* [ ] Make towers animated.
+* [ ] Keep towers from being placed on the path or on the base.
+* [ ] Show tower data when selected.
+* [ ] Allow towers to be upgraded.
+* [ ] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
+* [ ] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
+
+<b>Finished Tasks:</b>
 * [ ] Make a new background with a path.
 * [ ] Have the aliens follow the path.
+* [ ] Develop initial class hierarchy and control structure.
 * [ ] Implement "GameWorld" which holds a collection of game objects and other state variables
 * [ ] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
 * [ ] Implement a GameView class which will assume the responsibility of displaying information about the state of the game (Quinn)
