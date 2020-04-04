@@ -14,7 +14,7 @@ public class Projectile extends Movable
     {
         this.mDamage=towerData.mProjectileData.mDamage; //set damage
         this.mDestination=mDestination;
-        this.mLocation=new Point((mLocation.x+Tower.towerSize/2),(mLocation.y+Tower.towerSize/2));
+        this.mLocation=mLocation;
         this.setAttributeSize(towerData.mProjectileData.mProjectileSize);
         this.mBitmap=towerData.mProjectileData.mProjectileBitMap;
         this.mBitmap= Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);

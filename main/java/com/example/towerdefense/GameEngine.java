@@ -19,11 +19,12 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     private Thread mThread = null;
     private Point size;
     private long mFPS;
-    private long mNextFrameTime;
+    private long mNextFrameTime, mLastFrameTime;
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
     final static long TARGET_FPS = 30;
     private int currentWave = 1;
+    final long MILLIS_PER_SECOND = 1000;
 
     //Class constructor
     public GameEngine(Context context, Point size)
@@ -52,7 +53,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     {
         while (mGameWorld.getThreadRunning())
         {
-            long frameStartTime = System.currentTimeMillis();
 
             if (!mGameWorld.getPaused())
             {
@@ -64,30 +64,20 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             if (updateRequired())
             {
                 update();
-            }
+                if (mGameWorld.mAliens.isEmpty())
+                {
 
-            if (mGameWorld.mAliens.isEmpty())
-            {
+                    mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
 
-                mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
+                    //If the number of waves is greater than the number of waves for the map. You won.
+                    if (currentWave > mGameWorld.mMap.getWaveCount())
+                        mGameWorld.endGame();
 
-                //If the number of waves is greater than the number of waves for the map. You won.
-                if (currentWave > mGameWorld.mMap.getWaveCount())
-                    mGameWorld.endGame();
+                    currentWave++;
+                }
+                //Draw all game objects here...
+                mGameView.draw(mGameWorld, mHUD, mFPS);
 
-                currentWave++;
-            }
-
-            //Draw all game objects here...
-            mGameView.draw(mGameWorld, mHUD, mFPS);
-
-            //Measure FPS
-            long timeThisFrame = System.currentTimeMillis() - frameStartTime;
-
-            if (timeThisFrame >= 1)
-            {
-                final int MILLIS_IN_SECOND = 1000;
-                mFPS = MILLIS_IN_SECOND / timeThisFrame;
             }
         }
     }
@@ -164,14 +154,18 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     public boolean updateRequired()
     {
 
-        //There are 1000 milliseconds in a second
-        final long MILLIS_PER_SECOND = 1000;
-
         //Are we due to update the frame
         if(mNextFrameTime<= System.currentTimeMillis())
         {
             mNextFrameTime =System.currentTimeMillis()
                     + MILLIS_PER_SECOND / TARGET_FPS;
+            //Measure FPS
+            long time=System.currentTimeMillis()-mLastFrameTime;
+            if(time>=1)
+            {
+                mFPS = MILLIS_PER_SECOND / (time);
+                mLastFrameTime=System.currentTimeMillis();
+            }
 
             //Return true so that the update and draw
             return true;
@@ -227,7 +221,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mTowers = new ArrayList<>();
         mGameWorld.mProjectiles = new ArrayList<>();
         currentWave = 0;
-
     }
 
     public void addObserver(InputObserver o)

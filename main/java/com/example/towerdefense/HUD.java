@@ -73,7 +73,7 @@ class HUD
         if(mGameWorld.getGameOver()) //if the game is over
         {
             //If you don't have any lives you must've lost
-            if (mGameWorld.getLives() < 0)
+            if (mGameWorld.getLives() <= 0)
             {
                 p.setTextSize(mTextFormatting * 5);
                 c.drawText("YOU LOST",
@@ -102,8 +102,8 @@ class HUD
                     mScreenWidth /3, mScreenHeight /2 ,p);
         }
 
-        drawControls(c, p);
-        drawGraphics(c);
+        drawControls(c, p); //draw the buttons
+        drawGraphics(c); //draw the graphics over the buttons
     }
 
     private void drawControls(Canvas c, Paint p)

@@ -21,10 +21,10 @@ public class UIController implements InputObserver
     public void handleInput(MotionEvent event, GameWorld gameState, ArrayList<Rect> buttons)
     {
         int i = event.getActionIndex();
-        int x = (int) event.getX(i);
-        int y = (int) event.getY(i);
+        int x = (int) event.getX(i); //get the x location
+        int y = (int) event.getY(i); //get the y location
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-        TowerFactory towerFactory = new TowerFactory();
+        TowerFactory towerFactory = new TowerFactory(); //make a tower factory
         if(eventType == MotionEvent.ACTION_UP ||
                 eventType == MotionEvent.ACTION_POINTER_UP)
         {
@@ -53,7 +53,7 @@ public class UIController implements InputObserver
                 gameState.range=null;
             }
             //if the player hits the plasma tower and the game is not paused
-            else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused())
+            else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() )
             {
                 if(gameState.getCash()>=50){
                     gameState.setmPlacing();
@@ -62,11 +62,11 @@ public class UIController implements InputObserver
                 }
                 gameState.range=null;
             }
-            //if the player has a tower to place and the game is not paused
-            else if (gameState.getmPlacing() && !gameState.getPaused())
+            //if the player has a tower to place and the game is not paused and the location is not on the path
+            else if (gameState.getmPlacing() && !gameState.getPaused()&& !gameState.mMap.inPath(new Point(x,y)))
             { //place tower
                 gameState.closemPlacing();
-                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
+                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x,y)));
                 gameState.range=null;
             }
             //if the player has clicked a tower
@@ -82,9 +82,6 @@ public class UIController implements InputObserver
                     }
                 }
 
-            }else //remove later
-            {
-                gameState.range=null;
             }
         }
     }

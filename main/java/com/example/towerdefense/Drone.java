@@ -24,7 +24,7 @@ public class Drone extends GameObject implements Alien
         mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), true);
         mLocation = new Point();
         mLocation.x = new Random().nextInt(100);
-        mLocation.y = (new Random().nextInt(pathHeight - mBitmap.getHeight()) + ((size.y / 2) - (pathHeight / 2)));
+        mLocation.y = (new Random().nextInt(pathHeight) + ((size.y / 2) - (pathHeight / 2)));
         this.movementStrategy = strategy;
         this.movementStrategy.setLocation(mLocation);
         this.mHealthBar = new AlienHealthBar(10, getAttributeSize(), this.health);

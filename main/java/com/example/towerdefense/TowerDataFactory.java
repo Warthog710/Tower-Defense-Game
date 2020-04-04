@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class TowerDataFactory {
+public class TowerDataFactory { //factory for building tower data
     public TowerData getTowerData(Tower.TowerType towerType, Context context){
         TowerData towerData=null;
         switch(towerType)

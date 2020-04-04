@@ -79,4 +79,8 @@ public class GameMap
     }
 
     public int getWaveCount() { return waveCount; }
+
+    public boolean inPath(Point location){
+        return  (location.y>(size.y / 2) - (path.getHeight() / 2) && location.y<(size.y / 2) + (path.getHeight() / 2));
+    }
 }

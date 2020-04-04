@@ -2,7 +2,7 @@ package com.example.towerdefense;
 
 import android.graphics.Bitmap;
 
-public class TowerData {
+public class TowerData {  //all the data that the tower has
     public int mRange; //range in pixels
     public int mRateOfFire; //shots per second
     public int mCost; //cost of the tower

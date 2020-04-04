@@ -13,10 +13,8 @@ strategy along the path. No animation is required for enemies or towers.
 <b>Tasks:</b>
 * [ ] Create CRC cards.
 * [ ] Make towers animated.
-* [ ] Keep towers from being placed on the path or on the base.
 * [ ] Show tower data when selected.
 * [ ] Allow towers to be upgraded.
-* [ ] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
 * [ ] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
 
 <b>Finished Tasks:</b>
@@ -30,6 +28,8 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Implement a single tower type. Not rotational and with a fixed location and cost.
 * [ ] Implement a single enemy type. That follows a basic movement strategy (Quinn)
 * [ ] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
+* [ ] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
+* [ ] Keep towers from being placed on the path or on the base.
 
 <b>Notes:</b>
 * Enemies must implement various strategies, I.E. movement and/or attack strategies.
