@@ -18,18 +18,18 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
 
 <b>Finished Tasks:</b>
-* [ ] Make a new background with a path.
-* [ ] Have the aliens follow the path.
-* [ ] Develop initial class hierarchy and control structure.
-* [ ] Implement "GameWorld" which holds a collection of game objects and other state variables
-* [ ] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
-* [ ] Implement a GameView class which will assume the responsibility of displaying information about the state of the game (Quinn)
-* [ ] Implement abstract GameObject (implement fixed & moveable interfaces for different types (Quinn)
-* [ ] Implement a single tower type. Not rotational and with a fixed location and cost.
-* [ ] Implement a single enemy type. That follows a basic movement strategy (Quinn)
-* [ ] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
-* [ ] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
-* [ ] Keep towers from being placed on the path or on the base.
+* [x] Make a new background with a path.
+* [x] Have the aliens follow the path.
+* [x] Develop initial class hierarchy and control structure.
+* [x] Implement "GameWorld" which holds a collection of game objects and other state variables
+* [x] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
+* [x] Implement a GameView class which will assume the responsibility of displaying information about the state of the game (Quinn)
+* [x] Implement abstract GameObject (implement fixed & moveable interfaces for different types (Quinn)
+* [x] Implement a single tower type. Not rotational and with a fixed location and cost.
+* [x] Implement a single enemy type. That follows a basic movement strategy (Quinn)
+* [x] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
+* [x] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
+* [x] Keep towers from being placed on the path or on the base.
 
 <b>Notes:</b>
 * Enemies must implement various strategies, I.E. movement and/or attack strategies.
