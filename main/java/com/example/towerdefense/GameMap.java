@@ -57,21 +57,21 @@ public class GameMap
             case 1:
                 for (int count = 0; count < 5; count++)
                 {
-                    newAliens.add(new AlienEnemy(context, size, getPathHeight(), "drone").getAlien());
+                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
                 }
                 break;
 
             case 2:
                 for (int count = 0; count < 10; count++)
                 {
-                    newAliens.add(new AlienEnemy(context, size, getPathHeight(), "drone").getAlien());
+                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
                 }
                 break;
 
             case 3:
                 for (int count = 0; count < 15; count++)
                 {
-                    newAliens.add(new AlienEnemy(context, size, getPathHeight(), "drone").getAlien());
+                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
                 }
                 break;
         }
