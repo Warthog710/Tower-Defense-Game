@@ -66,7 +66,7 @@ public class UIController implements InputObserver
             else if (gameState.getmPlacing() && !gameState.getPaused())
             { //place tower
                 gameState.closemPlacing();
-                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x-(Tower.towerSize/2),y-(Tower.towerSize/2))));
+                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x,y)));
                 gameState.range=null;
             }
             //if the player has clicked a tower
@@ -82,9 +82,6 @@ public class UIController implements InputObserver
                     }
                 }
 
-            }else //remove later
-            {
-                gameState.range=null;
             }
         }
     }

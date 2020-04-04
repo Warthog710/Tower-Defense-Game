@@ -3,7 +3,7 @@ package com.example.towerdefense;
 import android.content.Context;
 import android.graphics.Point;
 
-public class TowerFactory {
+public class TowerFactory { //factory for building towers
 
     public Tower getTower(Tower.TowerType towerType, Context context, Point mLocation){
         Tower tower=null;

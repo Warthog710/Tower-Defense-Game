@@ -2,7 +2,7 @@ package com.example.towerdefense;
 
 import android.graphics.Bitmap;
 
-public class ProjectileData {
+public class ProjectileData { //the data about the projectile
     public int mDamage; //amount of damage each projectile does
     public int mProjectileSpeed; //speed of projectile
     public Bitmap mProjectileBitMap; //projectile image

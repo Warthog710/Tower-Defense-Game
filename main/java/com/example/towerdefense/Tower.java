@@ -19,4 +19,18 @@ public abstract class Tower extends GameObject
                 mLocation.x + getAttributeSize(), mLocation.y + getAttributeSize());
         return hitbox.contains(point.x,point.y);
     }
+
+    public boolean inRange(Alien alien) //check to see if an alien is in range
+    {
+        int x=mLocation.x-alien.getLocation().x;
+        int y=mLocation.y-alien.getLocation().y;
+        if (Math.sqrt(x*x+y*y)<=mTowerData.mRange)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
