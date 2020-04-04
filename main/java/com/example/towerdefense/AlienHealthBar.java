@@ -25,18 +25,18 @@ public class AlienHealthBar
     {
         //Draw back of health bar...
         paint.setColor(Color.RED);
-        canvas.drawRect(mLocation.x, mLocation.y - height, mLocation.x + width, mLocation.y, paint);
+        canvas.drawRect(mLocation.x - (width / 2), mLocation.y - (width / 2) - height, mLocation.x + (width / 2), mLocation.y - (width / 2), paint);
 
         //Draw front of health bar...
         paint.setColor(Color.GREEN);
-        canvas.drawRect(mLocation.x, mLocation.y - height, mLocation.x + getGoodHealthWidth(health), mLocation.y, paint);
+        canvas.drawRect(mLocation.x - (width / 2), mLocation.y - (width / 2) - height, mLocation.x + getGoodHealthWidth(health), mLocation.y - (width / 2), paint);
 
     }
 
     //Returns the width of the "current health" section of the health bar
     private float getGoodHealthWidth(float health)
     {
-        float healthWidth = ((width / maxHealth) * health);
+        float healthWidth = ((width / 2) / maxHealth) * health;
         return healthWidth;
     }
 

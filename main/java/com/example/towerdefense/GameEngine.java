@@ -40,7 +40,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mTowers=new ArrayList<Tower>();
         mGameWorld.mProjectiles=new ArrayList<Projectile>();
         mGameWorld.mAliens=new ArrayList<Alien>();
-        //mGameWorld.mAliens.add(new AlienEnemy(context, size, "drone").getAlien());
+        //mGameWorld.mAliens.add(new AlienFactory(context, size, "drone").getAlien());
         mGameWorld.setLives();
         mGameWorld.resetCash();
         mGameWorld.mMap = new GameMap(context, size);
@@ -58,8 +58,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             {
                 //The game is paused...
             }
-            //mGameWorld.mTowers.add(new Tower(context,size));
-            //System.out.println("running");
+
             //Update 10 times a second
             if (updateRequired())
             {
@@ -81,6 +80,8 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             }
         }
     }
+
+    //Updates all the game objects in play
     private void update()
     {
         if(!mGameWorld.getPaused())
@@ -159,6 +160,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         {
             mNextFrameTime =System.currentTimeMillis()
                     + MILLIS_PER_SECOND / TARGET_FPS;
+
             //Measure FPS
             long time=System.currentTimeMillis()-mLastFrameTime;
             if(time>=1)
@@ -220,7 +222,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mAliens = new ArrayList<>();
         mGameWorld.mTowers = new ArrayList<>();
         mGameWorld.mProjectiles = new ArrayList<>();
-        currentWave = 0;
+        currentWave = 1;
     }
 
     public void addObserver(InputObserver o)
