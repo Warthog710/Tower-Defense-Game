@@ -10,7 +10,7 @@ public class DroneMovementStrategy extends Movable
 
     public void move()
     {
-        //Move X direcion
+        //Move X direction
         mLocation.x += mSpeed;
 
         //Move Y direction

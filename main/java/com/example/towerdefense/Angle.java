@@ -2,7 +2,7 @@ package com.example.towerdefense;
 
 public class Angle
 {
-    int angle;
+    private int angle;
 
     public Angle(){}
 
