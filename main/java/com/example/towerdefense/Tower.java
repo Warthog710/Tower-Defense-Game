@@ -8,7 +8,7 @@ public abstract class Tower extends GameObject
     public TowerData mTowerData; //tower data
     public long lastShot; //time that the last shot was taken
     final static int towerSize=100; //size of all the towers
-    enum TowerType {PLASMA} //types of towers
+    enum TowerType {PLASMA, LASER, ROCKET} //types of towers
 
     public abstract void shoot(GameWorld gameWorld); //method that calls the tower to shoot
 

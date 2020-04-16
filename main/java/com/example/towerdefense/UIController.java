@@ -23,6 +23,8 @@ public class UIController implements InputObserver
         int i = event.getActionIndex();
         int x = (int) event.getX(i); //get the x location
         int y = (int) event.getY(i); //get the y location
+        System.out.println(buttons.get(HUD.LaserTower).left+" : "+buttons.get(HUD.LaserTower).right);
+        System.out.println("clicked: " +x+" : "+y);
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
         TowerFactory towerFactory = new TowerFactory(); //make a tower factory
         if(eventType == MotionEvent.ACTION_UP ||
@@ -57,8 +59,28 @@ public class UIController implements InputObserver
             {
                 if(gameState.getCash()>=50){
                     gameState.setmPlacing();
-                    gameState.setmTowerType(HUD.PlasmaTower);
+                    gameState.setTowerType(Tower.TowerType.PLASMA);
                     gameState.loseCash(50);
+                }
+                gameState.range=null;
+            }
+            //laser tower
+            else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() )
+            {
+                if(gameState.getCash()>=100){
+                    gameState.setmPlacing();
+                    gameState.setTowerType(Tower.TowerType.LASER);
+                    gameState.loseCash(100);
+                }
+                gameState.range=null;
+            }
+            //rocket tower
+            else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() )
+            {
+                if(gameState.getCash()>=100){
+                    gameState.setmPlacing();
+                    gameState.setTowerType(Tower.TowerType.ROCKET);
+                    gameState.loseCash(100);
                 }
                 gameState.range=null;
             }
@@ -66,7 +88,7 @@ public class UIController implements InputObserver
             else if (gameState.getmPlacing() && !gameState.getPaused()&& !gameState.mMap.inPath(new Point(x,y)))
             { //place tower
                 gameState.closemPlacing();
-                gameState.addTower(towerFactory.getTower (Tower.TowerType.PLASMA,context,new Point(x,y)));
+                gameState.addTower(towerFactory.getTower (gameState.getTowerType(),context,new Point(x,y)));
                 gameState.range=null;
             }
             //if the player has clicked a tower

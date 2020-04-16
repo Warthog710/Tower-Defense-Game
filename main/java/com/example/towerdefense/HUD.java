@@ -18,10 +18,12 @@ class HUD
     private ArrayList<Rect> controls;
     static int PAUSE = 0;
     static int PlasmaTower=1;
+    static int LaserTower=2;
+    static int RocketTower=3;
     static int white = Color.argb(255,255,255,255);
     static int black = Color.argb(255,0,0,0);
-    private Bitmap mPauseBitMap, mPlasmaTower;
-    private Point mPauseLocation, mPlasmaTowerLocation;
+    private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower;
+    private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation;
     private int buttonWidth;
     private int buttonHeight;
 
@@ -47,12 +49,26 @@ class HUD
                 buttonPadding,
                 mScreenWidth - buttonPadding*2-buttonWidth,
                 buttonPadding + buttonHeight);
+        Rect laserTower = new Rect( //tower button
+                mScreenWidth - (buttonPadding*3) - (buttonWidth*3),
+                buttonPadding,
+                mScreenWidth - buttonPadding*3-buttonWidth*2,
+                buttonPadding + buttonHeight);
+        Rect rocketTower = new Rect( //tower button
+                mScreenWidth - (buttonPadding*4) - (buttonWidth*4),
+                buttonPadding,
+                mScreenWidth - buttonPadding*4-buttonWidth*3,
+                buttonPadding + buttonHeight);
         controls = new ArrayList<>();
         controls.add(PAUSE, pause);
         controls.add(PlasmaTower, plasmaTower);
+        controls.add(LaserTower, laserTower);
+        controls.add(RocketTower, rocketTower);
 
         mPauseLocation= new Point(mScreenWidth - buttonPadding - buttonWidth,buttonPadding);
         mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding);
+        mLaserTowerLocation= new Point(mScreenWidth - (buttonPadding*3) - (buttonWidth*3), buttonPadding);
+        mRocketTowerLocation= new Point(mScreenWidth - (buttonPadding*4) - (buttonWidth*4), buttonPadding);
 
     }
 
@@ -127,11 +143,17 @@ class HUD
         mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
         mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
+        mLaserTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
+        mLaserTower=Bitmap.createScaledBitmap(mLaserTower, buttonWidth, buttonHeight, false);
+        mRocketTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
+        mRocketTower=Bitmap.createScaledBitmap(mRocketTower, buttonWidth, buttonHeight, false);
     }
 
     private void drawGraphics(Canvas canvas) //draw the graphics for the buttons
     {
         canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
+        canvas.drawBitmap(mLaserTower, mLaserTowerLocation.x, mLaserTowerLocation.y, null);
+        canvas.drawBitmap(mRocketTower, mRocketTowerLocation.x, mRocketTowerLocation.y, null);
     }
 }

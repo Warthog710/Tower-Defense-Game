@@ -38,12 +38,21 @@ class GameView
             if (gameWorld.getDrawing())
             {
                 //Draw projectiles
-                if (gameWorld.mProjectiles != null)
+                if (gameWorld.mPlasmaProjectiles != null)
                 {
-                    Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
+                    Iterator<PlasmaProjectile> projectileMoveableIterator = gameWorld.mPlasmaProjectiles.iterator();
                     while(projectileMoveableIterator.hasNext())
                     {
                         projectileMoveableIterator.next().draw(mCanvas,mPaint);
+                    }
+                }
+                //Draw lasers
+                if (gameWorld.mLasers != null)
+                {
+                    Iterator<Laser> laserIterator = gameWorld.mLasers.iterator();
+                    while(laserIterator.hasNext())
+                    {
+                        laserIterator.next().draw(mCanvas,mPaint);
                     }
                 }
 

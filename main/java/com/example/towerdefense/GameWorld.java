@@ -13,14 +13,15 @@ class GameWorld
     private static volatile boolean mDrawing = false;
     private static volatile boolean mPlacing = false;
     private static volatile boolean mGameWon = false;
-    private static volatile int mTowerType;
+    private Tower.TowerType mTowerType;
 
     private GameStarter gameStarter;
     private Context context;
     private Point size;
 
     //Collection of game objects go here...
-    ArrayList<Projectile> mProjectiles;
+    ArrayList<PlasmaProjectile> mPlasmaProjectiles;
+    ArrayList<Laser> mLasers;
     ArrayList<Tower> mTowers;
     ArrayList<Alien> mAliens;
     Circle range;
@@ -77,7 +78,8 @@ class GameWorld
     private void startDrawing() { mDrawing = true; }
     public void setmPlacing() { mPlacing=true;}
     public void closemPlacing(){ mPlacing=false;}
-    public void setmTowerType(int towerType){mTowerType=towerType;}
+    public void setTowerType(Tower.TowerType type){mTowerType=type;}
+    public Tower.TowerType getTowerType(){ return mTowerType;}
     public boolean getmPlacing(){ return mPlacing;}
     public boolean getmGameWon() { return mGameWon; }
 

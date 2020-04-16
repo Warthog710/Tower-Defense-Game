@@ -38,8 +38,9 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mHUD= new HUD(size);
         mHUD.setGraphics(context);
         mGameWorld.mTowers=new ArrayList<Tower>();
-        mGameWorld.mProjectiles=new ArrayList<Projectile>();
+        mGameWorld.mPlasmaProjectiles =new ArrayList<PlasmaProjectile>();
         mGameWorld.mAliens=new ArrayList<Alien>();
+        mGameWorld.mLasers=new ArrayList<Laser>();
         //mGameWorld.mAliens.add(new AlienFactory(context, size, "drone").getAlien());
         mGameWorld.setLives();
         mGameWorld.resetCash();
@@ -86,17 +87,17 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     {
         if(!mGameWorld.getPaused())
         {
-            ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
-            if (mGameWorld.mProjectiles != null)
+            ArrayList<PlasmaProjectile> projectilesToRemove = new ArrayList<>();
+            if (mGameWorld.mPlasmaProjectiles != null)
             {
-                Iterator<Projectile> projectileIterator = mGameWorld.mProjectiles.iterator();
+                Iterator<PlasmaProjectile> projectileIterator = mGameWorld.mPlasmaProjectiles.iterator();
                 while(projectileIterator.hasNext())
                 {
-                    Projectile projectile= projectileIterator.next();
-                    projectile.move();
-                    if(projectile.collision(mGameWorld))
+                    PlasmaProjectile plasmaProjectile = projectileIterator.next();
+                    plasmaProjectile.move();
+                    if(plasmaProjectile.collision(mGameWorld))
                     {
-                        projectilesToRemove.add(projectile);
+                        projectilesToRemove.add(plasmaProjectile);
                     }
                 }
             }
@@ -133,10 +134,10 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             }
 
             //Remove projectiles
-            Iterator<Projectile> projectileMoveableIterator = projectilesToRemove.iterator();
+            Iterator<PlasmaProjectile> projectileMoveableIterator = projectilesToRemove.iterator();
             while(projectileMoveableIterator.hasNext())
             {
-                mGameWorld.mProjectiles.remove(projectileMoveableIterator.next());
+                mGameWorld.mPlasmaProjectiles.remove(projectileMoveableIterator.next());
             }
 
             //Tell the towers to fire
@@ -147,6 +148,27 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                     towerIterator.next().shoot(mGameWorld);
                 }
 
+            }
+
+            ArrayList<Laser> lasersToRemove = new ArrayList<>();
+            if (mGameWorld.mPlasmaProjectiles != null)
+            {
+                Iterator<Laser> laserIterator = mGameWorld.mLasers.iterator();
+                while(laserIterator.hasNext())
+                {
+                    Laser laser= laserIterator.next();
+                    if(laser.done())
+                    {
+                        lasersToRemove.add(laser);
+                    }
+                }
+            }
+
+            //Remove lasers
+            Iterator<Laser> LaserToRemoveIterator = lasersToRemove.iterator();
+            while(LaserToRemoveIterator.hasNext())
+            {
+                mGameWorld.mLasers.remove(LaserToRemoveIterator.next());
             }
         }
     }
@@ -221,7 +243,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.setLives();
         mGameWorld.mAliens = new ArrayList<>();
         mGameWorld.mTowers = new ArrayList<>();
-        mGameWorld.mProjectiles = new ArrayList<>();
+        mGameWorld.mPlasmaProjectiles = new ArrayList<>();
         currentWave = 1;
     }
 

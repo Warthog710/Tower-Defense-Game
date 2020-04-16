@@ -8,17 +8,15 @@ import android.graphics.Point;
 
 import java.util.Iterator;
 
-public class PlasmaTower extends Tower
-{
-
-    public PlasmaTower(Context context, Point location)
+public class RocketTower extends Tower {
+    public RocketTower(Context context, Point location)
     {
         setSize(); //set the size
         TowerDataFactory towerDataFactory= new TowerDataFactory();
         this.mLocation=location;
-        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
+        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
-        this.mTowerData=towerDataFactory.getTowerData(TowerType.PLASMA, context);
+        this.mTowerData=towerDataFactory.getTowerData(TowerType.ROCKET, context);
         lastShot=System.currentTimeMillis();
     }
 
@@ -44,5 +42,4 @@ public class PlasmaTower extends Tower
             }
         }
     }
-
 }

@@ -8,17 +8,15 @@ import android.graphics.Point;
 
 import java.util.Iterator;
 
-public class PlasmaTower extends Tower
-{
-
-    public PlasmaTower(Context context, Point location)
+public class LaserTower extends Tower {
+    public LaserTower(Context context, Point location)
     {
         setSize(); //set the size
         TowerDataFactory towerDataFactory= new TowerDataFactory();
         this.mLocation=location;
-        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
+        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
-        this.mTowerData=towerDataFactory.getTowerData(TowerType.PLASMA, context);
+        this.mTowerData=towerDataFactory.getTowerData(TowerType.LASER, context);
         lastShot=System.currentTimeMillis();
     }
 
@@ -31,7 +29,7 @@ public class PlasmaTower extends Tower
             while(alienIterator.hasNext()){
                 Alien alien=alienIterator.next();
                 if(inRange(alien)){ //see which enemies are in range
-                    gameWorld.mPlasmaProjectiles.add(new PlasmaProjectile(mTowerData, mLocation, alien.getLocation() )); //create projectile
+                    gameWorld.mLasers.add(new Laser(mLocation, alien.getLocation() )); //create projectile
                     alien.onHit(mTowerData.mProjectileData.mDamage); //calculate damage
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
@@ -44,5 +42,4 @@ public class PlasmaTower extends Tower
             }
         }
     }
-
 }
