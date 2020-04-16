@@ -17,6 +17,7 @@ class HUD
     private int mScreenWidth;
     private ArrayList<Rect> controls;
     public TowerInfo towerInfo;
+    public AlienInfo alienInfo;
     static int PAUSE = 0;
     static int PlasmaTower=1;
     static int LaserTower=2;
@@ -40,6 +41,7 @@ class HUD
         controls= new ArrayList<Rect>();
         prepareControls();
         towerInfo=null;
+        alienInfo=null;
     }
 
     private void prepareControls()
@@ -128,6 +130,9 @@ class HUD
         if (towerInfo !=null){
             towerInfo.draw(c,p);
         }
+        if (alienInfo !=null){
+            alienInfo.draw(c,p);
+        }
     }
 
     private void drawControls(Canvas c, Paint p)
@@ -170,5 +175,11 @@ class HUD
     }
     public void removeTowerInfo(){
         towerInfo=null;
+    }
+    public void addAlienInfo(Alien mAlien){
+        this.alienInfo=new AlienInfo(mAlien, size);
+    }
+    public void removeAlienInfo(){
+        alienInfo=null;
     }
 }

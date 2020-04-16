@@ -16,4 +16,5 @@ public interface Alien
     float getHealth();
     boolean checkCollision(Rect base);
     Rect getHitbox();
+    String getInfo();
 }

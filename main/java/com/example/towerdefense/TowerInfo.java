@@ -63,4 +63,8 @@ public class TowerInfo {
         this.towerRange= new Circle(mTower.mLocation, mTower.mRange);
         this.mTower.mUpgradeCost=(int)(this.mTower.mUpgradeCost*1.3);
     }
+
+    public int upgradeCost(){
+        return mTower.mUpgradeCost;
+    }
 }
