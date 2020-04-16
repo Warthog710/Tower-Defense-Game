@@ -107,6 +107,7 @@ public class UIController implements InputObserver
                         break;
 
                     }
+                    mHud.removeTowerInfo();
                 }
 
             }

@@ -12,7 +12,7 @@ public class RocketTower extends Tower {
     public RocketTower(Context context, Point location)
     {
         setSize(); //set the size
-        this.mDescription="Rockets will follow their target until the hit something";
+        this.mDescription="Rockets will follow their target until they hit something";
         this.mName="Rocket Tower: Fires rockets at a medium speed.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
