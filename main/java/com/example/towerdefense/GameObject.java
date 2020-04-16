@@ -14,7 +14,7 @@ public abstract class GameObject
     private boolean sizeSet=false;
 
     //Default draw method
-    void draw (Canvas canvas, Paint paint)
+    public void draw (Canvas canvas, Paint paint)
     {
         canvas.drawBitmap(mBitmap, mLocation.x-(mAttributeSize/2), mLocation.y-(mAttributeSize/2), null);
     }

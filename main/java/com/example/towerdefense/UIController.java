@@ -23,8 +23,6 @@ public class UIController implements InputObserver
         int i = event.getActionIndex();
         int x = (int) event.getX(i); //get the x location
         int y = (int) event.getY(i); //get the y location
-        System.out.println(buttons.get(HUD.LaserTower).left+" : "+buttons.get(HUD.LaserTower).right);
-        System.out.println("clicked: " +x+" : "+y);
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
         TowerFactory towerFactory = new TowerFactory(); //make a tower factory
         if(eventType == MotionEvent.ACTION_UP ||
@@ -100,7 +98,7 @@ public class UIController implements InputObserver
                 {
                     Tower currentTower = towerIterator.next();
                     if (currentTower.contains(new Point (x,y))){
-                        gameState.range=new Circle(currentTower.mLocation, currentTower.mTowerData.mRange);
+                        gameState.range=new Circle(currentTower.mLocation, currentTower.mRange);
                     }
                 }
 

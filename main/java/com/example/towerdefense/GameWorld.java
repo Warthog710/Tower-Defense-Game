@@ -20,12 +20,12 @@ class GameWorld
     private Point size;
 
     //Collection of game objects go here...
-    ArrayList<PlasmaProjectile> mPlasmaProjectiles;
-    ArrayList<Laser> mLasers;
+    ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
     ArrayList<Alien> mAliens;
     Circle range;
     GameMap mMap;
+
 
     //Game variables
     private int mLives;
