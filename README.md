@@ -11,11 +11,7 @@ basic enemy and tower type. Towers are fixed, and enemies follow a basic movemen
 strategy along the path. No animation is required for enemies or towers.
 
 <b>Tasks:</b>
-* [ ] Create CRC cards.
 * [ ] Make towers animated.
-* [ ] Show tower data when selected.
-* [ ] Allow towers to be upgraded.
-* [ ] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
 * [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
 * [ ] Make more levels with turns.
 * [ ] Add a level selection (page 660 of paktbook)
@@ -37,6 +33,14 @@ strategy along the path. No animation is required for enemies or towers.
 * [x] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
 * [x] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
 * [x] Keep towers from being placed on the path or on the base.
+* [x] Create CRC cards.
+* [x] Allow towers to be upgraded.
+* [x] Show tower data when selected.
+* [x] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
+
+<b>Known Bugs:</b>
+* [ ] When the laser tower is firing fast it sometimes causes the alien's health bar to get really long.
+* [ ] When the rocket tower is firing fast sometimes a rocket will get caught on the lower left hand side of the base.
 
 <b>Notes:</b>
 * Enemies must implement various strategies, I.E. movement and/or attack strategies.
