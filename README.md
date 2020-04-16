@@ -61,6 +61,9 @@ https://docs.google.com/document/d/1jzjNmYaw-pGcg-SYwLC3hfwqSHZ0u_GVHPIjyIMxmWo/
 <b>Friday Report:<b></br>
 https://docs.google.com/document/d/1TSupbw9Hd_TAnXFZTY03NKdHLTAj-OMv-aI7SMWg1d4/edit?usp=sharing
  </br>
+ <b>Monday Reports:<b></br>
+https://docs.google.com/document/d/1br4GeKOxJJSdTLnf_GR609Gh7VzEDjNKywmE7VS0D28/edit?usp=sharing
+ </br>
  </br>
  <b>For clarifying hierarchy:<b></br>
 ![](Images/tower.png)</br>
