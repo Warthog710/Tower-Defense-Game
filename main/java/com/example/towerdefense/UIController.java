@@ -18,8 +18,9 @@ public class UIController implements InputObserver
     }
 
     @Override
-    public void handleInput(MotionEvent event, GameWorld gameState, ArrayList<Rect> buttons)
+    public void handleInput(MotionEvent event, GameWorld gameState, HUD mHud)
     {
+        ArrayList<Rect> buttons=mHud.getControls();
         int i = event.getActionIndex();
         int x = (int) event.getX(i); //get the x location
         int y = (int) event.getY(i); //get the y location
@@ -50,7 +51,7 @@ public class UIController implements InputObserver
                 {
                     gameState.resume();
                 }
-                gameState.range=null;
+                mHud.removeTowerInfo();
             }
             //if the player hits the plasma tower and the game is not paused
             else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() )
@@ -60,7 +61,7 @@ public class UIController implements InputObserver
                     gameState.setTowerType(Tower.TowerType.PLASMA);
                     gameState.loseCash(50);
                 }
-                gameState.range=null;
+                mHud.removeTowerInfo();
             }
             //laser tower
             else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() )
@@ -70,7 +71,7 @@ public class UIController implements InputObserver
                     gameState.setTowerType(Tower.TowerType.LASER);
                     gameState.loseCash(100);
                 }
-                gameState.range=null;
+                mHud.removeTowerInfo();
             }
             //rocket tower
             else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() )
@@ -80,14 +81,17 @@ public class UIController implements InputObserver
                     gameState.setTowerType(Tower.TowerType.ROCKET);
                     gameState.loseCash(100);
                 }
-                gameState.range=null;
+                mHud.removeTowerInfo();
             }
             //if the player has a tower to place and the game is not paused and the location is not on the path
             else if (gameState.getmPlacing() && !gameState.getPaused()&& !gameState.mMap.inPath(new Point(x,y)))
             { //place tower
                 gameState.closemPlacing();
                 gameState.addTower(towerFactory.getTower (gameState.getTowerType(),context,new Point(x,y)));
-                gameState.range=null;
+                mHud.removeTowerInfo();
+            }
+            else if(mHud.towerInfo !=null && mHud.towerInfo.upgradeButton.contains(x, y)){
+                mHud.towerInfo.upgrade();
             }
             //if the player has clicked a tower
             else if (gameState.mTowers != null)
@@ -98,7 +102,10 @@ public class UIController implements InputObserver
                 {
                     Tower currentTower = towerIterator.next();
                     if (currentTower.contains(new Point (x,y))){
-                        gameState.range=new Circle(currentTower.mLocation, currentTower.mRange);
+                        //gameState.range=new Circle(currentTower.mLocation, currentTower.mRange);
+                        mHud.addTowerInfo(currentTower);
+                        break;
+
                     }
                 }
 

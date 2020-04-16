@@ -12,6 +12,8 @@ public class LaserTower extends Tower {
     public LaserTower(Context context, Point location)
     {
         setSize(); //set the size
+        this.mDescription="Lasers deal high damage instantly to a single target";
+        this.mName="Laser Tower: Fires a laser at slow speeds.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
@@ -23,6 +25,7 @@ public class LaserTower extends Tower {
         this.mCost=100;
         this.mRateOfFire=1;
         this.mRange=500;
+        this.mUpgradeCost=50;
     }
 
     @Override
@@ -46,5 +49,11 @@ public class LaserTower extends Tower {
                 }
             }
         }
+    }
+    @Override
+    public void upgrade() {
+        this.mDamage=(int)(this.mDamage*1.5);
+        this.mRateOfFire=this.mRateOfFire+1;
+        this.mRange=(int)(this.mRange*1.2);
     }
 }

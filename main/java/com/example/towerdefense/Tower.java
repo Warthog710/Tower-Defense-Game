@@ -14,10 +14,15 @@ public abstract class Tower extends GameObject
     public int mDamage; //amount of damage each projectile does
     public Bitmap mProjectileBitmap;
     public Bitmap mOriginalBitMap;
+    public String mDescription;
+    public String mName;
+    public int mUpgradeCost;
     final static int towerSize=100; //size of all the towers
     enum TowerType {PLASMA, LASER, ROCKET} //types of towers
 
     public abstract void shoot(GameWorld gameWorld); //method that calls the tower to shoot
+
+    public abstract void upgrade(); //upgrades the tower;
 
     public void setSize(){setAttributeSize(towerSize);} //set the size of the tower
 

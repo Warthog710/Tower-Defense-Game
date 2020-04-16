@@ -93,8 +93,9 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                 while(projectileIterator.hasNext())
                 {
                     Projectile projectile = projectileIterator.next();
-                    projectile.move();
-                    if(projectile.remove(mGameWorld))
+                    projectile.move(); //move projectiles
+
+                    if(projectile.remove(mGameWorld)) //check if the projectile has hit something and needs to be removed
                     {
                         projectilesToRemove.add(projectile);
                     }
@@ -182,7 +183,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     {
         //Handle player input
         for (InputObserver o : inputObservers) {
-            o.handleInput(motionEvent, mGameWorld, mHUD.getControls());
+            o.handleInput(motionEvent, mGameWorld, mHUD);
         }
 
         return true;

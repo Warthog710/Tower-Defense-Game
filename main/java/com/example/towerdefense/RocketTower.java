@@ -12,6 +12,8 @@ public class RocketTower extends Tower {
     public RocketTower(Context context, Point location)
     {
         setSize(); //set the size
+        this.mDescription="Rockets will follow their target until the hit something";
+        this.mName="Rocket Tower: Fires rockets at a medium speed.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
@@ -23,6 +25,7 @@ public class RocketTower extends Tower {
         this.mCost=100;
         this.mRateOfFire=2;
         this.mRange=500;
+        this.mUpgradeCost=50;
     }
 
     @Override
@@ -45,5 +48,12 @@ public class RocketTower extends Tower {
                 }
             }
         }
+    }
+
+    @Override
+    public void upgrade() {
+        this.mDamage=(int)(this.mDamage*1.5);
+        this.mRateOfFire=this.mRateOfFire+1;
+        this.mRange=(int)(this.mRange*1.2);
     }
 }

@@ -9,7 +9,7 @@ import android.graphics.Rect;
 import java.util.Iterator;
 
 public class RocketProjectile extends Movable implements Projectile {
-    public final int mSpeed=(int)(1500/GameEngine.TARGET_FPS), mSize=50;
+    public final int mSpeed=(int)(500/GameEngine.TARGET_FPS), mSize=50;
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
@@ -35,12 +35,14 @@ public class RocketProjectile extends Movable implements Projectile {
     }
     @Override
     public void move() {
-        mHeading.setAngle((int)Math.toDegrees(Math.atan2((mTarget.getLocation().y-mLocation.y),(mTarget.getLocation().x-mLocation.x)))+90);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(mHeading.getAngle());
-        mBitmap = Bitmap
-                .createBitmap(mOriginalBitmap,
-                        0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
+        if(this.mTarget.getHealth()>0) {
+            mHeading.setAngle((int) Math.toDegrees(Math.atan2((mTarget.getLocation().y - mLocation.y), (mTarget.getLocation().x - mLocation.x))) + 90);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(mHeading.getAngle());
+            mBitmap = Bitmap
+                    .createBitmap(mOriginalBitmap,
+                            0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
+        }
         int xSpeed=((int)(Math.cos(Math.toRadians(mHeading.getAngle()-90))*mSpeed));
         int ySpeed=((int)(Math.sin(Math.toRadians(mHeading.getAngle()-90))*mSpeed));
         mLocation= new Point(mLocation.x+xSpeed,mLocation.y+ySpeed);

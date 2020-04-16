@@ -103,7 +103,7 @@ class GameWorld
         mLives=20;
     }
     public int getCash(){ return mCash;}
-    public void resetCash(){this.mCash=100;}
+    public void resetCash(){this.mCash=500;}
     public void addCash(){this.mCash+=10;}
     public void loseCash(int amount){this.mCash-=amount;}
 

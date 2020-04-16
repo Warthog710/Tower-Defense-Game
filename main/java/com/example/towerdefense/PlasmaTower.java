@@ -14,6 +14,8 @@ public class PlasmaTower extends Tower
     public PlasmaTower(Context context, Point location)
     {
         setSize(); //set the size
+        this.mDescription="Plasma is fast but doesn't hurt much";
+        this.mName="Plasma Tower: Fires plasma at a fast speeds.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
@@ -25,6 +27,7 @@ public class PlasmaTower extends Tower
         this.mCost=50;
         this.mRateOfFire=4;
         this.mRange=300;
+        this.mUpgradeCost=25;
     }
 
     @Override
@@ -47,6 +50,12 @@ public class PlasmaTower extends Tower
                 }
             }
         }
+    }
+    @Override
+    public void upgrade() {
+        this.mDamage=(int)(this.mDamage*1.5);
+        this.mRateOfFire=this.mRateOfFire+1;
+        this.mRange=(int)(this.mRange*1.2);
     }
 
 }

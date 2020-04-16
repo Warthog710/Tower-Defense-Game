@@ -16,6 +16,7 @@ class HUD
     private int mScreenHeight;
     private int mScreenWidth;
     private ArrayList<Rect> controls;
+    public TowerInfo towerInfo;
     static int PAUSE = 0;
     static int PlasmaTower=1;
     static int LaserTower=2;
@@ -26,15 +27,19 @@ class HUD
     private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation;
     private int buttonWidth;
     private int buttonHeight;
+    private Point size;
 
     HUD(Point size)
     {
+        this.size=size;
         mScreenHeight = size.y;
         mScreenWidth = size.x;
         mTextFormatting = size.x / 50;
         buttonWidth = mScreenWidth / 14;
         buttonHeight = mScreenHeight / 12;
+        controls= new ArrayList<Rect>();
         prepareControls();
+        towerInfo=null;
     }
 
     private void prepareControls()
@@ -59,7 +64,6 @@ class HUD
                 buttonPadding,
                 mScreenWidth - buttonPadding*4-buttonWidth*3,
                 buttonPadding + buttonHeight);
-        controls = new ArrayList<>();
         controls.add(PAUSE, pause);
         controls.add(PlasmaTower, plasmaTower);
         controls.add(LaserTower, laserTower);
@@ -120,6 +124,10 @@ class HUD
 
         drawControls(c, p); //draw the buttons
         drawGraphics(c); //draw the graphics over the buttons
+
+        if (towerInfo !=null){
+            towerInfo.draw(c,p);
+        }
     }
 
     private void drawControls(Canvas c, Paint p)
@@ -155,5 +163,12 @@ class HUD
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
         canvas.drawBitmap(mLaserTower, mLaserTowerLocation.x, mLaserTowerLocation.y, null);
         canvas.drawBitmap(mRocketTower, mRocketTowerLocation.x, mRocketTowerLocation.y, null);
+    }
+
+    public void addTowerInfo(Tower mTower){
+        this.towerInfo=new TowerInfo(mTower, size);
+    }
+    public void removeTowerInfo(){
+        towerInfo=null;
     }
 }
