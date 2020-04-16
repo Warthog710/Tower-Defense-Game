@@ -40,10 +40,10 @@ class GameView
                 //Draw projectiles
                 if (gameWorld.mProjectiles != null)
                 {
-                    Iterator<Projectile> projectileMoveableIterator = gameWorld.mProjectiles.iterator();
-                    while(projectileMoveableIterator.hasNext())
+                    Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
+                    while(projectileIterator.hasNext())
                     {
-                        projectileMoveableIterator.next().draw(mCanvas,mPaint);
+                        projectileIterator.next().draw(mCanvas,mPaint);
                     }
                 }
 

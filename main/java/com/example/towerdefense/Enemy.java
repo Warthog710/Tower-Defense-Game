@@ -12,6 +12,7 @@ import java.util.Random;
 public class Enemy extends GameObject implements Alien
 {
     private float health, resist;
+    private String mInfo;
     private Movable movementStrategy;
     private AlienHealthBar mHealthBar;
 
@@ -23,7 +24,9 @@ public class Enemy extends GameObject implements Alien
         this.movementStrategy = builder.movementStrategy;
         this.mHealthBar = builder.mHealthbar;
         this.mBitmap = builder.mBitmap;
+        this.mInfo=builder.mInfo;
         this.setAttributeSize(builder.attributeSize);
+
 
         //Modify variables
         mLocation = new Point();
@@ -52,6 +55,11 @@ public class Enemy extends GameObject implements Alien
                 movementStrategy.getLocation().y - (mBitmap.getHeight() / 2),
                 movementStrategy.getLocation().x + (mBitmap.getWidth() / 2),
                 movementStrategy.getLocation().y + (mBitmap.getHeight()) / 2);
+    }
+
+    @Override
+    public String getInfo() {
+        return mInfo;
     }
 
     public boolean checkCollision(Rect mBase)
@@ -83,6 +91,7 @@ public class Enemy extends GameObject implements Alien
         private AlienHealthBar mHealthbar;
         private Bitmap mBitmap;
         private Point size;
+        private String mInfo;
 
         //Set spawn location
         public EnemyBuilder setLocation(Point size)
@@ -152,6 +161,13 @@ public class Enemy extends GameObject implements Alien
         public EnemyBuilder setBitmap(Context context)
         {
             mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.test_alien);
+
+            return this;
+        }
+
+        public EnemyBuilder setInfo(String info)
+        {
+            this.mInfo = info;
 
             return this;
         }

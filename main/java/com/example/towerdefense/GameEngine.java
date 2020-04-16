@@ -22,7 +22,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     private long mNextFrameTime, mLastFrameTime;
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
-    final static long TARGET_FPS = 30;
+    final static long TARGET_FPS = 40;
     private int currentWave = 1;
     final long MILLIS_PER_SECOND = 1000;
 
@@ -38,7 +38,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mHUD= new HUD(size);
         mHUD.setGraphics(context);
         mGameWorld.mTowers=new ArrayList<Tower>();
-        mGameWorld.mProjectiles=new ArrayList<Projectile>();
+        mGameWorld.mProjectiles =new ArrayList<Projectile>();
         mGameWorld.mAliens=new ArrayList<Alien>();
         //mGameWorld.mAliens.add(new AlienFactory(context, size, "drone").getAlien());
         mGameWorld.setLives();
@@ -92,9 +92,10 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                 Iterator<Projectile> projectileIterator = mGameWorld.mProjectiles.iterator();
                 while(projectileIterator.hasNext())
                 {
-                    Projectile projectile= projectileIterator.next();
-                    projectile.move();
-                    if(projectile.collision(mGameWorld))
+                    Projectile projectile = projectileIterator.next();
+                    projectile.move(); //move projectiles
+
+                    if(projectile.remove(mGameWorld)) //check if the projectile has hit something and needs to be removed
                     {
                         projectilesToRemove.add(projectile);
                     }
@@ -133,10 +134,10 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             }
 
             //Remove projectiles
-            Iterator<Projectile> projectileMoveableIterator = projectilesToRemove.iterator();
-            while(projectileMoveableIterator.hasNext())
+            Iterator<Projectile> projectilesToRemoveIterator = projectilesToRemove.iterator();
+            while(projectilesToRemoveIterator.hasNext())
             {
-                mGameWorld.mProjectiles.remove(projectileMoveableIterator.next());
+                mGameWorld.mProjectiles.remove(projectilesToRemoveIterator.next());
             }
 
             //Tell the towers to fire
@@ -182,7 +183,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     {
         //Handle player input
         for (InputObserver o : inputObservers) {
-            o.handleInput(motionEvent, mGameWorld, mHUD.getControls());
+            o.handleInput(motionEvent, mGameWorld, mHUD);
         }
 
         return true;

@@ -13,7 +13,7 @@ class GameWorld
     private static volatile boolean mDrawing = false;
     private static volatile boolean mPlacing = false;
     private static volatile boolean mGameWon = false;
-    private static volatile int mTowerType;
+    private Tower.TowerType mTowerType;
 
     private GameStarter gameStarter;
     private Context context;
@@ -25,6 +25,7 @@ class GameWorld
     ArrayList<Alien> mAliens;
     Circle range;
     GameMap mMap;
+
 
     //Game variables
     private int mLives;
@@ -77,7 +78,8 @@ class GameWorld
     private void startDrawing() { mDrawing = true; }
     public void setmPlacing() { mPlacing=true;}
     public void closemPlacing(){ mPlacing=false;}
-    public void setmTowerType(int towerType){mTowerType=towerType;}
+    public void setTowerType(Tower.TowerType type){mTowerType=type;}
+    public Tower.TowerType getTowerType(){ return mTowerType;}
     public boolean getmPlacing(){ return mPlacing;}
     public boolean getmGameWon() { return mGameWon; }
 
@@ -101,7 +103,7 @@ class GameWorld
         mLives=20;
     }
     public int getCash(){ return mCash;}
-    public void resetCash(){this.mCash=100;}
+    public void resetCash(){this.mCash=500;}
     public void addCash(){this.mCash+=10;}
     public void loseCash(int amount){this.mCash-=amount;}
 

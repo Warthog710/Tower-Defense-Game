@@ -8,26 +8,24 @@ import android.graphics.Point;
 
 import java.util.Iterator;
 
-public class PlasmaTower extends Tower
-{
-
-    public PlasmaTower(Context context, Point location)
+public class RocketTower extends Tower {
+    public RocketTower(Context context, Point location)
     {
         setSize(); //set the size
-        this.mDescription="Plasma is fast but doesn't hurt much";
-        this.mName="Plasma Tower: Fires plasma at a fast speeds.";
+        this.mDescription="Rockets will follow their target until they hit something";
+        this.mName="Rocket Tower: Fires rockets at a medium speed.";
         this.mLocation=location;
-        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
+        this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
         this.mOriginalBitMap=this.mBitmap;
-        this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_plasma);
+        this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket);
         lastShot=System.currentTimeMillis();
 
-        this.mDamage=5;
-        this.mCost=50;
-        this.mRateOfFire=4;
-        this.mRange=300;
-        this.mUpgradeCost=25;
+        this.mDamage=10;
+        this.mCost=100;
+        this.mRateOfFire=2;
+        this.mRange=500;
+        this.mUpgradeCost=50;
     }
 
     @Override
@@ -39,7 +37,7 @@ public class PlasmaTower extends Tower
             while(alienIterator.hasNext()){
                 Alien alien=alienIterator.next();
                 if(inRange(alien)){ //see which enemies are in range
-                    gameWorld.mProjectiles.add(new PlasmaProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
+                    gameWorld.mProjectiles.add(new RocketProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
                     matrix.postRotate(angle);
@@ -51,11 +49,11 @@ public class PlasmaTower extends Tower
             }
         }
     }
+
     @Override
     public void upgrade() {
         this.mDamage=(int)(this.mDamage*1.5);
         this.mRateOfFire=this.mRateOfFire+1;
         this.mRange=(int)(this.mRange*1.2);
     }
-
 }

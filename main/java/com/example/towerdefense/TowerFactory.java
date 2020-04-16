@@ -12,6 +12,12 @@ public class TowerFactory { //factory for building towers
             case PLASMA: //make a plasma tower
                 tower = new PlasmaTower(context, mLocation);
                 break;
+            case LASER: //make a plasma tower
+                tower = new LaserTower(context, mLocation);
+                break;
+            case ROCKET: //make a plasma tower
+                tower = new RocketTower(context, mLocation);
+                break;
         }
         return tower;
     }

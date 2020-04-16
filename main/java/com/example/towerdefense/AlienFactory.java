@@ -20,6 +20,7 @@ public class AlienFactory
                     .setAttributeSize(36)
                     .setResist(1)
                     .setBitmap(context)
+                    .setInfo("Drone: fast but with low health")
                     .attachHealthBar(10)
                     .attachMovementStrategy()
                     .build();
