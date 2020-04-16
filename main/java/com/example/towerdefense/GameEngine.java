@@ -40,7 +40,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mTowers=new ArrayList<Tower>();
         mGameWorld.mProjectiles =new ArrayList<Projectile>();
         mGameWorld.mAliens=new ArrayList<Alien>();
-        //mGameWorld.mAliens.add(new AlienFactory(context, size, "drone").getAlien());
         mGameWorld.setLives();
         mGameWorld.resetCash();
         mGameWorld.mMap = new GameMap(context, size);
@@ -118,8 +117,10 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             alienIterator = mGameWorld.mAliens.iterator();
             while(alienIterator.hasNext())
             {
-                if (alienIterator.next().checkCollision(mGameWorld.mMap.getBaseCords()))
+                Alien temp = alienIterator.next();
+                if (temp.checkCollision(mGameWorld.mMap.getBaseCords()))
                 {
+                    temp.kill();
                     alienIterator.remove();
                     mGameWorld.loseLife();
                 }

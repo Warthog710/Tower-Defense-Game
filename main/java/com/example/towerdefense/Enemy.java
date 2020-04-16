@@ -39,6 +39,8 @@ public class Enemy extends GameObject implements Alien
     public void onHit(float dmg)
     {
         health = health - (dmg * resist);
+        if (health<0)
+            health=0;
     }
     public void setResistance(float resist)
     {
@@ -60,6 +62,11 @@ public class Enemy extends GameObject implements Alien
     @Override
     public String getInfo() {
         return mInfo;
+    }
+
+    @Override
+    public void kill() {
+        health=0;
     }
 
     public boolean checkCollision(Rect mBase)
