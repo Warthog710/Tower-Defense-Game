@@ -16,6 +16,13 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Show tower data when selected.
 * [ ] Allow towers to be upgraded.
 * [ ] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
+* [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
+* [ ] Make more levels with turns.
+* [ ] Add a level selection (page 660 of paktbook)
+* [ ] Add more waves of enemies.
+* [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
+* [ ] Add sound using a sound strategy.
+
 
 <b>Finished Tasks:</b>
 * [x] Make a new background with a path.
