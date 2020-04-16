@@ -13,12 +13,10 @@ public class RocketProjectile extends Movable implements Projectile {
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
-    private Point mOrigin;
 
     public RocketProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage){
         this.setAttributeSize(mSize);
         this.mLocation=mLocation;
-        this.mOrigin=mLocation;
         this.mDamage=mDamage;
         this.mTarget=mTarget;
         this.mBitmap= mBitMap;
@@ -35,7 +33,7 @@ public class RocketProjectile extends Movable implements Projectile {
     }
     @Override
     public void move() {
-        if(this.mTarget.getHealth()>0) {
+        if(this.mTarget.getHealth()>0 && this.mTarget != null) {
             mHeading.setAngle((int) Math.toDegrees(Math.atan2((mTarget.getLocation().y - mLocation.y), (mTarget.getLocation().x - mLocation.x))) + 90);
             Matrix matrix = new Matrix();
             matrix.postRotate(mHeading.getAngle());
@@ -62,7 +60,7 @@ public class RocketProjectile extends Movable implements Projectile {
                 break;
             }
         }
-        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y)
+        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y || mLocation.y<0 || mLocation.x<0)
             value=true;
         return value;
     }

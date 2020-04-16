@@ -17,4 +17,5 @@ public interface Alien
     boolean checkCollision(Rect base);
     Rect getHitbox();
     String getInfo();
+    void kill();
 }
