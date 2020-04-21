@@ -18,6 +18,13 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Add more waves of enemies.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
 * [ ] Add sound using a sound strategy.
+* [ ] Keep towers from being placed on top of each other.
+* [ ] Show tower stats before placing (cancel placement button in lower right?)
+* [ ] Add a place for the rules so players can read them.
+* [ ] Add a button to speed up the game.
+* [ ] Make resistances adaptive and have them change each wave.
+* [ ] Add start screen (with level selection, rules, ect)
+* [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
 
 
 <b>Finished Tasks:</b>
@@ -39,8 +46,6 @@ strategy along the path. No animation is required for enemies or towers.
 * [x] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
 
 <b>Known Bugs:</b>
-* [ ] When the laser tower is firing fast it sometimes causes the alien's health bar to get really long.
-* [ ] When the rocket tower is firing fast sometimes a rocket will get caught on the lower left hand side of the base.
 
 <b>Notes:</b>
 * Enemies must implement various strategies, I.E. movement and/or attack strategies.
