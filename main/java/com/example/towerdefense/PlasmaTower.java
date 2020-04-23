@@ -33,12 +33,15 @@ public class PlasmaTower extends Tower
     @Override
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire)){ //can the tower fire?
+        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire))
+        { //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-            while(alienIterator.hasNext()){
+            while(alienIterator.hasNext())
+            {
                 Alien alien=alienIterator.next();
-                if(inRange(alien)){ //see which enemies are in range
+                if(inRange(alien))
+                { //see which enemies are in range
                     gameWorld.mProjectiles.add(new PlasmaProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();

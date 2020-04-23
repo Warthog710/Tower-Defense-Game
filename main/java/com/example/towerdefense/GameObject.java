@@ -25,6 +25,7 @@ public abstract class GameObject
 
     //Setters
     public void setLocation(Point mLocation){ this.mLocation = mLocation; }
+
     public void setAttributeSize(int size)
     {
         if (!sizeSet)

@@ -2,6 +2,7 @@ package com.example.towerdefense;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,12 +10,21 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import java.util.ArrayList;
 
+import android.graphics.Path;
+import android.graphics.PathMeasure;
+
 public class GameMap
 {
     Bitmap mMap, base, path;
     Point size;
 
+    Path testPath = new Path();
+    ArrayList<PathPoints> mPathCords = new ArrayList<>();
+
     private int waveCount = 3;
+    private int currentWave = 1;
+    long lastSpawn = System.currentTimeMillis();
+    int spawnCounter = 0;
 
     //GameMap constructor
     public GameMap(Context context, Point size)
@@ -25,13 +35,71 @@ public class GameMap
         this.path = Bitmap.createScaledBitmap(path, size.x, 100, true);
         this.mMap = Bitmap.createScaledBitmap(mMap, size.x, size.y, true);
         this.size = size;
+
+        //Pre-defined path. Move inside custom pathRoute object?
+        testPath.moveTo(0, size.y/2);
+        testPath.lineTo(100, size.y/2);
+        testPath.lineTo(150, (size.y /2) + 200);
+        testPath.cubicTo(150, (size.y /2) + 400, 234, (size.y /2) + 113, 300, (size.y /2));
+        testPath.cubicTo(1645, (size.y /2) + 212, -263, (size.y /2) + 634, 1000, (size.y /2));
+        testPath.cubicTo(1300, (size.y /2) - 177, 1200, (size.y /2) + 14, 1500, (size.y /2));
+        testPath.lineTo(1920, (size.y/2));
+
+        calculatePathCords();
     }
+
+    //Converts the defined path into an ArrayList of points
+    private void calculatePathCords()
+    {
+        //Method variables.
+        PathMeasure pm = new PathMeasure(testPath, false);
+        float length = pm.getLength();
+        float step = 1;
+        float counter = 0;
+        float[] cords = new float[2];
+        float[] tangent = new float[2];
+
+        while (true)
+        {
+            //While not at the end of the path element, execute the following...
+            while (counter < length)
+            {
+                pm.getPosTan(counter, cords, tangent);
+                double angle = Math.atan2((double)tangent[0], (double)tangent[1]);
+                angle = angle * (180/Math.PI);
+                mPathCords.add(new PathPoints(new Point((int)cords[0], (int)cords[1]), (int)angle));
+                counter += step;
+            }
+
+            //If there is another path element...
+            if (pm.nextContour())
+            {
+                //Get the new length and reset counter to zero.
+                length = pm.getLength();
+                counter = 0;
+            }
+
+            //Else, end of path reached. Break out of loop.
+            else
+                break;
+        }
+    }
+
 
     //Draw the map
     void draw (Canvas canvas, Paint paint)
     {
+        //Draw the background...
         canvas.drawBitmap(mMap, 0, 0, null);
-        canvas.drawBitmap(path, 0, (size.y / 2) - (path.getHeight() / 2), null);
+
+        //Draw the path...
+        paint.setStrokeWidth(30);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLUE);
+        canvas.drawPath(testPath, paint);
+        paint.reset();
+
+        //Draw the base...
         canvas.drawBitmap(base, size.x - base.getWidth(), (size.y / 2) - (base.getHeight() / 2), null);
     }
 
@@ -47,40 +115,88 @@ public class GameMap
         return path.getHeight();
     }
 
-    //Spawns a pre-defined set of waves when called.
-    public ArrayList<Alien> spawn(Context context, int wave)
+    public ArrayList<PathPoints> getPathCords()
     {
-        ArrayList<Alien> newAliens = new ArrayList<>();
+        return mPathCords;
+    }
 
-        switch(wave)
+    //Spawns a pre-defined set of waves when called.
+    public ArrayList<Alien> spawn(Context context, ArrayList<Alien> aliens)
+    {
+        switch(currentWave)
         {
             case 1:
-                for (int count = 0; count < 5; count++)
+                //If enough time has elapsed since the last spawn
+                if (System.currentTimeMillis() - lastSpawn > 1000)
                 {
-                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
+                    //Spawn five enemies.
+                    if (spawnCounter < 5)
+                    {
+                        //Make enemy, increment spawnCounter, and set lastSpawn.
+                        aliens.add(new AlienFactory(context, size, getPathHeight(), "drone", getPathCords().get(0)).getAlien());
+                        spawnCounter++;
+                        lastSpawn = System.currentTimeMillis();
+                    }
+                }
+
+                //If five enemies have been spawned and the enemy list is empty... Spawn the next wave...
+                if (spawnCounter >= 5 && aliens.isEmpty())
+                {
+                    spawnCounter = 0;
+                    currentWave++;
                 }
                 break;
 
+                //Wave 2
             case 2:
-                for (int count = 0; count < 10; count++)
+                if (System.currentTimeMillis() - lastSpawn > 1500)
                 {
-                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
+                    if (spawnCounter < 10)
+                    {
+                        aliens.add(new AlienFactory(context, size, getPathHeight(), "soldier", getPathCords().get(0)).getAlien());
+                        spawnCounter++;
+                        lastSpawn = System.currentTimeMillis();
+                    }
+                }
+                if (spawnCounter >= 10 && aliens.isEmpty())
+                {
+                    spawnCounter = 0;
+                    currentWave++;
                 }
                 break;
 
+                //Wave 3
             case 3:
-                for (int count = 0; count < 15; count++)
+                if (System.currentTimeMillis() - lastSpawn > 2000)
                 {
-                    newAliens.add(new AlienFactory(context, size, getPathHeight(), "drone").getAlien());
+                    if (spawnCounter < 15)
+                    {
+                        aliens.add(new AlienFactory(context, size, getPathHeight(), "behemoth", getPathCords().get(0)).getAlien());
+                        spawnCounter++;
+                        lastSpawn = System.currentTimeMillis();
+                    }
+                }
+                if (spawnCounter >= 15 && aliens.isEmpty())
+                {
+                    spawnCounter = 0;
+                    currentWave++;
                 }
                 break;
         }
-        return newAliens;
+
+        //Return the new aliens list.
+        return aliens;
     }
 
+    //Getter and setter methods.
     public int getWaveCount() { return waveCount; }
+    public int getCurrentWave() { return currentWave; }
+    public void setCurrentWave(int currentWave) { this.currentWave = currentWave; this.spawnCounter = 0; }
 
-    public boolean inPath(Point location){
+    //Called to check if something collides with the path.
+    //NOTE!!! CURRENTLY BROKEN!!!
+    public boolean inPath(Point location)
+    {
         return  (location.y>(size.y / 2) - (path.getHeight() / 2) && location.y<(size.y / 2) + (path.getHeight() / 2));
     }
 }

@@ -23,7 +23,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
     final static long TARGET_FPS = 40;
-    private int currentWave = 1;
     final long MILLIS_PER_SECOND = 1000;
 
     //Class constructor
@@ -61,18 +60,13 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             //Update 10 times a second
             if (updateRequired())
             {
+                //Called to update all gameObjects
                 update();
-                if (mGameWorld.mAliens.isEmpty())
-                {
 
-                    mGameWorld.mAliens = mGameWorld.mMap.spawn(context, currentWave);
+                //If you have advanced past the last wave end the game.
+                if (mGameWorld.mMap.getCurrentWave() > mGameWorld.mMap.getWaveCount())
+                    mGameWorld.endGame();
 
-                    //If the number of waves is greater than the number of waves for the map. You won.
-                    if (currentWave > mGameWorld.mMap.getWaveCount())
-                        mGameWorld.endGame();
-
-                    currentWave++;
-                }
                 //Draw all game objects here...
                 mGameView.draw(mGameWorld, mHUD, mFPS);
 
@@ -83,18 +77,24 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     //Updates all the game objects in play
     private void update()
     {
+        //Check if game is paused. If not, executed the following...
         if(!mGameWorld.getPaused())
         {
             ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
+
             if (mGameWorld.mProjectiles != null)
             {
                 Iterator<Projectile> projectileIterator = mGameWorld.mProjectiles.iterator();
+
                 while(projectileIterator.hasNext())
                 {
                     Projectile projectile = projectileIterator.next();
-                    projectile.move(); //move projectiles
 
-                    if(projectile.remove(mGameWorld)) //check if the projectile has hit something and needs to be removed
+                    //Move projectiles
+                    projectile.move();
+
+                    //check if the projectile has hit something and needs to be removed
+                    if(projectile.remove(mGameWorld))
                     {
                         projectilesToRemove.add(projectile);
                     }
@@ -103,35 +103,40 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
 
             //Remove dead aliens
             Iterator<Alien> alienIterator = mGameWorld.mAliens.iterator();
+
             while(alienIterator.hasNext())
             {
+                //If health < 0, remove enemy and add cash.
                 if (alienIterator.next().getHealth() <= 0)
                 {
                     alienIterator.remove();
                     mGameWorld.addCash();
                 }
-
             }
 
             //Check for aliens that hit the base
             alienIterator = mGameWorld.mAliens.iterator();
+
             while(alienIterator.hasNext())
             {
                 Alien temp = alienIterator.next();
+
                 if (temp.checkCollision(mGameWorld.mMap.getBaseCords()))
                 {
+                    //Set health to zero, and remove.
                     temp.kill();
                     alienIterator.remove();
                     mGameWorld.loseLife();
                 }
-
             }
 
             //Update aliens
             alienIterator = mGameWorld.mAliens.iterator();
+
+            //Move all active aliens
             while(alienIterator.hasNext())
             {
-                alienIterator.next().move();
+                alienIterator.next().move(mGameWorld.mMap.getPathCords());
             }
 
             //Remove projectiles
@@ -145,11 +150,15 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             if (mGameWorld.mTowers != null)
             {
                 Iterator<Tower> towerIterator = mGameWorld.mTowers.iterator();
-                while(towerIterator.hasNext()){
+
+                while(towerIterator.hasNext())
+                {
                     towerIterator.next().shoot(mGameWorld);
                 }
-
             }
+
+            //Spawn more enemies if needed.
+            mGameWorld.mAliens = mGameWorld.mMap.spawn(context, mGameWorld.mAliens);
         }
     }
 
@@ -165,6 +174,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
 
             //Measure FPS
             long time=System.currentTimeMillis()-mLastFrameTime;
+
             if(time>=1)
             {
                 mFPS = MILLIS_PER_SECOND / (time);
@@ -179,11 +189,12 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         return false;
     }
 
+    //Handles player input
     @Override
     public boolean onTouchEvent (MotionEvent motionEvent)
     {
-        //Handle player input
-        for (InputObserver o : inputObservers) {
+        for (InputObserver o : inputObservers)
+        {
             o.handleInput(motionEvent, mGameWorld, mHUD);
         }
 
@@ -224,7 +235,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mAliens = new ArrayList<>();
         mGameWorld.mTowers = new ArrayList<>();
         mGameWorld.mProjectiles = new ArrayList<>();
-        currentWave = 1;
+        mGameWorld.mMap.setCurrentWave(1);
     }
 
     public void addObserver(InputObserver o)

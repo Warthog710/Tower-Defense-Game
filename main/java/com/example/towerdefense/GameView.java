@@ -55,7 +55,6 @@ class GameView
                     {
                         towerIterator.next().draw(mCanvas,mPaint);
                     }
-
                 }
 
                 //Draw aliens

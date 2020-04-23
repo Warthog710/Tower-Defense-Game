@@ -1,8 +1,12 @@
 package com.example.towerdefense;
 
+//Movable for gameObjects
 public abstract class Movable extends GameObject
 {
-    Angle mHeading; //angle that the object is heading
-    int mSpeed; //speed
-    abstract void move(); //how it moves
+    //Angle object is heading and the speed.
+    Angle mHeading;
+    int mSpeed;
+
+    //How it moves
+    abstract void move();
 }
