@@ -40,21 +40,28 @@ public class PlasmaProjectile extends Movable implements Projectile
     }
 
     @Override
-    public boolean remove(GameWorld gameWorld) {
+    public boolean remove(GameWorld gameWorld)
+    {
         Rect hitbox = new Rect(mLocation.x-getAttributeSize()/2, mLocation.y-getAttributeSize()/2,
                 mLocation.x + getAttributeSize()/2, mLocation.y +getAttributeSize()/2);
+
         boolean value=false;
         Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-        while(alienIterator.hasNext()) {
+
+        while(alienIterator.hasNext())
+        {
             Alien alien = alienIterator.next();
-            if (alien.checkCollision(hitbox)) { //see if the projectile hit the alien
+            if (alien.checkCollision(hitbox))
+            { //see if the projectile hit the alien
                 alien.onHit(mDamage);
                 value=true;
                 break;
             }
         }
+
         if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y)
             value=true;
+
         return value;
     }
 

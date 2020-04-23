@@ -3,22 +3,22 @@ package com.example.towerdefense;
 import android.graphics.Point;
 import java.util.ArrayList;
 
-//Basic movement strategy for the Drone
-public class DroneMovementStrategy implements EnemyMovable
+//Basic movement strategy for the Soldier
+public class SoldierMovementStrategy implements EnemyMovable
 {
-    private int mSpeed = 6; //speed
+    //Class variables
+    private int mSpeed = 3; //speed
     private int currentIndex = 0;
     private Angle mHeading;
     private Point mLocation;
 
-    public DroneMovementStrategy(Point mLocation)
+    public SoldierMovementStrategy(Point mLocation)
     {
         this.mLocation = mLocation;
     }
 
     public void move(ArrayList<PathPoints> path)
     {
-
         //Increment current index by speed and retrieve the next point.
         this.currentIndex += this.mSpeed;
         this.mLocation = path.get(this.currentIndex).getPath();
@@ -26,7 +26,7 @@ public class DroneMovementStrategy implements EnemyMovable
         //Determine Heading...
         //double deltaY = (mLocation.y - path.get(currentIndex + 5).getPath().y);
         //double deltaX = (path.get(currentIndex + 5).getPath().x - mLocation.x);
-       //int result = (int)Math.toDegrees(Math.atan2(deltaY, deltaX));
+        //int result = (int)Math.toDegrees(Math.atan2(deltaY, deltaX));
         //mHeading.setAngle(result + 90);
         //System.out.println("Heading " + mHeading.getAngle());
         //Move X direction
@@ -34,6 +34,7 @@ public class DroneMovementStrategy implements EnemyMovable
         //Move Y direction
     }
 
+    //Getter methods
     public int getAngle() { return mHeading.getAngle(); }
     public Point getLocation() { return mLocation; }
 }

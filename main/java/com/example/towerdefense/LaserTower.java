@@ -8,10 +8,12 @@ import android.graphics.Point;
 
 import java.util.Iterator;
 
-public class LaserTower extends Tower {
+public class LaserTower extends Tower
+{
     public LaserTower(Context context, Point location)
     {
-        setSize(); //set the size
+        //Set the size.
+        setSize();
         this.mDescription="Lasers deal high damage instantly to a single target";
         this.mName="Laser Tower: Fires a laser at slow speeds.";
         this.mLocation=location;
@@ -31,14 +33,26 @@ public class LaserTower extends Tower {
     @Override
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire)){ //can the tower fire?
+        //If the tower can fire.
+        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire))
+        {
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-            while(alienIterator.hasNext()){
+
+            while(alienIterator.hasNext())
+            {
                 Alien alien=alienIterator.next();
-                if(inRange(alien)){ //see which enemies are in range
-                    gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien)); //create projectile
-                    alien.onHit(mDamage); //calculate damage
+
+                //If an enemy is in range
+                if(inRange(alien))
+                {
+                    //Create new projectile
+                    gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien));
+
+                    //Calculate damage
+                    alien.onHit(mDamage);
+
+                    //Calculate angle and rotate bitmap
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
                     matrix.postRotate(angle);
@@ -50,6 +64,7 @@ public class LaserTower extends Tower {
             }
         }
     }
+
     @Override
     public void upgrade() {
         this.mDamage=(int)(this.mDamage*1.5);
