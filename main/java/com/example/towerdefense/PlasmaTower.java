@@ -33,7 +33,7 @@ public class PlasmaTower extends Tower
     @Override
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire))
+        if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed())))
         { //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();

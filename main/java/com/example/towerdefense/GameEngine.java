@@ -19,17 +19,17 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     private Thread mThread = null;
     private Point size;
     private long mFPS;
-    private long mNextFrameTime, mLastFrameTime;
+    private long mNextFrameTime, mLastFrameTime, mNextDraw;
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
-    final static long TARGET_FPS = 40;
     final long MILLIS_PER_SECOND = 1000;
+    //final static long TARGET_FPS=40;
 
     //Class constructor
     public GameEngine(Context context, Point size)
     {
         super(context);
-        mNextFrameTime=System.currentTimeMillis();
+        mNextFrameTime=mNextDraw=System.currentTimeMillis();
         this.context = context;
         this.size = size;
         mGameWorld = new GameWorld(this, this.context, size);
@@ -57,7 +57,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                 //The game is paused...
             }
 
-            //Update 10 times a second
             if (updateRequired())
             {
                 //Called to update all gameObjects
@@ -67,10 +66,26 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                 if (mGameWorld.mMap.getCurrentWave() > mGameWorld.mMap.getWaveCount())
                     mGameWorld.endGame();
 
+            }
+            if(mNextDraw<= System.currentTimeMillis())
+            {
+                //Measure FPS
+                long time=System.currentTimeMillis()-mLastFrameTime;
+
+                if(time>=1)
+                {
+                    mFPS = MILLIS_PER_SECOND / (time);
+                    mLastFrameTime=System.currentTimeMillis();
+                }
+
+                mNextDraw =System.currentTimeMillis()
+                        + MILLIS_PER_SECOND / GameWorld.FPS;
+
                 //Draw all game objects here...
                 mGameView.draw(mGameWorld, mHUD, mFPS);
 
             }
+
         }
     }
 
@@ -170,16 +185,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         if(mNextFrameTime<= System.currentTimeMillis())
         {
             mNextFrameTime =System.currentTimeMillis()
-                    + MILLIS_PER_SECOND / TARGET_FPS;
-
-            //Measure FPS
-            long time=System.currentTimeMillis()-mLastFrameTime;
-
-            if(time>=1)
-            {
-                mFPS = MILLIS_PER_SECOND / (time);
-                mLastFrameTime=System.currentTimeMillis();
-            }
+                    + MILLIS_PER_SECOND / (GameWorld.BASE_TICKS_PER_SECOND*mGameWorld.getSpeed());
 
             //Return true so that the update and draw
             return true;

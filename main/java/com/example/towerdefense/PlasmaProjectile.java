@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class PlasmaProjectile extends Movable implements Projectile
 {
     Point mDestination; //where the projectile is going to
-    public final int mSpeed=(int)(2000/GameEngine.TARGET_FPS), mSize=50;
+    public final int mSpeed=(int)(2000/GameWorld.BASE_TICKS_PER_SECOND), mSize=50;
     int mDamage; //amount of damage
 
     public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage)

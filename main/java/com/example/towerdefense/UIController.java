@@ -55,7 +55,7 @@ public class UIController implements InputObserver
                 mHud.removeAlienInfo();
             }
             //if the player hits the plasma tower and the game is not paused
-            else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() )
+            else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing() )
             {
                 if(gameState.getCash()>=50){
                     gameState.setmPlacing();
@@ -66,7 +66,7 @@ public class UIController implements InputObserver
                 mHud.removeAlienInfo();
             }
             //laser tower
-            else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() )
+            else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing() )
             {
                 if(gameState.getCash()>=100){
                     gameState.setmPlacing();
@@ -77,7 +77,7 @@ public class UIController implements InputObserver
                 mHud.removeAlienInfo();
             }
             //rocket tower
-            else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() )
+            else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing())
             {
                 if(gameState.getCash()>=100){
                     gameState.setmPlacing();
@@ -87,14 +87,18 @@ public class UIController implements InputObserver
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
             }
+            else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing())
+            {
+                gameState.changeSpeed();
+            }
             //if the player has a tower to place and the game is not paused and the location is not on the path
-            else if (gameState.getmPlacing() && !gameState.getPaused()&& !gameState.mMap.inPath(new Point(x,y)))
+            else if (gameState.getmPlacing() && !gameState.getPaused() && !gameState.mMap.inPath(new Point(x,y)) && !mHud.onButton(new Point(x,y)))
             { //place tower
                 gameState.closemPlacing();
                 gameState.addTower(towerFactory.getTower (gameState.getTowerType(),context,new Point(x,y)));
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
-            }
+            } //upgrade button is selected
             else if(mHud.towerInfo !=null && mHud.towerInfo.upgradeButton.contains(x, y)){
                 if (gameState.getCash()>=mHud.towerInfo.upgradeCost()){
                     gameState.loseCash(mHud.towerInfo.upgradeCost());
@@ -135,4 +139,5 @@ public class UIController implements InputObserver
             }
         }
     }
+
 }

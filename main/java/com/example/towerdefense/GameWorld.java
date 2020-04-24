@@ -15,6 +15,11 @@ class GameWorld
     private static volatile boolean mGameWon = false;
     private Tower.TowerType mTowerType;
 
+    final static long BASE_TICKS_PER_SECOND=40, FPS=30;
+
+    private long ticksPerSecond;
+    private boolean fastGame;
+
     private GameStarter gameStarter;
     private Context context;
     private Point size;
@@ -37,6 +42,8 @@ class GameWorld
         this.gameStarter = gameStarter;
         this.context = context;
         this.size = size;
+        fastGame=false;
+        ticksPerSecond=BASE_TICKS_PER_SECOND;
     }
 
     public void endGame()
@@ -114,4 +121,24 @@ class GameWorld
         if (mLives < 0)
             endGame();
     }
+
+    public void changeSpeed(){
+        if(!fastGame){
+            ticksPerSecond=10*BASE_TICKS_PER_SECOND;
+            fastGame=true;
+        }else{
+            fastGame=false;
+            ticksPerSecond=BASE_TICKS_PER_SECOND;
+        }
+    }
+
+    public int getSpeed(){
+        if(fastGame){
+            return 10;
+        }else{
+            return 1;
+        }
+    }
+
+
 }

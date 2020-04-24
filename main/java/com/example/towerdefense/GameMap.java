@@ -23,8 +23,9 @@ public class GameMap
 
     private int waveCount = 3;
     private int currentWave = 1;
-    long lastSpawn = System.currentTimeMillis();
+    int lastSpawn = 0;
     int spawnCounter = 0;
+    private int ticks;
 
     //GameMap constructor
     public GameMap(Context context, Point size)
@@ -123,11 +124,12 @@ public class GameMap
     //Spawns a pre-defined set of waves when called.
     public ArrayList<Alien> spawn(Context context, ArrayList<Alien> aliens)
     {
+        ticks+=1;
         switch(currentWave)
         {
             case 1:
                 //If enough time has elapsed since the last spawn
-                if (System.currentTimeMillis() - lastSpawn > 1000)
+                if (ticks - lastSpawn > 40)
                 {
                     //Spawn five enemies.
                     if (spawnCounter < 5)
@@ -135,7 +137,7 @@ public class GameMap
                         //Make enemy, increment spawnCounter, and set lastSpawn.
                         aliens.add(new AlienFactory(context, size, getPathHeight(), "drone", getPathCords().get(0)).getAlien());
                         spawnCounter++;
-                        lastSpawn = System.currentTimeMillis();
+                        lastSpawn = ticks;
                     }
                 }
 
@@ -149,13 +151,13 @@ public class GameMap
 
                 //Wave 2
             case 2:
-                if (System.currentTimeMillis() - lastSpawn > 1500)
+                if (ticks - lastSpawn > 60)
                 {
                     if (spawnCounter < 10)
                     {
                         aliens.add(new AlienFactory(context, size, getPathHeight(), "soldier", getPathCords().get(0)).getAlien());
                         spawnCounter++;
-                        lastSpawn = System.currentTimeMillis();
+                        lastSpawn = ticks;
                     }
                 }
                 if (spawnCounter >= 10 && aliens.isEmpty())
@@ -167,13 +169,13 @@ public class GameMap
 
                 //Wave 3
             case 3:
-                if (System.currentTimeMillis() - lastSpawn > 2000)
+                if (ticks - lastSpawn > 80)
                 {
                     if (spawnCounter < 15)
                     {
                         aliens.add(new AlienFactory(context, size, getPathHeight(), "behemoth", getPathCords().get(0)).getAlien());
                         spawnCounter++;
-                        lastSpawn = System.currentTimeMillis();
+                        lastSpawn = ticks;
                     }
                 }
                 if (spawnCounter >= 15 && aliens.isEmpty())

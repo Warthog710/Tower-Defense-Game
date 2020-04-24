@@ -31,7 +31,7 @@ public class RocketTower extends Tower {
     @Override
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire)){ //can the tower fire?
+        if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed()))){ //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){

@@ -19,13 +19,14 @@ class HUD
     public TowerInfo towerInfo;
     public AlienInfo alienInfo;
     static int PAUSE = 0;
-    static int PlasmaTower=1;
-    static int LaserTower=2;
-    static int RocketTower=3;
+    static int SPEEDUP = 1;
+    static int PlasmaTower=2;
+    static int LaserTower=3;
+    static int RocketTower=4;
     static int white = Color.argb(255,255,255,255);
     static int black = Color.argb(255,0,0,0);
-    private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower;
-    private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation;
+    private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower, mSpeedUPBitMap;
+    private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation, mSpeedUpLocation;
     private int buttonWidth;
     private int buttonHeight;
     private Point size;
@@ -51,30 +52,39 @@ class HUD
                 mScreenWidth - buttonPadding - buttonWidth, buttonPadding,
                 mScreenWidth - buttonPadding,
                 buttonPadding + buttonHeight);
-        Rect plasmaTower = new Rect( //tower button
+        Rect speedUp = new Rect( //tower button
                 mScreenWidth - (buttonPadding*2) - (buttonWidth*2),
                 buttonPadding,
                 mScreenWidth - buttonPadding*2-buttonWidth,
                 buttonPadding + buttonHeight);
-        Rect laserTower = new Rect( //tower button
+        Rect plasmaTower = new Rect( //tower button
                 mScreenWidth - (buttonPadding*3) - (buttonWidth*3),
                 buttonPadding,
                 mScreenWidth - buttonPadding*3-buttonWidth*2,
                 buttonPadding + buttonHeight);
-        Rect rocketTower = new Rect( //tower button
+        Rect laserTower = new Rect( //tower button
                 mScreenWidth - (buttonPadding*4) - (buttonWidth*4),
                 buttonPadding,
                 mScreenWidth - buttonPadding*4-buttonWidth*3,
                 buttonPadding + buttonHeight);
+        Rect rocketTower = new Rect( //tower button
+                mScreenWidth - (buttonPadding*5) - (buttonWidth*5),
+                buttonPadding,
+                mScreenWidth - buttonPadding*5-buttonWidth*4,
+                buttonPadding + buttonHeight);
+
         controls.add(PAUSE, pause);
+        controls.add(SPEEDUP, speedUp);
         controls.add(PlasmaTower, plasmaTower);
         controls.add(LaserTower, laserTower);
         controls.add(RocketTower, rocketTower);
 
+
         mPauseLocation= new Point(mScreenWidth - buttonPadding - buttonWidth,buttonPadding);
-        mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding);
-        mLaserTowerLocation= new Point(mScreenWidth - (buttonPadding*3) - (buttonWidth*3), buttonPadding);
-        mRocketTowerLocation= new Point(mScreenWidth - (buttonPadding*4) - (buttonWidth*4), buttonPadding);
+        mSpeedUpLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding);
+        mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*3) - (buttonWidth*3), buttonPadding);
+        mLaserTowerLocation= new Point(mScreenWidth - (buttonPadding*4) - (buttonWidth*4), buttonPadding);
+        mRocketTowerLocation= new Point(mScreenWidth - (buttonPadding*5) - (buttonWidth*5), buttonPadding);
 
     }
 
@@ -154,6 +164,8 @@ class HUD
     {
         mPauseBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
         mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
+        mSpeedUPBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.speed_up);
+        mSpeedUPBitMap=Bitmap.createScaledBitmap(mSpeedUPBitMap, buttonWidth, buttonHeight, false);
         mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
         mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
         mLaserTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
@@ -165,6 +177,7 @@ class HUD
     private void drawGraphics(Canvas canvas) //draw the graphics for the buttons
     {
         canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
+        canvas.drawBitmap(mSpeedUPBitMap, mSpeedUpLocation.x, mSpeedUpLocation.y, null);
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
         canvas.drawBitmap(mLaserTower, mLaserTowerLocation.x, mLaserTowerLocation.y, null);
         canvas.drawBitmap(mRocketTower, mRocketTowerLocation.x, mRocketTowerLocation.y, null);
@@ -181,5 +194,15 @@ class HUD
     }
     public void removeAlienInfo(){
         alienInfo=null;
+    }
+
+    public boolean onButton(Point point){
+        boolean collision=false;
+        for(Rect r : controls)
+        {
+            if (r.contains(point.x, point.y))
+                collision=true;
+        }
+        return collision;
     }
 }

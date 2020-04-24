@@ -34,7 +34,7 @@ public class LaserTower extends Tower
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
         //If the tower can fire.
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire))
+        if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed())))
         {
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();

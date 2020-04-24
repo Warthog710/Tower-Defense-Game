@@ -9,7 +9,7 @@ import android.graphics.Rect;
 import java.util.Iterator;
 
 public class RocketProjectile extends Movable implements Projectile {
-    public final int mSpeed=(int)(500/GameEngine.TARGET_FPS), mSize=50;
+    public final int mSpeed=(int)(500/GameWorld.BASE_TICKS_PER_SECOND), mSize=50;
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
