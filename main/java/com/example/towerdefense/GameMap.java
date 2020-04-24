@@ -21,6 +21,10 @@ public class GameMap
     Path testPath = new Path();
     ArrayList<PathPoints> mPathCords = new ArrayList<>();
 
+    enum level {level1, level2, level3}
+
+    private level currentLevel;
+
     private int waveCount = 3;
     private int currentWave = 1;
     int lastSpawn = 0;
@@ -201,4 +205,24 @@ public class GameMap
     {
         return  (location.y>(size.y / 2) - (path.getHeight() / 2) && location.y<(size.y / 2) + (path.getHeight() / 2));
     }
+    public void changeLevel(GameMap.level level){
+        currentLevel=level;
+    }
+    public int getCurrentLevel(){
+        int level=00000000;
+        switch (currentLevel){
+
+            case level1:
+                level=1;
+                break;
+            case level2:
+                level=2;
+                break;
+            case level3:
+                level=3;
+                break;
+        }
+        return level;
+    }
+
 }

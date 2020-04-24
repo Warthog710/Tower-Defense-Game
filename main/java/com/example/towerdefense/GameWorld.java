@@ -175,5 +175,9 @@ class GameWorld
         return (temp != null);
     }
 
+    public void setGameMap(GameMap.level level){
+        mMap.changeLevel(level);
+    }
+
 
 }

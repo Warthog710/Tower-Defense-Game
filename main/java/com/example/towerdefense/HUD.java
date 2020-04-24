@@ -109,22 +109,28 @@ class HUD
             //If you don't have any lives you must've lost
             if (mGameWorld.getLives() <= 0)
             {
-                p.setTextSize(mTextFormatting * 5);
-                c.drawText("YOU LOST",
+                p.setTextSize(mTextFormatting * 2);
+                c.drawText("YOU LOST"+mGameWorld.mMap.getCurrentLevel(),
+                        mScreenWidth /4, (mScreenHeight )/4 ,p);
+                c.drawText("CLICK ANYWHERE TO CONTINUE",
                         mScreenWidth /4, mScreenHeight /2 ,p);
             }
             //If gameWon is true you must've won
             else if (mGameWorld.getmGameWon())
             {
-                p.setTextSize(mTextFormatting * 5);
-                c.drawText("YOU WON",
+                p.setTextSize(mTextFormatting * 2);
+                c.drawText("YOU WON"+mGameWorld.mMap.getCurrentLevel(),
+                        mScreenWidth /4, (mScreenHeight )/4 ,p);
+                c.drawText("CLICK ANYWHERE TO CONTINUE",
                         mScreenWidth /4, mScreenHeight /2 ,p);
             }
             //Must be a new game...
             else
             {
-                p.setTextSize(mTextFormatting * 5);
-                c.drawText("PRESS PLAY",
+                p.setTextSize(mTextFormatting * 2);
+                c.drawText("      LEVEL "+mGameWorld.mMap.getCurrentLevel(),
+                        mScreenWidth /4, (mScreenHeight )/4 ,p);
+                c.drawText("PRESS PLAY TO START",
                         mScreenWidth /4, mScreenHeight /2 ,p);
             }
         }
