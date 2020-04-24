@@ -27,55 +27,51 @@ class GameView
 
     void draw(GameWorld gameWorld, HUD mHUD, long FPS)
     {
-        if(mSurfaceHolder.getSurface().isValid())
-        {
+        if(mSurfaceHolder.getSurface().isValid()) {
             mCanvas = mSurfaceHolder.lockCanvas();
+            if (gameWorld.getGameRunning()) {
 
-            //Draw game background
-            gameWorld.mMap.draw(mCanvas, mPaint);
+                //Draw game background
+                gameWorld.mMap.draw(mCanvas, mPaint);
 
-            //If currently drawing...
-            if (gameWorld.getDrawing())
-            {
-                //Draw projectiles
-                if (gameWorld.mProjectiles != null)
-                {
-                    Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
-                    while(projectileIterator.hasNext())
-                    {
-                        projectileIterator.next().draw(mCanvas,mPaint);
+                //If currently drawing...
+                if (gameWorld.getDrawing()) {
+                    //Draw projectiles
+                    if (gameWorld.mProjectiles != null) {
+                        Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
+                        while (projectileIterator.hasNext()) {
+                            projectileIterator.next().draw(mCanvas, mPaint);
+                        }
+                    }
+
+                    //Draw towers
+                    if (gameWorld.mTowers != null) {
+                        Iterator<Tower> towerIterator = gameWorld.mTowers.iterator();
+                        while (towerIterator.hasNext()) {
+                            towerIterator.next().draw(mCanvas, mPaint);
+                        }
+                    }
+
+                    //Draw aliens
+                    if (gameWorld.mAliens != null) {
+                        Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
+                        while (alienIterator.hasNext()) {
+                            (alienIterator.next()).draw(mCanvas, mPaint);
+                        }
+                    }
+
+                    //draw the range of a turret
+                    if (gameWorld.range != null) {
+                        gameWorld.range.draw(mCanvas, mPaint);
                     }
                 }
 
-                //Draw towers
-                if (gameWorld.mTowers != null)
-                {
-                    Iterator<Tower> towerIterator = gameWorld.mTowers.iterator();
-                    while(towerIterator.hasNext())
-                    {
-                        towerIterator.next().draw(mCanvas,mPaint);
-                    }
-                }
+                //Draw HUD
+                mHUD.draw(mCanvas, mPaint, gameWorld, FPS);
 
-                //Draw aliens
-                if (gameWorld.mAliens != null)
-                {
-                    Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-                    while(alienIterator.hasNext())
-                    {
-                        (alienIterator.next()).draw(mCanvas,mPaint);
-                    }
-                }
-
-                //draw the range of a turret
-                if (gameWorld.range != null){
-                    gameWorld.range.draw(mCanvas, mPaint);
-                }
+            }else if (!gameWorld.getGameRunning()){
+                gameWorld.startScreen.draw(mCanvas, mPaint);
             }
-
-            //Draw HUD
-            mHUD.draw(mCanvas, mPaint, gameWorld, FPS);
-
             //Unlock and post
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Point;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 class GameWorld
 {
@@ -13,6 +14,7 @@ class GameWorld
     private static volatile boolean mDrawing = false;
     private static volatile boolean mPlacing = false;
     private static volatile boolean mGameWon = false;
+    private static volatile boolean mGameRunning = false;
     private Tower.TowerType mTowerType;
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
@@ -30,6 +32,7 @@ class GameWorld
     ArrayList<Alien> mAliens;
     Circle range;
     GameMap mMap;
+    StartScreen startScreen;
 
 
     //Game variables
@@ -39,6 +42,7 @@ class GameWorld
     //Class constructor
     GameWorld(GameStarter gameStarter, Context context, Point size)
     {
+        this.startScreen=new StartScreen(context, size);
         this.gameStarter = gameStarter;
         this.context = context;
         this.size = size;
@@ -89,6 +93,9 @@ class GameWorld
     public Tower.TowerType getTowerType(){ return mTowerType;}
     public boolean getmPlacing(){ return mPlacing;}
     public boolean getmGameWon() { return mGameWon; }
+    public boolean getGameRunning(){ return mGameRunning;}
+    public void setGameRunningOn(){ mGameRunning=true;}
+    public void setGameRunningOff(){ mGameRunning=true;}
 
     public void addTower(Tower tower)
     {
@@ -118,13 +125,13 @@ class GameWorld
         mLives -= 1;
 
         //Check for death
-        if (mLives < 0)
+        if (mLives <= 0)
             endGame();
     }
 
     public void changeSpeed(){
         if(!fastGame){
-            ticksPerSecond=10*BASE_TICKS_PER_SECOND;
+            ticksPerSecond=5*BASE_TICKS_PER_SECOND;
             fastGame=true;
         }else{
             fastGame=false;
@@ -134,10 +141,38 @@ class GameWorld
 
     public int getSpeed(){
         if(fastGame){
-            return 10;
+            return 5;
         }else{
             return 1;
         }
+    }
+
+    public void resetSpeed(){
+        fastGame=false;
+    }
+
+    public void addCashAmmount(int mCash){
+        this.mCash+=mCash;
+    }
+
+    public Tower onTower(Point location){
+        Tower tower=null;
+        if(mTowers != null){
+            Iterator<Tower> towerIterator = mTowers.iterator();
+            while(towerIterator.hasNext())
+            {
+                Tower currentTower = towerIterator.next();
+                if (currentTower.contains(location)){
+                    tower=currentTower;
+                    break;
+                }
+            }
+        }
+        return tower;
+    }
+    public boolean overTower(Point location){
+        Tower temp = onTower(location);
+        return (temp != null);
     }
 
 

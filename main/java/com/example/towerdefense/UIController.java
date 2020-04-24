@@ -53,6 +53,7 @@ public class UIController implements InputObserver
                 }
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
             }
             //if the player hits the plasma tower and the game is not paused
             else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing() )
@@ -64,6 +65,8 @@ public class UIController implements InputObserver
                 }
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
+                mHud.addPlacementInfo(Tower.TowerType.PLASMA);
             }
             //laser tower
             else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing() )
@@ -75,6 +78,8 @@ public class UIController implements InputObserver
                 }
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
+                mHud.addPlacementInfo(Tower.TowerType.LASER);
             }
             //rocket tower
             else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing())
@@ -86,29 +91,42 @@ public class UIController implements InputObserver
                 }
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
+                mHud.addPlacementInfo(Tower.TowerType.ROCKET);
             }
-            else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing())
+            else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) //speed up
             {
                 gameState.changeSpeed();
             }
-            //if the player has a tower to place and the game is not paused and the location is not on the path
-            else if (gameState.getmPlacing() && !gameState.getPaused() && !gameState.mMap.inPath(new Point(x,y)) && !mHud.onButton(new Point(x,y)))
-            { //place tower
-                gameState.closemPlacing();
-                gameState.addTower(towerFactory.getTower (gameState.getTowerType(),context,new Point(x,y)));
-                mHud.removeTowerInfo();
-                mHud.removeAlienInfo();
-            } //upgrade button is selected
-            else if(mHud.towerInfo !=null && mHud.towerInfo.upgradeButton.contains(x, y)){
+            else if(mHud.towerInfo !=null && mHud.towerInfo.upgradeButton.contains(x, y)){ //upgrade button hit
                 if (gameState.getCash()>=mHud.towerInfo.upgradeCost()){
                     gameState.loseCash(mHud.towerInfo.upgradeCost());
                     mHud.towerInfo.upgrade();
                 }
                 mHud.removeAlienInfo();
+                mHud.removeAlienInfo();
             }
-            else if (gameState.mMap.inPath(new Point(x,y))){ //the player has clicked the path (trying to click a enemy)
+            else if(mHud.placingInfo !=null && mHud.placingInfo.cancelButton.contains(x, y)){ //hit the cancel button
+                gameState.addCashAmmount(mHud.placingInfo.cancel());
                 mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
+                gameState.closemPlacing();
+            }
+            //if the player has a tower to place and the game is not paused and the location is not on the path
+            else if (gameState.getmPlacing() && !gameState.getPaused() && !gameState.mMap.inPath(new Point(x,y))
+                    && !mHud.onButton(new Point(x,y)) && !gameState.overTower(new Point(x,y)))
+            { //place tower
+                gameState.closemPlacing();
+                gameState.addTower(towerFactory.getTower (gameState.getTowerType(),context,new Point(x,y)));
+                mHud.removeTowerInfo();
+                mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
+            }
+            else if (gameState.mMap.inPath(new Point(x,y)) && !gameState.getmPlacing()){ //the player has clicked the path (trying to click a enemy)
+                mHud.removeTowerInfo();
+                mHud.removeAlienInfo();
+                mHud.removePlacementInfo();
                 Iterator<Alien> alienIterator = gameState.mAliens.iterator();
                 while(alienIterator.hasNext())
                 {
@@ -120,23 +138,19 @@ public class UIController implements InputObserver
                 }
             }
             //if the player has clicked a tower
-            else if (gameState.mTowers != null)
+            else if (gameState.mTowers != null && !gameState.getmPlacing())
             {
+                mHud.removeTowerInfo();
                 mHud.removeAlienInfo();
-                Iterator<Tower> towerIterator = gameState.mTowers.iterator();
-                while(towerIterator.hasNext())
-                {
-                    Tower currentTower = towerIterator.next();
-                    if (currentTower.contains(new Point (x,y))){
-                        //gameState.range=new Circle(currentTower.mLocation, currentTower.mRange);
-                        mHud.addTowerInfo(currentTower);
-                        break;
-
-                    }
-                    mHud.removeTowerInfo();
+                mHud.removePlacementInfo();
+                Tower tower = gameState.onTower(new Point(x,y));
+                if(tower!=null){
+                    mHud.addTowerInfo(tower);
                 }
 
             }
+            System.out.println(gameState.getmPlacing());
+            System.out.println("on tower: "+gameState.overTower(new Point(x,y))) ;
         }
     }
 

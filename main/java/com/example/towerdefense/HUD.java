@@ -18,6 +18,7 @@ class HUD
     private ArrayList<Rect> controls;
     public TowerInfo towerInfo;
     public AlienInfo alienInfo;
+    public PlacingInfo placingInfo;
     static int PAUSE = 0;
     static int SPEEDUP = 1;
     static int PlasmaTower=2;
@@ -43,6 +44,7 @@ class HUD
         prepareControls();
         towerInfo=null;
         alienInfo=null;
+        placingInfo=null;
     }
 
     private void prepareControls()
@@ -80,8 +82,8 @@ class HUD
         controls.add(RocketTower, rocketTower);
 
 
-        mPauseLocation= new Point(mScreenWidth - buttonPadding - buttonWidth,buttonPadding);
-        mSpeedUpLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding);
+        mPauseLocation= new Point(mScreenWidth - buttonPadding - buttonWidth,buttonPadding); //change this just use the rectangles location instead
+        mSpeedUpLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding); //use r.left and r.top
         mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*3) - (buttonWidth*3), buttonPadding);
         mLaserTowerLocation= new Point(mScreenWidth - (buttonPadding*4) - (buttonWidth*4), buttonPadding);
         mRocketTowerLocation= new Point(mScreenWidth - (buttonPadding*5) - (buttonWidth*5), buttonPadding);
@@ -139,9 +141,10 @@ class HUD
 
         if (towerInfo !=null){
             towerInfo.draw(c,p);
-        }
-        if (alienInfo !=null){
+        } else if (alienInfo !=null){
             alienInfo.draw(c,p);
+        } else if (placingInfo != null){
+            placingInfo.draw(c,p);
         }
     }
 
@@ -194,6 +197,12 @@ class HUD
     }
     public void removeAlienInfo(){
         alienInfo=null;
+    }
+    public void addPlacementInfo(Tower.TowerType mTower){
+        this.placingInfo=new PlacingInfo(mTower, size);
+    }
+    public void removePlacementInfo(){
+        placingInfo=null;
     }
 
     public boolean onButton(Point point){

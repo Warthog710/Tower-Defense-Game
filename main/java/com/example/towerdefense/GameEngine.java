@@ -242,6 +242,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.mTowers = new ArrayList<>();
         mGameWorld.mProjectiles = new ArrayList<>();
         mGameWorld.mMap.setCurrentWave(1);
+        mGameWorld.resetSpeed();
     }
 
     public void addObserver(InputObserver o)
