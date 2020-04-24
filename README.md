@@ -18,10 +18,7 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Add more waves of enemies.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
 * [ ] Add sound using a sound strategy.
-* [ ] Keep towers from being placed on top of each other.
-* [ ] Show tower stats before placing (cancel placement button in lower right?)
 * [ ] Add a place for the rules so players can read them.
-* [ ] Add a button to speed up the game.
 * [ ] Make resistances adaptive and have them change each wave.
 * [ ] Add start screen (with level selection, rules, ect)
 * [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
@@ -29,7 +26,10 @@ strategy along the path. No animation is required for enemies or towers.
 
 <b>Finished Tasks:</b>
 * [x] Make a new background with a path.
+* [x] Keep towers from being placed on top of each other.
+* [x] Show tower stats before placing (cancel placement button in lower right?)
 * [x] Have the aliens follow the path.
+* [x] Add a button to speed up the game.
 * [x] Develop initial class hierarchy and control structure.
 * [x] Implement "GameWorld" which holds a collection of game objects and other state variables
 * [x] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
