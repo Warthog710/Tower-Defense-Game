@@ -110,7 +110,7 @@ class HUD
             if (mGameWorld.getLives() <= 0)
             {
                 p.setTextSize(mTextFormatting * 2);
-                c.drawText("YOU LOST"+mGameWorld.mMap.getCurrentLevel(),
+                c.drawText("YOU LOST",
                         mScreenWidth /4, (mScreenHeight )/4 ,p);
                 c.drawText("CLICK ANYWHERE TO CONTINUE",
                         mScreenWidth /4, mScreenHeight /2 ,p);
@@ -119,7 +119,7 @@ class HUD
             else if (mGameWorld.getmGameWon())
             {
                 p.setTextSize(mTextFormatting * 2);
-                c.drawText("YOU WON"+mGameWorld.mMap.getCurrentLevel(),
+                c.drawText("YOU WON",
                         mScreenWidth /4, (mScreenHeight )/4 ,p);
                 c.drawText("CLICK ANYWHERE TO CONTINUE",
                         mScreenWidth /4, mScreenHeight /2 ,p);

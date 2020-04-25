@@ -95,7 +95,7 @@ class GameWorld
     public boolean getmGameWon() { return mGameWon; }
     public boolean getGameRunning(){ return mGameRunning;}
     public void setGameRunningOn(){ mGameRunning=true;}
-    public void setGameRunningOff(){ mGameRunning=true;}
+    public void setGameRunningOff(){ mGameRunning=false;}
 
     public void addTower(Tower tower)
     {
@@ -177,6 +177,17 @@ class GameWorld
 
     public void setGameMap(GameMap.level level){
         mMap.changeLevel(level);
+    }
+
+    public void reset(){
+        //This method will despawn and respawn all game objects.
+        resetCash();
+        setLives();
+        mAliens = new ArrayList<>();
+        mTowers = new ArrayList<>();
+        mProjectiles = new ArrayList<>();
+        mMap.setCurrentWave(1);
+        resetSpeed();
     }
 
 

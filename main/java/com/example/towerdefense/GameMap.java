@@ -136,7 +136,7 @@ public class GameMap
                 if (ticks - lastSpawn > 40)
                 {
                     //Spawn five enemies.
-                    if (spawnCounter < 5)
+                    if (spawnCounter < 20)
                     {
                         //Make enemy, increment spawnCounter, and set lastSpawn.
                         aliens.add(new AlienFactory(context, size, getPathHeight(), "drone", getPathCords().get(0)).getAlien());
@@ -146,7 +146,7 @@ public class GameMap
                 }
 
                 //If five enemies have been spawned and the enemy list is empty... Spawn the next wave...
-                if (spawnCounter >= 5 && aliens.isEmpty())
+                if (spawnCounter >= 20 && aliens.isEmpty())
                 {
                     spawnCounter = 0;
                     currentWave++;
