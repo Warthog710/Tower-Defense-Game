@@ -70,7 +70,7 @@ class GameView
                 mHUD.draw(mCanvas, mPaint, gameWorld, FPS);
 
             }else if (!gameWorld.getGameRunning()){
-                gameWorld.startScreen.draw(mCanvas, mPaint);
+                gameWorld.startScreen.draw(mCanvas, mPaint, gameWorld.mSound.getSound());
             }
             //Unlock and post
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);

@@ -26,6 +26,9 @@ class GameWorld
     private Context context;
     private Point size;
 
+    //Create sound manager.
+    public GameSound mSound;
+
     //Collection of game objects go here...
     ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
@@ -33,6 +36,7 @@ class GameWorld
     Circle range;
     GameMap mMap;
     StartScreen startScreen;
+
 
 
     //Game variables
@@ -48,6 +52,7 @@ class GameWorld
         this.size = size;
         fastGame=false;
         ticksPerSecond=BASE_TICKS_PER_SECOND;
+        mSound = new GameSound(context);
     }
 
     public void endGame()
@@ -94,8 +99,14 @@ class GameWorld
     public boolean getmPlacing(){ return mPlacing;}
     public boolean getmGameWon() { return mGameWon; }
     public boolean getGameRunning(){ return mGameRunning;}
-    public void setGameRunningOn(){ mGameRunning=true;}
-    public void setGameRunningOff(){ mGameRunning=false;}
+    public void setGameRunningOn(){
+        mGameRunning=true;
+        mSound.playSoundTrack();
+    }
+    public void setGameRunningOff(){
+        mGameRunning=false;
+        mSound.stopSoundTrack();
+    }
 
     public void addTower(Tower tower)
     {

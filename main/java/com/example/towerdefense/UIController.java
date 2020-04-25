@@ -38,6 +38,10 @@ public class UIController implements InputObserver
                         gameState.pause();
                     }
 
+                    //If game is over start a new game
+                    else if (gameState.getGameOver()) {
+                        gameState.startNewGame();
+                    }
 
                     //Paused and not game over
                     else if (gameState.getPaused()
@@ -124,7 +128,6 @@ public class UIController implements InputObserver
                 else if(gameState.getPaused() && gameState.getGameOver()){
                     gameState.setGameRunningOff();
                     gameState.reset();
-                    System.out.println("heree");
                 }
                 //if the player has clicked a tower
                 else if (gameState.mTowers != null && !gameState.getmPlacing()) {
@@ -158,10 +161,12 @@ public class UIController implements InputObserver
                     gameState.startScreen.rulesOnOff();
 
                 }
+                else if(gameState.startScreen.getButtons().get(StartScreen.SOUND).contains(x,y)) //rules or back
+                {
+                    gameState.mSound.changeSound();
+
+                }
             }
-            System.out.println("running: " + gameState.getGameRunning());
-            System.out.println("paused: " + gameState.getPaused());
-            System.out.println("over: " + gameState.getGameOver());
         }
     }
 

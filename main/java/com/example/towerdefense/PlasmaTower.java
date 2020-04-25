@@ -42,6 +42,8 @@ public class PlasmaTower extends Tower
                 Alien alien=alienIterator.next();
                 if(inRange(alien))
                 { //see which enemies are in range
+                    gameWorld.mSound.playPlasmaSound();
+
                     gameWorld.mProjectiles.add(new PlasmaProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
@@ -49,6 +51,8 @@ public class PlasmaTower extends Tower
                     mBitmap = Bitmap //rotate bitmap to face enemy
                             .createBitmap(mOriginalBitMap,
                                     0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
+
+
                     break;
                 }
             }

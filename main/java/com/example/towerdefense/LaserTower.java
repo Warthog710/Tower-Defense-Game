@@ -46,6 +46,7 @@ public class LaserTower extends Tower
                 //If an enemy is in range
                 if(inRange(alien))
                 {
+                    gameWorld.mSound.playLaserSound();
                     //Create new projectile
                     gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien));
 
