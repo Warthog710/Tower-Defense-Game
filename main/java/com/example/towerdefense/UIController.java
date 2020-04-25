@@ -129,12 +129,18 @@ public class UIController implements InputObserver
                 //===========================================
                 //===========================================
                 //===========================================
-                else if(gameState.getPaused() && gameState.getGameOver()){
+                //code for taking the player back to the main screen after a game is iver
+                else if(gameState.getPaused() && gameState.getGameOver() && !gameState.getReadyForNewGame()){
                     gameState.setGameRunningOff();
                     gameState.setReadyForNewGameFalse();
                 }
                 //===========================================
                 //===========================================
+                //code for starting the game once the player sees the map
+                else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
+                    gameState.startNewGame();
+                    gameState.setReadyForNewGameFalse();
+                }
 
                 //if the player has clicked a tower
                 else if (gameState.mTowers != null && !gameState.getmPlacing()) {
