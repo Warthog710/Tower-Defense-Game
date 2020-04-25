@@ -11,21 +11,21 @@ basic enemy and tower type. Towers are fixed, and enemies follow a basic movemen
 strategy along the path. No animation is required for enemies or towers.
 
 <b>Tasks:</b>
-* [ ] Make towers animated.
+* [ ] Make towers turn without moving.
 * [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
 * [ ] Make more levels with turns.
-* [ ] Add a level selection (page 660 of paktbook)
 * [ ] Add more waves of enemies.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
 * [ ] Add sound using a sound strategy.
-* [ ] Add a place for the rules so players can read them.
 * [ ] Make resistances adaptive and have them change each wave.
-* [ ] Add start screen (with level selection, rules, ect)
 * [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
 
 
 <b>Finished Tasks:</b>
 * [x] Make a new background with a path.
+* [x] Add a place for the rules so players can read them.
+* [x] Add start screen (with level selection, rules, ect)
+* [x] Add a level selection (page 660 of paktbook)
 * [x] Keep towers from being placed on top of each other.
 * [x] Show tower stats before placing (cancel placement button in lower right?)
 * [x] Have the aliens follow the path.
