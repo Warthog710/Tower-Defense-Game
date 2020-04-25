@@ -15,6 +15,7 @@ class GameWorld
     private static volatile boolean mPlacing = false;
     private static volatile boolean mGameWon = false;
     private static volatile boolean mGameRunning = false;
+    private static volatile boolean mReadyForNewGame = false;
     private Tower.TowerType mTowerType;
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
@@ -199,6 +200,17 @@ class GameWorld
         mProjectiles = new ArrayList<>();
         mMap.setCurrentWave(1);
         resetSpeed();
+        mReadyForNewGame=true;
+    }
+
+    public void setReadyForNewGameTrue(){
+        mReadyForNewGame=true;
+    }
+    public void setReadyForNewGameFalse(){
+        mReadyForNewGame=false;
+    }
+    public boolean getReadyForNewGame(){
+        return mReadyForNewGame;
     }
 
 

@@ -41,6 +41,7 @@ public class UIController implements InputObserver
                     //If game is over start a new game
                     else if (gameState.getGameOver()) {
                         gameState.startNewGame();
+                        gameState.setReadyForNewGameFalse();
                     }
 
                     //Paused and not game over
@@ -125,10 +126,16 @@ public class UIController implements InputObserver
                         }
                     }
                 }
+                //===========================================
+                //===========================================
+                //===========================================
                 else if(gameState.getPaused() && gameState.getGameOver()){
                     gameState.setGameRunningOff();
-                    gameState.reset();
+                    gameState.setReadyForNewGameFalse();
                 }
+                //===========================================
+                //===========================================
+
                 //if the player has clicked a tower
                 else if (gameState.mTowers != null && !gameState.getmPlacing()) {
                     mHud.removeTowerInfo();
@@ -144,17 +151,23 @@ public class UIController implements InputObserver
                 if(gameState.startScreen.getButtons().get(StartScreen.LEVEL1).contains(x,y)){ //level 1
                     gameState.setGameRunningOn();
                     gameState.mMap.changeLevel(GameMap.level.level1);
+                    gameState.setReadyForNewGameTrue();
+                    gameState.reset();
 
                 }
                 else if(gameState.startScreen.getButtons().get(StartScreen.LEVEL2).contains(x,y)) //level 2
                 {
                     gameState.setGameRunningOn();
                     gameState.mMap.changeLevel(GameMap.level.level2);
+                    gameState.setReadyForNewGameTrue();
+                    gameState.reset();
                 }
                 else if(gameState.startScreen.getButtons().get(StartScreen.LEVEL3).contains(x,y)) //level 3
                 {
                     gameState.setGameRunningOn();
                     gameState.mMap.changeLevel(GameMap.level.level3);
+                    gameState.setReadyForNewGameTrue();
+                    gameState.reset();
                 }
                 else if(gameState.startScreen.getButtons().get(StartScreen.RULES).contains(x,y)) //rules or back
                 {
@@ -167,6 +180,10 @@ public class UIController implements InputObserver
 
                 }
             }
+            System.out.println("running: " + gameState.getGameRunning());
+            System.out.println("paused: " + gameState.getPaused());
+            System.out.println("over: " + gameState.getGameOver());
+            System.out.println("ready for new: "+gameState.getReadyForNewGame());
         }
     }
 
