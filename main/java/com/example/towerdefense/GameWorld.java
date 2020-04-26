@@ -16,16 +16,24 @@ class GameWorld
     private static volatile boolean mGameWon = false;
     private static volatile boolean mGameRunning = false;
     private static volatile boolean mReadyForNewGame = false;
+    private static volatile boolean currentError = false;
     private Tower.TowerType mTowerType;
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
 
     private long ticksPerSecond;
+    public String errorMessage;
+    private final int SPEED_MULTIPLIER=5;
+
+    public long errorTime;
+
     private boolean fastGame;
 
     private GameStarter gameStarter;
     private Context context;
     private Point size;
+
+    public enum error{MONEY, PLACEMENT}
 
     //Create sound manager.
     public GameSound mSound;
@@ -64,6 +72,18 @@ class GameWorld
         //If you still have lives, you won!
         if (mLives > 0)
             mGameWon = true;
+    }
+    public void error(GameWorld.error error){
+        errorTime=1000+System.currentTimeMillis();
+        switch (error){
+            case MONEY:
+                errorMessage="Not enough money";
+                break;
+            case PLACEMENT:
+                errorMessage="Cannot place a tower here";
+                break;
+        }
+
     }
 
     public ArrayList<Tower> getTowers(){
@@ -143,7 +163,7 @@ class GameWorld
 
     public void changeSpeed(){
         if(!fastGame){
-            ticksPerSecond=5*BASE_TICKS_PER_SECOND;
+            ticksPerSecond=SPEED_MULTIPLIER*BASE_TICKS_PER_SECOND;
             fastGame=true;
         }else{
             fastGame=false;
@@ -153,7 +173,7 @@ class GameWorld
 
     public int getSpeed(){
         if(fastGame){
-            return 5;
+            return SPEED_MULTIPLIER;
         }else{
             return 1;
         }
@@ -165,9 +185,9 @@ class GameWorld
 
     public void addCashAmmount(int mCash){
         this.mCash+=mCash;
-    }
+    } //add a specific amount of cash
 
-    public Tower onTower(Point location){
+    public Tower getTower(Point location){ //returns the tower that is situated at that point
         Tower tower=null;
         if(mTowers != null){
             Iterator<Tower> towerIterator = mTowers.iterator();
@@ -182,17 +202,13 @@ class GameWorld
         }
         return tower;
     }
-    public boolean overTower(Point location){
-        Tower temp = onTower(location);
+    public boolean overTower(Point location){ //returns true if the point is located on a tower
+        Tower temp = getTower(location);
         return (temp != null);
     }
 
-    public void setGameMap(GameMap.level level){
-        mMap.changeLevel(level);
-    }
 
-    public void loadLevel(GameMap.level level){
-        //This method will despawn and respawn all game objects.
+    public void loadLevel(GameMap.level level){ //load the current level
         resetCash();
         setLives();
         mAliens = new ArrayList<>();
@@ -204,6 +220,7 @@ class GameWorld
         mGameRunning=true;
         mSound.playSoundTrack();
         mMap.changeLevel(level);
+        mGameWon=false;
     }
 
     public void setReadyForNewGameTrue(){
@@ -214,6 +231,20 @@ class GameWorld
     }
     public boolean getReadyForNewGame(){
         return mReadyForNewGame;
+    }
+
+    public int getCurrentTowerCost(){
+        int cost=0;
+        if(mPlacing && mTowerType==Tower.TowerType.LASER){
+            cost = Tower.LASER_COST;
+        }
+        else if(mPlacing && mTowerType==Tower.TowerType.PLASMA){
+            cost = Tower.PLASMA_COST;
+        }
+        else if(mPlacing && mTowerType==Tower.TowerType.ROCKET){
+            cost = Tower.ROCKET_COST;
+        }
+        return cost;
     }
 
 

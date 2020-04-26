@@ -24,7 +24,6 @@ public class PlasmaTower extends Tower
         lastShot=System.currentTimeMillis();
 
         this.mDamage=5;
-        this.mCost=50;
         this.mRateOfFire=4;
         this.mRange=300;
         this.mUpgradeCost=25;
@@ -60,9 +59,9 @@ public class PlasmaTower extends Tower
     }
     @Override
     public void upgrade() {
-        this.mDamage=(int)(this.mDamage*1.5);
+        this.mDamage=(this.mDamage+1);
         this.mRateOfFire=this.mRateOfFire+1;
-        this.mRange=(int)(this.mRange*1.2);
+        this.mRange=(int)(this.mRange*1.05);
     }
 
 }

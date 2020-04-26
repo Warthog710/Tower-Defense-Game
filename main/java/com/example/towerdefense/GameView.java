@@ -36,13 +36,6 @@ class GameView
 
                 //If currently drawing...
                 if (gameWorld.getDrawing()) {
-                    //Draw projectiles
-                    if (gameWorld.mProjectiles != null) {
-                        Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
-                        while (projectileIterator.hasNext()) {
-                            projectileIterator.next().draw(mCanvas, mPaint);
-                        }
-                    }
 
                     //Draw towers
                     if (gameWorld.mTowers != null) {
@@ -57,6 +50,13 @@ class GameView
                         Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
                         while (alienIterator.hasNext()) {
                             (alienIterator.next()).draw(mCanvas, mPaint);
+                        }
+                    }
+                    //Draw projectiles
+                    if (gameWorld.mProjectiles != null) {
+                        Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
+                        while (projectileIterator.hasNext()) {
+                            projectileIterator.next().draw(mCanvas, mPaint);
                         }
                     }
 

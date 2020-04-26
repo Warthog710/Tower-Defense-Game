@@ -31,7 +31,19 @@ public class UIController implements InputObserver
 
             if (gameState.getGameRunning()) { //if the is a active game running (game screen)
 
-                if (buttons.get(HUD.PAUSE).contains(x, y) && !gameState.getGameOver()) //the player has hit the pause button
+                //code for taking the player back to the main screen after a game is iver
+                if(gameState.getPaused() && gameState.getGameOver() && !gameState.getReadyForNewGame()){
+                    gameState.setGameRunningOff();
+                    gameState.setReadyForNewGameFalse();
+                    mHud.removeAllInfo();
+                }
+                //code for starting the game once the player sees the map
+                else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
+                    gameState.startGame();
+                    gameState.setReadyForNewGameFalse();
+                    mHud.removeAllInfo();
+                }
+                else if (buttons.get(HUD.PAUSE).contains(x, y) && !gameState.getGameOver()) //the player has hit the pause button
                 {
                     // If the game is not paused
                     if (!gameState.getPaused()) {
@@ -46,29 +58,20 @@ public class UIController implements InputObserver
                 }
                 //if the player hits the plasma tower and the game is not paused
                 else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
-                    if (gameState.getCash() >= 50) {
-                        gameState.setmPlacing();
-                        gameState.setTowerType(Tower.TowerType.PLASMA);
-                        gameState.loseCash(50);
-                    }
+                    gameState.setmPlacing();
+                    gameState.setTowerType(Tower.TowerType.PLASMA);
                     mHud.addPlacementInfo(Tower.TowerType.PLASMA);
                 }
                 //laser tower
                 else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
-                    if (gameState.getCash() >= 100) {
-                        gameState.setmPlacing();
-                        gameState.setTowerType(Tower.TowerType.LASER);
-                        gameState.loseCash(100);
-                    }
+                    gameState.setmPlacing();
+                    gameState.setTowerType(Tower.TowerType.LASER);
                     mHud.addPlacementInfo(Tower.TowerType.LASER);
                 }
                 //rocket tower
                 else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
-                    if (gameState.getCash() >= 100) {
-                        gameState.setmPlacing();
-                        gameState.setTowerType(Tower.TowerType.ROCKET);
-                        gameState.loseCash(100);
-                    }
+                    gameState.setmPlacing();
+                    gameState.setTowerType(Tower.TowerType.ROCKET);
                     mHud.addPlacementInfo(Tower.TowerType.ROCKET);
                 } else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) //speed up
                 {
@@ -79,16 +82,25 @@ public class UIController implements InputObserver
                         mHud.towerInfo.upgrade();
                     }
                 } else if (mHud.placingInfo != null && mHud.placingInfo.cancelButton.contains(x, y)) { //hit the cancel button
-                    gameState.addCashAmmount(mHud.placingInfo.cancel());
                     mHud.removeAllInfo();
                     gameState.closemPlacing();
                 }
                 //if the player has a tower to place and the game is not paused and the location is not on the path
-                else if (gameState.getmPlacing() && !gameState.getPaused() && !gameState.mMap.inPath(new Point(x, y))
-                        && !mHud.onButton(new Point(x, y)) && !gameState.overTower(new Point(x, y))) { //place tower
-                    gameState.closemPlacing();
-                    gameState.addTower(towerFactory.getTower(gameState.getTowerType(), context, new Point(x, y)));
-                    mHud.removeAllInfo();
+                else if (gameState.getmPlacing() && !gameState.getPaused()) { //place tower
+                    //cannot place tower there
+                    System.out.println(mHud.onButton(new Point(x, y)));
+                    if (gameState.overTower(new Point(x, y)) || gameState.mMap.inPath(new Point(x, y)) || mHud.onButton(new Point(x, y))){ //on tower
+                        gameState.error(GameWorld.error.PLACEMENT);
+                    }
+                    else if (gameState.getCash() >= gameState.getCurrentTowerCost()) {
+                        gameState.loseCash(gameState.getCurrentTowerCost());
+                        gameState.closemPlacing();
+                        gameState.addTower(towerFactory.getTower(gameState.getTowerType(), context, new Point(x, y)));
+                        mHud.removeAllInfo();
+                    }
+                    else{ //not enough cash
+                        gameState.error(GameWorld.error.MONEY);
+                    }
                 } else if (gameState.mMap.inPath(new Point(x, y)) && !gameState.getmPlacing()) { //the player has clicked the path (trying to click a enemy)
                     Iterator<Alien> alienIterator = gameState.mAliens.iterator();
                     while (alienIterator.hasNext()) {
@@ -99,23 +111,11 @@ public class UIController implements InputObserver
                         }
                     }
                 }
-                //code for taking the player back to the main screen after a game is iver
-                else if(gameState.getPaused() && gameState.getGameOver() && !gameState.getReadyForNewGame()){
-                    gameState.setGameRunningOff();
-                    gameState.setReadyForNewGameFalse();
-                    mHud.removeAllInfo();
-                }
-                //code for starting the game once the player sees the map
-                else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
-                    gameState.startGame();
-                    gameState.setReadyForNewGameFalse();
-                    mHud.removeAllInfo();
-                }
 
                 //if the player has anywhere on the screen, check if they clicked a tower
                 else if (gameState.mTowers != null && !gameState.getmPlacing()) {
                     mHud.removeAllInfo();
-                    Tower tower = gameState.onTower(new Point(x, y));
+                    Tower tower = gameState.getTower(new Point(x, y));
                     if (tower != null) {
                         mHud.addTowerInfo(tower);
                     }

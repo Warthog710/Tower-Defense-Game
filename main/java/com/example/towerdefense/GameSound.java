@@ -15,7 +15,6 @@ public class GameSound
     //Holds the strategy version.
     private ISound version_strategy;
 
-    private MediaPlayer mediaPlayer;
 
     private boolean soundPlaying;
 

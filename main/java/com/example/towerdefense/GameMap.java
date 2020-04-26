@@ -201,7 +201,7 @@ public class GameMap
 
     //Called to check if something collides with the path.
 
-    //NOTE!!! CURRENTLY BROKEN!!!
+    //FIXED
     public boolean inPath(Point location)
     {
         boolean inpath=false;
@@ -209,14 +209,16 @@ public class GameMap
             Iterator<PathPoints> pathIterator = mPathCords.iterator();
             while (pathIterator.hasNext()) {
                 PathPoints pathPoint = pathIterator.next();
-                if(location.x<pathPoint.getPath().x+pathWidth/2 && location.x>pathPoint.getPath().x-pathWidth/2
-                &&location.y<pathPoint.getPath().y+pathWidth/2 && location.y>pathPoint.getPath().y-pathWidth/2){
+                if(location.x<pathPoint.getPath().x+pathWidth/2 +Tower.towerSize/4 && location.x>pathPoint.getPath().x-pathWidth/4-Tower.towerSize/2
+                &&location.y<pathPoint.getPath().y+pathWidth/2 +Tower.towerSize/4 && location.y>pathPoint.getPath().y-pathWidth/4 -Tower.towerSize/2){
                     inpath=true;
                     break;
                 }
             }
         }
-        System.out.println(inpath);
+        if (getBaseCords().contains(location.x, location.y)){
+            inpath=true;
+        }
         return  inpath;
     }
     public void changeLevel(GameMap.level level){

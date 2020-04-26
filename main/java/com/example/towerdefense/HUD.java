@@ -9,6 +9,12 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import java.util.ArrayList;
 
+import static com.example.towerdefense.LaserProjectile.red;
+
+/*
+Deals with all the buttons and titles for when the game is running
+ */
+
 class HUD
 {
     private int mTextFormatting;
@@ -91,32 +97,38 @@ class HUD
 
     }
 
-    void draw(Canvas c, Paint p, GameWorld mGameWorld, long FPS) //draw the HUD
+    void draw(Canvas canvas, Paint paint, GameWorld mGameWorld, long FPS) //draw the HUD
     {
-        p.setColor(black);
-        p.setTextSize(mTextFormatting);
+        paint.setColor(black);
+        paint.setTextSize(mTextFormatting);
 
-        c.drawText("Lives: " + mGameWorld.getLives(), //draw lives
-                mTextFormatting, mTextFormatting * 2,p);
-        c.drawText("Cash: " + mGameWorld.getCash(), //draw cash
-                mTextFormatting*6, mTextFormatting * 2,p);
+        canvas.drawText("Lives: " + mGameWorld.getLives(), //draw lives
+                mTextFormatting, mTextFormatting * 2,paint);
+        canvas.drawText("Cash: " + mGameWorld.getCash(), //draw cash
+                mTextFormatting*6, mTextFormatting * 2,paint);
 
         //TEMPORARY
-        c.drawText("FPS: " + FPS, //draw FPS
-                mTextFormatting*12, mTextFormatting * 2,p);
+        canvas.drawText("FPS: " + FPS, //draw FPS
+                mTextFormatting*12, mTextFormatting * 2,paint);
+        paint.setColor(red);
+        paint.setTextSize(mTextFormatting*2);
+        if(mGameWorld.errorTime>=System.currentTimeMillis()){
+            canvas.drawText(mGameWorld.errorMessage, //draw FPS
+                    (mScreenWidth/2)-mTextFormatting*9, (mScreenHeight/2)-mTextFormatting/2,paint);
+        }
 
         if(mGameWorld.getGameOver()) //if the game is over
         {
             //If you don't have any lives you must've lost
             if (mGameWorld.getLives() <= 0)
             {
-                c.drawBitmap(mLostSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                canvas.drawBitmap(mLostSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
 
             }
             //If gameWon is true you must've won
             else if (mGameWorld.getmGameWon())
             {
-                c.drawBitmap(mWonSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                canvas.drawBitmap(mWonSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
 
             }
             //Must be a new game...
@@ -124,13 +136,13 @@ class HUD
             {
                 switch (mGameWorld.mMap.getCurrentLevel()){
                     case 1:
-                        c.drawBitmap(mLevel1SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        canvas.drawBitmap(mLevel1SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
                         break;
                     case 2:
-                        c.drawBitmap(mLevel2SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        canvas.drawBitmap(mLevel2SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
                         break;
                     case 3:
-                        c.drawBitmap(mLevel3SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        canvas.drawBitmap(mLevel3SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
                         break;
 
                 }
@@ -139,19 +151,19 @@ class HUD
 
         if(mGameWorld.getPaused() && !mGameWorld.getGameOver()) //if the game is paused
         {
-            c.drawBitmap(mPausedSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+            canvas.drawBitmap(mPausedSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
 
         }
 
-        drawControls(c, p); //draw the buttons
-        drawGraphics(c); //draw the graphics over the buttons
+        drawControls(canvas, paint); //draw the buttons
+        drawGraphics(canvas); //draw the graphics over the buttons
 
         if (towerInfo !=null){
-            towerInfo.draw(c,p);
+            towerInfo.draw(canvas,paint);
         } else if (alienInfo !=null){
-            alienInfo.draw(c,p);
+            alienInfo.draw(canvas,paint);
         } else if (placingInfo != null){
-            placingInfo.draw(c,p);
+            placingInfo.draw(canvas,paint);
         }
     }
 
@@ -219,7 +231,7 @@ class HUD
         this.towerInfo=null;
     }
 
-    public boolean onButton(Point point){
+    public boolean onButton(Point point){ //return true if the point is on a button
         boolean collision=false;
         for(Rect r : controls)
         {

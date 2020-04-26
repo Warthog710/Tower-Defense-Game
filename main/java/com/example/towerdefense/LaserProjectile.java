@@ -4,13 +4,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+/*
+The laser projectile
+
+ */
 
 public class LaserProjectile implements Projectile
 {
-    //In MS
     final static long TIME=200;
 
-    private final int mDamage=10;
     private long startingTime;
     private Point mLocation;
     private Point mDestination;

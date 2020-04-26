@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class PlasmaProjectile extends Movable implements Projectile
 {
     Point mDestination; //where the projectile is going to
-    public final int mSize=50;
+    public final int mSize=25;
     int mDamage; //amount of damage
 
     public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage)

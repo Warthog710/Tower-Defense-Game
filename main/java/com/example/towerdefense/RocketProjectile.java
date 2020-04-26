@@ -10,13 +10,13 @@ import java.util.Iterator;
 
 public class RocketProjectile extends Movable implements Projectile {
 
-    public final int mSize=50;
+    public final int mSize=25;
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
 
     public RocketProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage){
-        this.mSpeed=(int)(500/GameWorld.BASE_TICKS_PER_SECOND);
+        this.mSpeed=(int)(300/GameWorld.BASE_TICKS_PER_SECOND);
         this.setAttributeSize(mSize);
         this.mLocation=mLocation;
         this.mDamage=mDamage;
