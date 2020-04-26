@@ -10,11 +10,12 @@ import java.util.Iterator;
 public class PlasmaProjectile extends Movable implements Projectile
 {
     Point mDestination; //where the projectile is going to
-    public final int mSpeed=(int)(2000/GameWorld.BASE_TICKS_PER_SECOND), mSize=50;
+    public final int mSize=50;
     int mDamage; //amount of damage
 
     public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage)
     {
+        this.mSpeed = (int)(2000/GameWorld.BASE_TICKS_PER_SECOND);
         this.mDamage=mDamage; //set damage
         this.mDestination=mTarget.getLocation();
         this.mLocation=mLocation;
@@ -59,7 +60,8 @@ public class PlasmaProjectile extends Movable implements Projectile
             }
         }
 
-        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y)
+        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y
+                || mLocation.y<0 || mLocation.x<0) //if the projectile has left the screen
             value=true;
 
         return value;

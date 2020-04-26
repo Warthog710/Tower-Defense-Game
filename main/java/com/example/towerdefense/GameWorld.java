@@ -191,7 +191,7 @@ class GameWorld
         mMap.changeLevel(level);
     }
 
-    public void reset(){
+    public void startLevel(){
         //This method will despawn and respawn all game objects.
         resetCash();
         setLives();
@@ -201,6 +201,8 @@ class GameWorld
         mMap.setCurrentWave(1);
         resetSpeed();
         mReadyForNewGame=true;
+        mGameRunning=true;
+        mSound.playSoundTrack();
     }
 
     public void setReadyForNewGameTrue(){

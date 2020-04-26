@@ -79,7 +79,7 @@ public class GameMap
             //If there is another path element...
             if (pm.nextContour())
             {
-                //Get the new length and reset counter to zero.
+                //Get the new length and startLevel counter to zero.
                 length = pm.getLength();
                 counter = 0;
             }

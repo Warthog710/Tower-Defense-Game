@@ -7,8 +7,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 public class PlacingInfo {
-    private Tower mTower;
-    private Circle towerRange;
     public Rect cancelButton;
 
     private int mTextFormatting;

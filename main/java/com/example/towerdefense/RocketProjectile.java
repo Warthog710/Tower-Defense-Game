@@ -9,12 +9,14 @@ import android.graphics.Rect;
 import java.util.Iterator;
 
 public class RocketProjectile extends Movable implements Projectile {
-    public final int mSpeed=(int)(500/GameWorld.BASE_TICKS_PER_SECOND), mSize=50;
+
+    public final int mSize=50;
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
 
     public RocketProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage){
+        this.mSpeed=(int)(500/GameWorld.BASE_TICKS_PER_SECOND);
         this.setAttributeSize(mSize);
         this.mLocation=mLocation;
         this.mDamage=mDamage;
@@ -60,7 +62,8 @@ public class RocketProjectile extends Movable implements Projectile {
                 break;
             }
         }
-        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y || mLocation.y<0 || mLocation.x<0)
+        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y
+                || mLocation.y<0 || mLocation.x<0) //if the projectile has left the screen
             value=true;
         return value;
     }

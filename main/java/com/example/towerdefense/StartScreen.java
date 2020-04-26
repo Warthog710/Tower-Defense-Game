@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class StartScreen {
     Bitmap background, level1, level2, level3, rules, title, back, soundOn, soundOff;
-    private int mTextFormatting;
-    private int mScreenHeight;
-    private int mScreenWidth;
+    private int mTextFormatting, mScreenHeight, mScreenWidth, levelButtonWidth, infoButtonWidth;
+    private int levelButtonTopPadding, infoButtonPadding, infoButtonHeight;
+    private final int levelButtonPadding=20;
     private ArrayList<Rect> buttons;
     Point size;
     static int LEVEL1 = 0;
@@ -23,6 +23,7 @@ public class StartScreen {
     static int LEVEL3=2;
     static int RULES =3;
     static int SOUND =4;
+
 
     boolean showingRules;
 
@@ -37,37 +38,27 @@ public class StartScreen {
         mScreenHeight = size.y;
         mScreenWidth = size.x;
         mTextFormatting = size.x / 50;
-        int levelButtonWidth=(size.x-80)/3;
-        int infoButtonWidth = mScreenWidth / 14;
-        int infoButtonHeight = mScreenHeight / 12;
-        int levelButtonTopPadding=(size.y)/4;
+        levelButtonWidth=(size.x-80)/3;
+        infoButtonWidth = mScreenHeight / 6;
+        levelButtonTopPadding=(size.y)/4;
+        infoButtonPadding = mScreenWidth / 90;
+        infoButtonHeight = mScreenHeight / 12;
         buttons= new ArrayList<Rect>();
+        HelperFactory helperFactory = new HelperFactory(context);
+        this.level1=helperFactory.bitmapMaker(R.drawable.level1, levelButtonWidth);
+        this.level2=helperFactory.bitmapMaker(R.drawable.level2, levelButtonWidth);
+        this.level3=helperFactory.bitmapMaker(R.drawable.level3, levelButtonWidth);
+        this.rules=helperFactory.bitmapMaker(R.drawable.rules, infoButtonWidth);
+        this.back=helperFactory.bitmapMaker(R.drawable.back, infoButtonWidth);
+        this.soundOff=helperFactory.bitmapMaker(R.drawable.sound_off, infoButtonWidth);
+        this.soundOn=helperFactory.bitmapMaker(R.drawable.sound_on, infoButtonWidth);
+
         this.background = BitmapFactory.decodeResource(context.getResources(), R.drawable.start_page);
-        this.level1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.level1);
-        level1=Bitmap.createScaledBitmap(level1, levelButtonWidth, levelButtonWidth, false);
-        this.level2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.level2);
-        level2=Bitmap.createScaledBitmap(level2, levelButtonWidth, levelButtonWidth, false);
-        this.level3 = BitmapFactory.decodeResource(context.getResources(), R.drawable.level3);
-        level3=Bitmap.createScaledBitmap(level3, levelButtonWidth, levelButtonWidth, false);
-        this.rules = BitmapFactory.decodeResource(context.getResources(), R.drawable.rules);
-        rules=Bitmap.createScaledBitmap(rules, infoButtonWidth*2, infoButtonHeight*2, false);
         this.title = BitmapFactory.decodeResource(context.getResources(), R.drawable.title);
         title=Bitmap.createScaledBitmap(title, mScreenWidth, levelButtonTopPadding, false);
-        this.back = BitmapFactory.decodeResource(context.getResources(), R.drawable.back);
-        back=Bitmap.createScaledBitmap(back, infoButtonWidth*2, infoButtonHeight*2, false);
-        this.soundOff = BitmapFactory.decodeResource(context.getResources(), R.drawable.sound_off);
-        soundOff=Bitmap.createScaledBitmap(soundOff, infoButtonWidth*2, infoButtonHeight*2, false);
-        this.soundOn = BitmapFactory.decodeResource(context.getResources(), R.drawable.sound_on);
-        soundOn=Bitmap.createScaledBitmap(soundOn, infoButtonWidth*2, infoButtonHeight*2, false);
         makeButtons();
     }
     private void makeButtons(){
-        int levelButtonWidth=(size.x-80)/3;
-        int levelButtonPadding=20;
-        int levelButtonTopPadding=(size.y)/4;
-        int infoButtonPadding = mScreenWidth / 90;
-        int infoButtonWidth = mScreenWidth / 14;
-        int infoButtonHeight = mScreenHeight / 12;
         Rect level1 = new Rect( //level1
                 levelButtonPadding,
                 levelButtonTopPadding,
@@ -84,14 +75,14 @@ public class StartScreen {
                 levelButtonPadding*2+levelButtonWidth*3,
                 levelButtonTopPadding+levelButtonWidth);
         Rect gameInfo = new Rect( //level1
-                mScreenWidth-levelButtonPadding-infoButtonWidth*2,
+                mScreenWidth-levelButtonPadding-infoButtonHeight*2,
                 mScreenHeight-infoButtonPadding-infoButtonHeight*2,
                 mScreenWidth-levelButtonPadding,
                 mScreenHeight-infoButtonPadding);
         Rect sound = new Rect( //level1
                 levelButtonPadding,
                 mScreenHeight-infoButtonPadding-infoButtonHeight*2,
-                infoButtonWidth*2+levelButtonPadding,
+                infoButtonHeight*2+levelButtonPadding,
                 mScreenHeight-infoButtonPadding);
         buttons.add(LEVEL1, level1);
         buttons.add(LEVEL2, level2);
@@ -101,9 +92,9 @@ public class StartScreen {
     }
 
     void draw(Canvas canvas, Paint paint, boolean sound){
+        canvas.drawBitmap(background, 0, 0, null);
         if(showingRules){
-            canvas.drawBitmap(background, 0, 0, null);
-            paint.setColor(white); //set color to black
+            paint.setColor(white); //set color to white
             paint.setTextSize(mTextFormatting);
             canvas.drawText("These are the rules of the game. Don't lose, and make lots of money.", //rules
                     0, buttons.get(RULES).top-(mTextFormatting+2)*2,paint);
@@ -111,7 +102,6 @@ public class StartScreen {
             canvas.drawRect(buttons.get(RULES).left, buttons.get(RULES).top, buttons.get(RULES).right, buttons.get(RULES).bottom, paint);
             canvas.drawBitmap(back, buttons.get(RULES).left, buttons.get(RULES).top, null);
         }else {
-            canvas.drawBitmap(background, 0, 0, null);
 
             paint.setColor(grey); //set color to black
             for (Rect r : buttons) {
@@ -137,6 +127,7 @@ public class StartScreen {
     public ArrayList<Rect> getButtons() {
         return buttons;
     }
+
     public void rulesOnOff(){
         if(showingRules){
             showingRules=false;

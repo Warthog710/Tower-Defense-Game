@@ -2,7 +2,6 @@ package com.example.towerdefense;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,11 +25,13 @@ class HUD
     static int RocketTower=4;
     static int white = Color.argb(255,255,255,255);
     static int black = Color.argb(255,0,0,0);
-    private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower, mSpeedUPBitMap;
+    private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower, mSpeedUpBitMap, mWonSplashScreen, mLostSplashScreen;
+    private Bitmap mPausedSplashScreen, mLevel1SplashScreen, mLevel2SplashScreen, mLevel3SplashScreen;
     private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation, mSpeedUpLocation;
     private int buttonWidth;
     private int buttonHeight;
     private Point size;
+    private int mSplashScreenSize=600;
 
     HUD(Point size)
     {
@@ -109,37 +110,37 @@ class HUD
             //If you don't have any lives you must've lost
             if (mGameWorld.getLives() <= 0)
             {
-                p.setTextSize(mTextFormatting * 2);
-                c.drawText("YOU LOST",
-                        mScreenWidth /4, (mScreenHeight )/4 ,p);
-                c.drawText("CLICK ANYWHERE TO CONTINUE",
-                        mScreenWidth /4, mScreenHeight /2 ,p);
+                c.drawBitmap(mLostSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+
             }
             //If gameWon is true you must've won
             else if (mGameWorld.getmGameWon())
             {
-                p.setTextSize(mTextFormatting * 2);
-                c.drawText("YOU WON",
-                        mScreenWidth /4, (mScreenHeight )/4 ,p);
-                c.drawText("CLICK ANYWHERE TO CONTINUE",
-                        mScreenWidth /4, mScreenHeight /2 ,p);
+                c.drawBitmap(mWonSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+
             }
             //Must be a new game...
             else
             {
-                p.setTextSize(mTextFormatting * 2);
-                c.drawText("      LEVEL "+mGameWorld.mMap.getCurrentLevel(),
-                        mScreenWidth /4, (mScreenHeight )/4 ,p);
-                c.drawText("PRESS PLAY TO START",
-                        mScreenWidth /4, mScreenHeight /2 ,p);
+                switch (mGameWorld.mMap.getCurrentLevel()){
+                    case 1:
+                        c.drawBitmap(mLevel1SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        break;
+                    case 2:
+                        c.drawBitmap(mLevel2SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        break;
+                    case 3:
+                        c.drawBitmap(mLevel3SplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+                        break;
+
+                }
             }
         }
 
         if(mGameWorld.getPaused() && !mGameWorld.getGameOver()) //if the game is paused
         {
-            p.setTextSize(mTextFormatting * 5);
-            c.drawText("PAUSED",
-                    mScreenWidth /3, mScreenHeight /2 ,p);
+            c.drawBitmap(mPausedSplashScreen, (mScreenWidth/2)-(mSplashScreenSize/2), (mScreenHeight/2)-(mSplashScreenSize/2), null);
+
         }
 
         drawControls(c, p); //draw the buttons
@@ -171,44 +172,51 @@ class HUD
 
     public void setGraphics(Context context) //add graphics to the buttons
     {
-        mPauseBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.play);
-        mPauseBitMap=Bitmap.createScaledBitmap(mPauseBitMap, buttonWidth, buttonHeight, false);
-        mSpeedUPBitMap=BitmapFactory.decodeResource(context.getResources(), R.drawable.speed_up);
-        mSpeedUPBitMap=Bitmap.createScaledBitmap(mSpeedUPBitMap, buttonWidth, buttonHeight, false);
-        mPlasmaTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.plasma_turret);
-        mPlasmaTower=Bitmap.createScaledBitmap(mPlasmaTower, buttonWidth, buttonHeight, false);
-        mLaserTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
-        mLaserTower=Bitmap.createScaledBitmap(mLaserTower, buttonWidth, buttonHeight, false);
-        mRocketTower=BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
-        mRocketTower=Bitmap.createScaledBitmap(mRocketTower, buttonWidth, buttonHeight, false);
+        HelperFactory helperFactory = new HelperFactory(context);
+        this.mPauseBitMap=helperFactory.bitmapMaker(R.drawable.play, buttonWidth, buttonHeight);
+        this.mSpeedUpBitMap=helperFactory.bitmapMaker(R.drawable.speed_up, buttonWidth, buttonHeight);
+        this.mPlasmaTower=helperFactory.bitmapMaker(R.drawable.plasma_turret, buttonWidth, buttonHeight);
+        this.mLaserTower=helperFactory.bitmapMaker(R.drawable.laser_turret, buttonWidth, buttonHeight);
+        this.mRocketTower=helperFactory.bitmapMaker(R.drawable.rocket_turret, buttonWidth, buttonHeight);
+        this.mLevel1SplashScreen=helperFactory.bitmapMaker(R.drawable.level1_splash_screen, mSplashScreenSize, mSplashScreenSize);
+        this.mLevel2SplashScreen=helperFactory.bitmapMaker(R.drawable.level2_splash_screen, mSplashScreenSize, mSplashScreenSize);
+        this.mLevel3SplashScreen=helperFactory.bitmapMaker(R.drawable.level3_splash_screen, mSplashScreenSize, mSplashScreenSize);
+        this.mWonSplashScreen=helperFactory.bitmapMaker(R.drawable.won_splash_screen, mSplashScreenSize, mSplashScreenSize);
+        this.mLostSplashScreen=helperFactory.bitmapMaker(R.drawable.lost_splash_screen, mSplashScreenSize, mSplashScreenSize);
+        this.mPausedSplashScreen=helperFactory.bitmapMaker(R.drawable.paused_splash_screen, mSplashScreenSize, mSplashScreenSize);
     }
 
     private void drawGraphics(Canvas canvas) //draw the graphics for the buttons
     {
         canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
-        canvas.drawBitmap(mSpeedUPBitMap, mSpeedUpLocation.x, mSpeedUpLocation.y, null);
+        canvas.drawBitmap(mSpeedUpBitMap, mSpeedUpLocation.x, mSpeedUpLocation.y, null);
         canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
         canvas.drawBitmap(mLaserTower, mLaserTowerLocation.x, mLaserTowerLocation.y, null);
         canvas.drawBitmap(mRocketTower, mRocketTowerLocation.x, mRocketTowerLocation.y, null);
     }
 
     public void addTowerInfo(Tower mTower){
+
         this.towerInfo=new TowerInfo(mTower, size);
-    }
-    public void removeTowerInfo(){
-        towerInfo=null;
+        this.alienInfo=null;
+        this.placingInfo=null;
     }
     public void addAlienInfo(Alien mAlien){
+
         this.alienInfo=new AlienInfo(mAlien, size);
-    }
-    public void removeAlienInfo(){
-        alienInfo=null;
+        this.towerInfo=null;
+        this.placingInfo=null;
     }
     public void addPlacementInfo(Tower.TowerType mTower){
         this.placingInfo=new PlacingInfo(mTower, size);
+        this.alienInfo=null;
+        this.towerInfo=null;
     }
-    public void removePlacementInfo(){
+    public void removeAllInfo(){
+
         placingInfo=null;
+        this.alienInfo=null;
+        this.towerInfo=null;
     }
 
     public boolean onButton(Point point){
