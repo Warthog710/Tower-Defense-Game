@@ -17,6 +17,7 @@ strategy along the path. No animation is required for enemies or towers.
 * [ ] Add more waves of enemies.
 * [ ] Finish art for aliens.
 * [ ] Make new art for towers.
+* [ ] Add a rules to the game.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
 * [ ] Make resistances adaptive and have them change each wave.
 * [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
