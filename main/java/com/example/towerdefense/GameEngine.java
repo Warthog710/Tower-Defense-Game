@@ -236,7 +236,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
     public void restart()
     {
         //This method will despawn and respawn all game objects.
-        mGameWorld.startLevel();
+        System.out.println("nothing");
     }
 
     public void addObserver(InputObserver o)

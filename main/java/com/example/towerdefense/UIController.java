@@ -107,7 +107,7 @@ public class UIController implements InputObserver
                 }
                 //code for starting the game once the player sees the map
                 else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
-                    gameState.startNewGame();
+                    gameState.startGame();
                     gameState.setReadyForNewGameFalse();
                     mHud.removeAllInfo();
                 }
@@ -125,20 +125,20 @@ public class UIController implements InputObserver
                 //the player has clicked level 1
                 if(gameState.startScreen.getButtons().get(StartScreen.LEVEL1).contains(x,y)){
                     gameState.mMap.changeLevel(GameMap.level.level1);
-                    gameState.startLevel();
+                    gameState.loadLevel(GameMap.level.level1);
 
                 }
                 //The player has clicked level 2
                 else if(gameState.startScreen.getButtons().get(StartScreen.LEVEL2).contains(x,y))
                 {
                     gameState.mMap.changeLevel(GameMap.level.level2);
-                    gameState.startLevel();
+                    gameState.loadLevel(GameMap.level.level2);
                 }
                 //the player has clicked level 3
                 else if(gameState.startScreen.getButtons().get(StartScreen.LEVEL3).contains(x,y))
                 {
                     gameState.mMap.changeLevel(GameMap.level.level3);
-                    gameState.startLevel();
+                    gameState.loadLevel(GameMap.level.level3);
                 }
                 //the player has clicked the rules or the back button
                 else if(gameState.startScreen.getButtons().get(StartScreen.RULES).contains(x,y))

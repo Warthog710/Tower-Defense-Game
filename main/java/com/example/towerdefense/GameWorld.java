@@ -70,11 +70,11 @@ class GameWorld
         return mTowers;
     }
 
-    void startNewGame()
+    void startGame()
     {
         //Don't want to draw while updating game field
         stopDrawing();
-        gameStarter.restart();
+        //gameStarter.restart();
         resume();
 
         //Start drawing again
@@ -191,7 +191,7 @@ class GameWorld
         mMap.changeLevel(level);
     }
 
-    public void startLevel(){
+    public void loadLevel(GameMap.level level){
         //This method will despawn and respawn all game objects.
         resetCash();
         setLives();
@@ -203,6 +203,7 @@ class GameWorld
         mReadyForNewGame=true;
         mGameRunning=true;
         mSound.playSoundTrack();
+        mMap.changeLevel(level);
     }
 
     public void setReadyForNewGameTrue(){
