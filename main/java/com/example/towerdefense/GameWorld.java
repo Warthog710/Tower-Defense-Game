@@ -47,7 +47,6 @@ class GameWorld
     ArrayList<Projectile> mProjectiles;
     ArrayList<Tower> mTowers;
     ArrayList<Alien> mAliens;
-    Circle range;
     GameMap mMap;
     StartScreen startScreen;
 

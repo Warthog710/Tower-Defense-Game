@@ -4,6 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+/*
+Container to hold information about towers, aliens, etc
+ */
 
 public class InfoContainer {
     private Tower mTower;
@@ -22,7 +25,7 @@ public class InfoContainer {
     private int buttonHeight;
     private int buttonPadding;
 
-    public InfoContainer(Point size){ //create the tower info
+    public InfoContainer(Point size){ //create the info container and add all the size
         this.hideInfo=true;
         mScreenHeight = size.y;
         mScreenWidth = size.x;
@@ -36,7 +39,7 @@ public class InfoContainer {
                 mScreenWidth - buttonPadding,
                 mScreenHeight-buttonPadding);
     }
-    public void setTowerInfo(Tower tower){
+    public void setInfo(Tower tower){ //set the info if the data is a tower
         this.hideInfo=false;
         this.mTower=tower;
         currentState=state.TOWER;
@@ -47,7 +50,7 @@ public class InfoContainer {
         buttonLine2="$"+mTower.mUpgradeCost;
         towerRange= new Circle(tower.getLocation(),tower.mRange);
     }
-    public void setPlacingInfo(Tower.TowerType towerType){
+    public void setInfo(Tower.TowerType towerType){ //set the info if the data is a tower type
         this.hideInfo=false;
         currentState=state.PLACING;
         buttonLine1="Cancel";
@@ -72,13 +75,13 @@ public class InfoContainer {
 
         }
     }
-    public void setAlienInfo(Alien alien){
+    public void setInfo(Alien alien){ //set the info if the data is alien
         this.hideInfo=false;
         this.mAlien=alien;
         currentState=state.ALIEN;
-        line1="============";
+        line1="";
         line2=mAlien.getInfo();
-        line3="Resistances: "+mAlien.getResistance();
+        line3=mAlien.getResistance();
         buttonLine1="";
         buttonLine2="";
 
@@ -87,14 +90,13 @@ public class InfoContainer {
     public void draw(Canvas canvas, Paint paint){ //draw the tower info
         if (!hideInfo) {
             if (currentState == state.TOWER) {
-                towerRange= new Circle(mTower.getLocation(),mTower.mRange);
                 towerRange.draw(canvas, paint); //draw range
                 line3 = "Damage: " + mTower.mDamage + " | Rate of Fire: " + mTower.mRateOfFire + " | Range: " + mTower.mRange; //update line 3
                 buttonLine2 = "$" + mTower.mUpgradeCost; //update cost of upgrade
                 towerRange.draw(canvas, paint); //draw range
             }
             paint.setColor(GameWorld.black); //set color to black
-            if (currentState != state.ALIEN) {
+            if (currentState != state.ALIEN) { //if the info is not a alien, show the button
                 canvas.drawRect(upgradeButton.left, upgradeButton.top, upgradeButton.right, upgradeButton.bottom, paint);
             }
 
@@ -126,17 +128,13 @@ public class InfoContainer {
 
     }
 
-    public void hideInfo(){
+    public void hideInfo(){ //hide the info
         hideInfo=true;
     }
 
-    private void towerUpgrade(){
+    private void towerUpgrade(){ //upgrade the tower
         this.mTower.upgrade();
         this.towerRange= new Circle(mTower.mLocation, mTower.mRange);
         this.mTower.mUpgradeCost=(int)(this.mTower.mUpgradeCost*1.3);
-    }
-
-    public int upgradeCost(){ //current cost to upgrade the tower
-        return mTower.mUpgradeCost;
     }
 }

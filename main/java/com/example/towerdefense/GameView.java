@@ -61,10 +61,6 @@ class GameView
                         }
                     }
 
-                    //draw the range of a turret
-                    if (gameWorld.range != null) {
-                        gameWorld.range.draw(mCanvas, mPaint);
-                    }
                 }
 
                 //Draw HUD

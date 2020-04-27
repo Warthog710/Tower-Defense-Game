@@ -43,7 +43,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mGameWorld.resetCash();
         mGameWorld.mMap = new GameMap(context, size);
         mUIController = new UIController(this, context);
-        mGameWorld.range=null;
     }
 
     @Override

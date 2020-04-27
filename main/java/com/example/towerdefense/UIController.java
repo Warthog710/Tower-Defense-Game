@@ -38,13 +38,13 @@ public class UIController implements InputObserver
                 if(gameState.getPaused() && gameState.getGameOver() && !gameState.getReadyForNewGame()){
                     gameState.setGameRunningOff();
                     gameState.setReadyForNewGameFalse();
-                    mHud.hideInfo();
+                    mHud.infoContainer.hideInfo();
                 }
                 //code for starting the game once the player sees the map
                 else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
                     gameState.startGame();
                     gameState.setReadyForNewGameFalse();
-                    mHud.hideInfo();
+                    mHud.infoContainer.hideInfo();
                 }
                 else if (buttons.get(HUD.PAUSE).contains(x, y) && !gameState.getGameOver()) //the player has hit the pause button
                 {
@@ -63,19 +63,19 @@ public class UIController implements InputObserver
                 else if (buttons.get(HUD.PlasmaTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
                     gameState.setmPlacing();
                     gameState.setTowerType(Tower.TowerType.PLASMA);
-                    mHud.addPlacementInfo(Tower.TowerType.PLASMA);
+                    mHud.infoContainer.setInfo(Tower.TowerType.PLASMA);
                 }
                 //laser tower
                 else if (buttons.get(HUD.LaserTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
                     gameState.setmPlacing();
                     gameState.setTowerType(Tower.TowerType.LASER);
-                    mHud.addPlacementInfo(Tower.TowerType.LASER);
+                    mHud.infoContainer.setInfo(Tower.TowerType.LASER);
                 }
                 //rocket tower
                 else if (buttons.get(HUD.RocketTower).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) {
                     gameState.setmPlacing();
                     gameState.setTowerType(Tower.TowerType.ROCKET);
-                    mHud.addPlacementInfo(Tower.TowerType.ROCKET);
+                    mHud.infoContainer.setInfo(Tower.TowerType.ROCKET);
                 } else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) //speed up
                 {
                     gameState.changeSpeed();
@@ -95,7 +95,7 @@ public class UIController implements InputObserver
                         gameState.loseCash(gameState.getCurrentTowerCost());
                         gameState.closemPlacing();
                         gameState.addTower(towerFactory.getTower(gameState.getTowerType(), context, new Point(x, y)));
-                        mHud.hideInfo();
+                        mHud.infoContainer.hideInfo();
                     }
                     else{ //not enough cash
                         gameState.error(GameWorld.error.MONEY);
@@ -105,7 +105,7 @@ public class UIController implements InputObserver
                     while (alienIterator.hasNext()) {
                         Alien currentAlien = alienIterator.next();
                         if (currentAlien.getHitbox().contains(x, y)) {
-                            mHud.addAlienInfo(currentAlien);
+                            mHud.infoContainer.setInfo(currentAlien);
                             System.out.println("hereeee");
                             break;
                         }
@@ -116,11 +116,11 @@ public class UIController implements InputObserver
                 else if (gameState.mTowers != null && !gameState.getmPlacing() && gameState.overTower(new Point(x,y))) {
                     Tower tower = gameState.getTower(new Point(x, y));
                     if (tower != null) {
-                        mHud.addTowerInfo(tower);
+                        mHud.infoContainer.setInfo(tower);
                     }
                 }
                 else{
-                    mHud.hideInfo();
+                    mHud.infoContainer.hideInfo();
                 }
             }else{ //we are on the start screen
                 //the player has clicked level 1

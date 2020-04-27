@@ -184,23 +184,6 @@ class HUD
         canvas.drawBitmap(mRocketTower, controls.get(RocketTower).left, controls.get(RocketTower).top, null);
     }
 
-    public void addTowerInfo(Tower mTower){ //if showing tower info
-
-        this.infoContainer.setTowerInfo(mTower);
-    }
-    public void addAlienInfo(Alien mAlien){//if showing alien info
-
-        this.infoContainer.setAlienInfo(mAlien);
-    }
-    public void addPlacementInfo(Tower.TowerType mTower){ //if showing placement info
-        this.infoContainer.setPlacingInfo(mTower);
-    }
-
-
-    public void hideInfo(){ //clear all info
-
-        infoContainer.hideInfo();
-    }
 
     public boolean onButton(Point point){ //return true if the point is on a button
         boolean collision=false;
