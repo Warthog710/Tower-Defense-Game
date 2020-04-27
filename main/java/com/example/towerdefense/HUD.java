@@ -19,9 +19,6 @@ class HUD
     private int mScreenHeight;
     private int mScreenWidth;
     private ArrayList<Rect> controls;
-    public TowerInfo towerInfo;
-    public AlienInfo alienInfo;
-    public PlacingInfo placingInfo;
     static int PAUSE = 0;
     static int SPEEDUP = 1;
     static int PlasmaTower=2;
@@ -45,9 +42,6 @@ class HUD
         buttonHeight = mScreenHeight / 12;
         controls= new ArrayList<Rect>();
         prepareControls();
-        towerInfo=null;
-        alienInfo=null;
-        placingInfo=null;
         infoContainer=new InfoContainer(size);
     }
 
@@ -147,14 +141,7 @@ class HUD
 
         drawControls(canvas, paint); //draw the buttons
         drawGraphics(canvas); //draw the graphics over the buttons
-
-        if (towerInfo !=null){
-            towerInfo.draw(canvas,paint);
-        } else if (alienInfo !=null){
-            alienInfo.draw(canvas,paint);
-        } else if (placingInfo != null){
-            placingInfo.draw(canvas,paint);
-        }
+        infoContainer.draw(canvas,paint);
     }
 
     private void drawControls(Canvas c, Paint p)
@@ -199,26 +186,20 @@ class HUD
 
     public void addTowerInfo(Tower mTower){ //if showing tower info
 
-        this.towerInfo=new TowerInfo(mTower, size);
-        this.alienInfo=null;
-        this.placingInfo=null;
+        this.infoContainer.setTowerInfo(mTower);
     }
     public void addAlienInfo(Alien mAlien){//if showing alien info
 
-        this.alienInfo=new AlienInfo(mAlien, size);
-        this.towerInfo=null;
-        this.placingInfo=null;
+        this.infoContainer.setAlienInfo(mAlien);
     }
     public void addPlacementInfo(Tower.TowerType mTower){ //if showing placement info
-        this.placingInfo=new PlacingInfo(mTower, size);
-        this.alienInfo=null;
-        this.towerInfo=null;
+        this.infoContainer.setPlacingInfo(mTower);
     }
-    public void removeAllInfo(){ //clear all info
 
-        placingInfo=null;
-        this.alienInfo=null;
-        this.towerInfo=null;
+
+    public void hideInfo(){ //clear all info
+
+        infoContainer.hideInfo();
     }
 
     public boolean onButton(Point point){ //return true if the point is on a button

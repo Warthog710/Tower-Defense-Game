@@ -45,6 +45,7 @@ public class InfoContainer {
         line3="Damage: "+mTower.mDamage+" | Rate of Fire: "+mTower.mRateOfFire+" | Range: "+mTower.mRange;
         buttonLine1="Upgrade";
         buttonLine2="$"+mTower.mUpgradeCost;
+        towerRange= new Circle(tower.getLocation(),tower.mRange);
     }
     public void setPlacingInfo(Tower.TowerType towerType){
         this.hideInfo=false;
@@ -75,7 +76,7 @@ public class InfoContainer {
         this.hideInfo=false;
         this.mAlien=alien;
         currentState=state.ALIEN;
-        line1="";
+        line1="============";
         line2=mAlien.getInfo();
         line3="Resistances: "+mAlien.getResistance();
         buttonLine1="";
@@ -86,13 +87,14 @@ public class InfoContainer {
     public void draw(Canvas canvas, Paint paint){ //draw the tower info
         if (!hideInfo) {
             if (currentState == state.TOWER) {
+                towerRange= new Circle(mTower.getLocation(),mTower.mRange);
                 towerRange.draw(canvas, paint); //draw range
                 line3 = "Damage: " + mTower.mDamage + " | Rate of Fire: " + mTower.mRateOfFire + " | Range: " + mTower.mRange; //update line 3
                 buttonLine2 = "$" + mTower.mUpgradeCost; //update cost of upgrade
+                towerRange.draw(canvas, paint); //draw range
             }
-
+            paint.setColor(GameWorld.black); //set color to black
             if (currentState != state.ALIEN) {
-                paint.setColor(GameWorld.black); //set color to black
                 canvas.drawRect(upgradeButton.left, upgradeButton.top, upgradeButton.right, upgradeButton.bottom, paint);
             }
 
@@ -118,6 +120,7 @@ public class InfoContainer {
         if(currentState==state.TOWER){ //tower is showing so upgrade button was hit
             towerUpgrade();
         }else{ //cancel placement button so hide state
+            hideInfo();
 
         }
 

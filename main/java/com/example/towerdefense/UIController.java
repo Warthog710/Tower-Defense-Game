@@ -38,13 +38,13 @@ public class UIController implements InputObserver
                 if(gameState.getPaused() && gameState.getGameOver() && !gameState.getReadyForNewGame()){
                     gameState.setGameRunningOff();
                     gameState.setReadyForNewGameFalse();
-                    mHud.removeAllInfo();
+                    mHud.hideInfo();
                 }
                 //code for starting the game once the player sees the map
                 else if(gameState.getPaused() && gameState.getGameOver() && gameState.getReadyForNewGame()){
                     gameState.startGame();
                     gameState.setReadyForNewGameFalse();
-                    mHud.removeAllInfo();
+                    mHud.hideInfo();
                 }
                 else if (buttons.get(HUD.PAUSE).contains(x, y) && !gameState.getGameOver()) //the player has hit the pause button
                 {
@@ -79,19 +79,15 @@ public class UIController implements InputObserver
                 } else if (buttons.get(HUD.SPEEDUP).contains(x, y) && !gameState.getPaused() && !gameState.getmPlacing()) //speed up
                 {
                     gameState.changeSpeed();
-                } else if (mHud.towerInfo != null && mHud.towerInfo.upgradeButton.contains(x, y)) { //upgrade button hit
-                    if (gameState.getCash() >= mHud.towerInfo.upgradeCost()) {
-                        gameState.loseCash(mHud.towerInfo.upgradeCost());
-                        mHud.towerInfo.upgrade();
-                    }
-                } else if (mHud.placingInfo != null && mHud.placingInfo.cancelButton.contains(x, y)) { //hit the cancel button
-                    mHud.removeAllInfo();
+                }
+                else if (mHud.infoContainer.upgradeButton.contains(x,y))
+                { //hit the upgrade button
+                    mHud.infoContainer.buttonClick();
                     gameState.closemPlacing();
                 }
                 //if the player has a tower to place and the game is not paused and the location is not on the path
                 else if (gameState.getmPlacing() && !gameState.getPaused()) { //place tower
                     //cannot place tower there
-                    System.out.println(mHud.onButton(new Point(x, y)));
                     if (gameState.overTower(new Point(x, y)) || gameState.mMap.inPath(new Point(x, y)) || mHud.onButton(new Point(x, y))){ //on tower
                         gameState.error(GameWorld.error.PLACEMENT);
                     }
@@ -99,7 +95,7 @@ public class UIController implements InputObserver
                         gameState.loseCash(gameState.getCurrentTowerCost());
                         gameState.closemPlacing();
                         gameState.addTower(towerFactory.getTower(gameState.getTowerType(), context, new Point(x, y)));
-                        mHud.removeAllInfo();
+                        mHud.hideInfo();
                     }
                     else{ //not enough cash
                         gameState.error(GameWorld.error.MONEY);
@@ -110,6 +106,7 @@ public class UIController implements InputObserver
                         Alien currentAlien = alienIterator.next();
                         if (currentAlien.getHitbox().contains(x, y)) {
                             mHud.addAlienInfo(currentAlien);
+                            System.out.println("hereeee");
                             break;
                         }
                     }
@@ -123,7 +120,7 @@ public class UIController implements InputObserver
                     }
                 }
                 else{
-                    mHud.removeAllInfo();
+                    mHud.hideInfo();
                 }
             }else{ //we are on the start screen
                 //the player has clicked level 1
