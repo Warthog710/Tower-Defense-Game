@@ -222,6 +222,7 @@ class GameWorld
         mSound.playSoundTrack();
         mMap.changeLevel(level);
         mGameWon=false;
+        mPlacing=false;
     }
 
     public void setReadyForNewGameTrue(){
