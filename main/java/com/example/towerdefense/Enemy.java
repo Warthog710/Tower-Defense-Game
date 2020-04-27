@@ -76,6 +76,11 @@ public class Enemy extends GameObject implements Alien
         health=0;
     }
 
+    @Override
+    public String getResistance() {
+        return "Resistance | Plasma: "+resist+" | Rockets: "+resist+" | Lasers: "+resist;
+    }
+
     //Call to check collision with another hitbox.
     public boolean checkCollision(Rect mBase)
     {
@@ -121,6 +126,7 @@ public class Enemy extends GameObject implements Alien
 
             return this;
         }
+
 
         //Set height of path. Randomly spawns at a certain height on the path.
         public EnemyBuilder setPathHeight(int pathHeight)

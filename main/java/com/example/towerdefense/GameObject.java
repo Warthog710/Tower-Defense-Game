@@ -16,7 +16,7 @@ public abstract class GameObject
     //Default draw method
     public void draw (Canvas canvas, Paint paint)
     {
-        canvas.drawBitmap(mBitmap, mLocation.x-(mAttributeSize/2), mLocation.y-(mAttributeSize/2), null);
+        canvas.drawBitmap(mBitmap, mLocation.x-(mBitmap.getWidth()/2), mLocation.y-(mBitmap.getHeight()/2), null);
     }
 
     //Getters

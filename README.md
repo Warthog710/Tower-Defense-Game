@@ -11,25 +11,31 @@ basic enemy and tower type. Towers are fixed, and enemies follow a basic movemen
 strategy along the path. No animation is required for enemies or towers.
 
 <b>Tasks:</b>
-* [ ] Make towers animated.
 * [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
-* [ ] Make more levels with turns.
-* [ ] Add a level selection (page 660 of paktbook)
+* [ ] Make 3 "good" levels with increasing difficulty.
+* [ ] Make the aliens give different amounts of cash based on how strong they are.
 * [ ] Add more waves of enemies.
+* [ ] Finish art for aliens.
+* [ ] Make new art for towers.
+* [ ] Add a rules to the game.
+* [ ] Clean up GameWorld class.
+* [ ] HUD class has a lot of variables, find a better way of dealing with this.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
-* [ ] Add sound using a sound strategy.
-* [ ] Keep towers from being placed on top of each other.
-* [ ] Show tower stats before placing (cancel placement button in lower right?)
-* [ ] Add a place for the rules so players can read them.
-* [ ] Add a button to speed up the game.
 * [ ] Make resistances adaptive and have them change each wave.
-* [ ] Add start screen (with level selection, rules, ect)
 * [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
 
 
 <b>Finished Tasks:</b>
 * [x] Make a new background with a path.
+* [x] Make towers turn without moving.
+* [x] Add sound using a sound strategy.
+* [x] Add a place for the rules so players can read them.
+* [x] Add start screen (with level selection, rules, ect)
+* [x] Add a level selection (page 660 of paktbook)
+* [x] Keep towers from being placed on top of each other.
+* [x] Show tower stats before placing (cancel placement button in lower right?)
 * [x] Have the aliens follow the path.
+* [x] Add a button to speed up the game.
 * [x] Develop initial class hierarchy and control structure.
 * [x] Implement "GameWorld" which holds a collection of game objects and other state variables
 * [x] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)

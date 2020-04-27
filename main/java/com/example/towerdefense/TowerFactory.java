@@ -2,6 +2,9 @@ package com.example.towerdefense;
 
 import android.content.Context;
 import android.graphics.Point;
+/*
+Factory for building towers
+ */
 
 public class TowerFactory { //factory for building towers
 

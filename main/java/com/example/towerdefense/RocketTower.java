@@ -5,15 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
-
 import java.util.Iterator;
 
+/*
+Rocket tower
+ */
+
 public class RocketTower extends Tower {
-    public RocketTower(Context context, Point location)
+    public RocketTower(Context context, Point location) //create the rocket tower
     {
         setSize(); //set the size
         this.mDescription="Rockets will follow their target until they hit something";
-        this.mName="Rocket Tower: Fires rockets at a medium speed.";
+        this.mName="Rocket Tower: Fires rockets at a slow speed.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
@@ -21,9 +24,8 @@ public class RocketTower extends Tower {
         this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.rocket);
         lastShot=System.currentTimeMillis();
 
-        this.mDamage=10;
-        this.mCost=100;
-        this.mRateOfFire=2;
+        this.mDamage=50;
+        this.mRateOfFire=0.5f;
         this.mRange=500;
         this.mUpgradeCost=50;
     }
@@ -31,12 +33,13 @@ public class RocketTower extends Tower {
     @Override
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire)){ //can the tower fire?
+        if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed()))){ //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){
                 Alien alien=alienIterator.next();
-                if(inRange(alien)){ //see which enemies are in range
+                if(inRange(alien)){//if the alien is in range
+                    gameWorld.mSound.playRocketSound();
                     gameWorld.mProjectiles.add(new RocketProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
@@ -51,9 +54,14 @@ public class RocketTower extends Tower {
     }
 
     @Override
-    public void upgrade() {
-        this.mDamage=(int)(this.mDamage*1.5);
-        this.mRateOfFire=this.mRateOfFire+1;
-        this.mRange=(int)(this.mRange*1.2);
+    public void upgrade() { //upgrade the tower
+        this.mDamage=(this.mDamage+10);
+        this.mRateOfFire=this.mRateOfFire+0.1f;
+        this.mRange=(int)(this.mRange*1.05);
+    }
+
+    @Override
+    public int towerCost(){
+        return Tower.ROCKET_COST;
     }
 }

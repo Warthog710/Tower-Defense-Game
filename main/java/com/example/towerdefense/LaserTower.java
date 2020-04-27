@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
-
 import java.util.Iterator;
+
+/*
+Laser Tower
+ */
 
 public class LaserTower extends Tower
 {
@@ -15,7 +18,7 @@ public class LaserTower extends Tower
         //Set the size.
         setSize();
         this.mDescription="Lasers deal high damage instantly to a single target";
-        this.mName="Laser Tower: Fires a laser at slow speeds.";
+        this.mName="Laser Tower: Fires a laser at medium speeds.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
         this.mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), false);
@@ -23,8 +26,7 @@ public class LaserTower extends Tower
         this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.blank_image);
         lastShot=System.currentTimeMillis();
 
-        this.mDamage=20;
-        this.mCost=100;
+        this.mDamage=15;
         this.mRateOfFire=1;
         this.mRange=500;
         this.mUpgradeCost=50;
@@ -34,7 +36,7 @@ public class LaserTower extends Tower
     public void shoot(GameWorld gameWorld) //shoot at the first enemy it can
     {
         //If the tower can fire.
-        if (System.currentTimeMillis()-lastShot>(1000/mRateOfFire))
+        if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed())))
         {
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
@@ -46,6 +48,7 @@ public class LaserTower extends Tower
                 //If an enemy is in range
                 if(inRange(alien))
                 {
+                    gameWorld.mSound.playLaserSound();
                     //Create new projectile
                     gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien));
 
@@ -66,9 +69,14 @@ public class LaserTower extends Tower
     }
 
     @Override
-    public void upgrade() {
-        this.mDamage=(int)(this.mDamage*1.5);
-        this.mRateOfFire=this.mRateOfFire+1;
-        this.mRange=(int)(this.mRange*1.2);
+    public void upgrade() { //upgrade the laser towers
+        this.mDamage=(this.mDamage+2);
+        this.mRateOfFire=this.mRateOfFire+0.5f;
+        this.mRange=(int)(this.mRange*1.01);
+    }
+
+    @Override
+    public int towerCost(){
+        return Tower.LASER_COST;
     }
 }

@@ -5,16 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-
 import java.util.Iterator;
+/*
+Rocket Projectile
+ */
 
 public class RocketProjectile extends Movable implements Projectile {
-    public final int mSpeed=(int)(500/GameEngine.TARGET_FPS), mSize=50;
+
+    public final int mSize=25;
     public int mDamage;
     private Alien mTarget;
     private Bitmap mOriginalBitmap;
 
-    public RocketProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage){
+    public RocketProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage){ //set up rocket projectile
+        this.mSpeed=(int)(300/GameWorld.BASE_TICKS_PER_SECOND);
         this.setAttributeSize(mSize);
         this.mLocation=mLocation;
         this.mDamage=mDamage;
@@ -32,8 +36,8 @@ public class RocketProjectile extends Movable implements Projectile {
                         0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
     }
     @Override
-    public void move() {
-        if(this.mTarget.getHealth()>0 && this.mTarget != null) {
+    public void move() { //move the projectile
+        if(this.mTarget.getHealth()>0 && this.mTarget != null) { //if the target is alive
             mHeading.setAngle((int) Math.toDegrees(Math.atan2((mTarget.getLocation().y - mLocation.y), (mTarget.getLocation().x - mLocation.x))) + 90);
             Matrix matrix = new Matrix();
             matrix.postRotate(mHeading.getAngle());
@@ -47,7 +51,7 @@ public class RocketProjectile extends Movable implements Projectile {
     }
 
     @Override
-    public boolean remove(GameWorld gameWorld) {
+    public boolean remove(GameWorld gameWorld) { //remove it it has hit a alien or has left the screen
         Rect hitbox = new Rect(mLocation.x-getAttributeSize()/2, mLocation.y-getAttributeSize()/2,
                 mLocation.x + getAttributeSize()/2, mLocation.y +getAttributeSize()/2);
         boolean value=false;
@@ -60,7 +64,8 @@ public class RocketProjectile extends Movable implements Projectile {
                 break;
             }
         }
-        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y || mLocation.y<0 || mLocation.x<0)
+        if(mLocation.x>gameWorld.mMap.size.x || mLocation.y>gameWorld.mMap.size.y
+                || mLocation.y<0 || mLocation.x<0) //if the projectile has left the screen
             value=true;
         return value;
     }

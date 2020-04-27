@@ -4,22 +4,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+/*
+The laser projectile
+
+ */
 
 public class LaserProjectile implements Projectile
 {
-    //In MS
     final static long TIME=200;
 
-    private final int mDamage=10;
     private long startingTime;
     private Point mLocation;
     private Point mDestination;
 
-    static int white = Color.argb(255,255,255,255);
-    static int red = Color.argb(255,255,0,0);
-    static int orange = Color.argb(150,255,102,0);
 
-    public LaserProjectile(Point mLocation, Alien mTarget)
+    public LaserProjectile(Point mLocation, Alien mTarget) //create laser beam
     {
         this.mLocation=mLocation;
         this.mDestination=mTarget.getLocation();
@@ -27,26 +26,26 @@ public class LaserProjectile implements Projectile
     }
 
     @Override
-    public void move()
+    public void move() //dont move
     {
         //Do nothing
     }
 
     @Override
-    public boolean remove(GameWorld gameWorld)
+    public boolean remove(GameWorld gameWorld) //check if the beam has timed out
     {
         return (System.currentTimeMillis()>=startingTime+TIME);
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint)
+    public void draw(Canvas canvas, Paint paint) //draw the beam
     {
-        paint.setColor(red);
+        paint.setColor(GameWorld.red);
         paint.setStrokeWidth(10);
         canvas.drawLine(mLocation.x, mLocation.y, mDestination.x, mDestination.y, paint);
-        paint.setColor(orange);
+        paint.setColor(GameWorld.orange);
         paint.setStrokeWidth(3);
         canvas.drawLine(mLocation.x, mLocation.y, mDestination.x, mDestination.y, paint);
-        paint.setColor(white);
+        paint.setColor(GameWorld.white);
     }
 }
