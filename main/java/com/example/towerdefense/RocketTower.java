@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
-
 import java.util.Iterator;
 
+/*
+Rocket tower
+ */
+
 public class RocketTower extends Tower {
-    public RocketTower(Context context, Point location)
+    public RocketTower(Context context, Point location) //create the rocket tower
     {
         setSize(); //set the size
         this.mDescription="Rockets will follow their target until they hit something";
@@ -55,5 +58,10 @@ public class RocketTower extends Tower {
         this.mDamage=(this.mDamage+10);
         this.mRateOfFire=this.mRateOfFire+0.1f;
         this.mRange=(int)(this.mRange*1.05);
+    }
+
+    @Override
+    public int towerCost(){
+        return Tower.ROCKET_COST;
     }
 }

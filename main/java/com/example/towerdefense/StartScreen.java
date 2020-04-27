@@ -8,15 +8,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-
 import java.util.ArrayList;
 
+/*
+Set up and display the "start" or home screen
+ */
+
 public class StartScreen {
-    Bitmap background, level1, level2, level3, rules, title, back, soundOn, soundOff;
+    Bitmap background, level1, level2, level3, rules, title, back, soundOn, soundOff; //images
     private int mTextFormatting, mScreenHeight, mScreenWidth, levelButtonWidth, infoButtonWidth;
     private int levelButtonTopPadding, infoButtonPadding, infoButtonHeight;
     private final int levelButtonPadding=20;
-    private ArrayList<Rect> buttons;
+    private ArrayList<Rect> buttons; //buttons
     Point size;
     static int LEVEL1 = 0;
     static int LEVEL2 = 1;
@@ -31,7 +34,7 @@ public class StartScreen {
     static int white = Color.argb(255,255,255,255);
     static int grey = Color.argb(255,161,161,161);
 
-    public StartScreen(Context context, Point size){
+    public StartScreen(Context context, Point size){ //set up start screen
 
 
         this.size=size;
@@ -58,7 +61,7 @@ public class StartScreen {
         title=Bitmap.createScaledBitmap(title, mScreenWidth, levelButtonTopPadding, false);
         makeButtons();
     }
-    private void makeButtons(){
+    private void makeButtons(){ //make all the buttons
         Rect level1 = new Rect( //level1
                 levelButtonPadding,
                 levelButtonTopPadding,
@@ -91,9 +94,9 @@ public class StartScreen {
         buttons.add(SOUND, sound);
     }
 
-    void draw(Canvas canvas, Paint paint, boolean sound){
+    void draw(Canvas canvas, Paint paint, boolean sound){ //display the start screen
         canvas.drawBitmap(background, 0, 0, null);
-        if(showingRules){
+        if(showingRules){ //if the rules should be shown
             paint.setColor(white); //set color to white
             paint.setTextSize(mTextFormatting);
             canvas.drawText("These are the rules of the game. Don't lose, and make lots of money.", //rules
@@ -101,7 +104,7 @@ public class StartScreen {
             paint.setColor(grey); //set color to black
             canvas.drawRect(buttons.get(RULES).left, buttons.get(RULES).top, buttons.get(RULES).right, buttons.get(RULES).bottom, paint);
             canvas.drawBitmap(back, buttons.get(RULES).left, buttons.get(RULES).top, null);
-        }else {
+        }else { //otherwise
 
             paint.setColor(grey); //set color to black
             for (Rect r : buttons) {
@@ -115,20 +118,20 @@ public class StartScreen {
         }
         paint.setColor(grey);
         canvas.drawRect(buttons.get(SOUND).left, buttons.get(SOUND).top, buttons.get(SOUND).right, buttons.get(SOUND).bottom, paint);
-        if(sound){
+        if(sound){ //if the sound is on
             canvas.drawBitmap(soundOn, buttons.get(SOUND).left, buttons.get(SOUND).top, null);
-        }else {
+        }else {//otherwise
             canvas.drawBitmap(soundOff, buttons.get(SOUND).left, buttons.get(SOUND).top, null);
         }
 
 
     }
 
-    public ArrayList<Rect> getButtons() {
+    public ArrayList<Rect> getButtons() { //return a list of the buttons
         return buttons;
     }
 
-    public void rulesOnOff(){
+    public void rulesOnOff(){ //cycle showing the rules
         if(showingRules){
             showingRules=false;
         }else{

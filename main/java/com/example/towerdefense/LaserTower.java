@@ -74,4 +74,9 @@ public class LaserTower extends Tower
         this.mRateOfFire=this.mRateOfFire+0.5f;
         this.mRange=(int)(this.mRange*1.01);
     }
+
+    @Override
+    public int towerCost(){
+        return Tower.LASER_COST;
+    }
 }

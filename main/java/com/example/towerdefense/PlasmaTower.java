@@ -5,13 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
-
 import java.util.Iterator;
+
+/*
+Plasma Tower
+ */
 
 public class PlasmaTower extends Tower
 {
 
-    public PlasmaTower(Context context, Point location)
+    public PlasmaTower(Context context, Point location) //create the plasma tower
     {
         setSize(); //set the size
         this.mDescription="Plasma is fast but doesn't hurt much";
@@ -36,13 +39,12 @@ public class PlasmaTower extends Tower
         { //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-            while(alienIterator.hasNext())
+            while(alienIterator.hasNext()) //loop though aliens
             {
                 Alien alien=alienIterator.next();
-                if(inRange(alien))
-                { //see which enemies are in range
+                if(inRange(alien)) //if the alien is in range, shoot
+                {
                     gameWorld.mSound.playPlasmaSound();
-
                     gameWorld.mProjectiles.add(new PlasmaProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
@@ -58,10 +60,14 @@ public class PlasmaTower extends Tower
         }
     }
     @Override
-    public void upgrade() {
+    public void upgrade() { //upgrade plasma tower
         this.mDamage=(this.mDamage+1);
         this.mRateOfFire=this.mRateOfFire+1;
         this.mRange=(int)(this.mRange*1.05);
+    }
+    @Override
+    public int towerCost(){
+        return Tower.PLASMA_COST;
     }
 
 }

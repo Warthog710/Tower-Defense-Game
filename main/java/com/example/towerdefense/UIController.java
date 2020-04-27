@@ -6,6 +6,9 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+/*
+Handles all user input
+ */
 
 public class UIController implements InputObserver
 {
@@ -18,7 +21,7 @@ public class UIController implements InputObserver
     }
 
     @Override
-    public void handleInput(MotionEvent event, GameWorld gameState, HUD mHud)
+    public void handleInput(MotionEvent event, GameWorld gameState, HUD mHud) //handles a input
     {
         ArrayList<Rect> buttons=mHud.getControls();
         int i = event.getActionIndex();
@@ -113,13 +116,14 @@ public class UIController implements InputObserver
                 }
 
                 //if the player has anywhere on the screen, check if they clicked a tower
-                else if (gameState.mTowers != null && !gameState.getmPlacing()) {
-                    mHud.removeAllInfo();
+                else if (gameState.mTowers != null && !gameState.getmPlacing() && gameState.overTower(new Point(x,y))) {
                     Tower tower = gameState.getTower(new Point(x, y));
                     if (tower != null) {
                         mHud.addTowerInfo(tower);
                     }
-
+                }
+                else{
+                    mHud.removeAllInfo();
                 }
             }else{ //we are on the start screen
                 //the player has clicked level 1

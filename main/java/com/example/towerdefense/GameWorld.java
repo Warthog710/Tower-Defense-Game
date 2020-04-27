@@ -1,6 +1,7 @@
 package com.example.towerdefense;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 
 import java.util.ArrayList;
@@ -16,8 +17,12 @@ class GameWorld
     private static volatile boolean mGameWon = false;
     private static volatile boolean mGameRunning = false;
     private static volatile boolean mReadyForNewGame = false;
-    private static volatile boolean currentError = false;
     private Tower.TowerType mTowerType;
+
+    static final int white = Color.argb(255,255,255,255);
+    static final int black = Color.argb(255,0,0,0);
+    static final int red = Color.argb(255,255,0,0);
+    static final int orange = Color.argb(150,255,102,0);
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
 
@@ -86,16 +91,13 @@ class GameWorld
 
     }
 
-    public ArrayList<Tower> getTowers(){
-        return mTowers;
-    }
 
     void startGame()
     {
         //Don't want to draw while updating game field
         stopDrawing();
-        //gameStarter.restart();
-        resume();
+
+        resume(); //unpause the game
 
         //Start drawing again
         startDrawing();

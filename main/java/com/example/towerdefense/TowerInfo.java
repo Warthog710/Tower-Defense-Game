@@ -1,10 +1,13 @@
 package com.example.towerdefense;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+/*
+contains information about a towers
+used to display tower data when a tower is selected
+ */
 
 public class TowerInfo {
     private Tower mTower;
@@ -17,10 +20,8 @@ public class TowerInfo {
     private int buttonWidth;
     private int buttonHeight;
     private int buttonPadding;
-    static int white = Color.argb(255,255,255,255);
-    static int black = Color.argb(255,0,0,0);
 
-    public TowerInfo(Tower mTower, Point size){
+    public TowerInfo(Tower mTower, Point size){ //create the tower info
         mScreenHeight = size.y;
         mScreenWidth = size.x;
         mTextFormatting = size.x / 50;
@@ -35,10 +36,10 @@ public class TowerInfo {
                 mScreenWidth - buttonPadding,
                 mScreenHeight-buttonPadding);
     }
-    public void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint){ //draw the tower info
         towerRange.draw(canvas,paint); //draw range
 
-        paint.setColor(black); //set color to black
+        paint.setColor(GameWorld.black); //set color to black
         canvas.drawRect(upgradeButton.left, upgradeButton.top, upgradeButton.right, upgradeButton.bottom, paint);
 
         //draw stats
@@ -50,7 +51,7 @@ public class TowerInfo {
         canvas.drawText(mTower.mName,
                 mScreenWidth- buttonPadding - buttonWidth-mTextFormatting*18, mScreenHeight-mTextFormatting*3,paint);
         // Set the color to white
-        paint.setColor(white);
+        paint.setColor(GameWorld.white);
         canvas.drawText("Upgrade",
                 mScreenWidth- buttonPadding - buttonWidth, mScreenHeight-buttonHeight,paint);
         canvas.drawText("$"+mTower.mUpgradeCost,
@@ -58,13 +59,13 @@ public class TowerInfo {
 
     }
 
-    public void upgrade(){
+    public void upgrade(){ //upgrade button has been selected
         this.mTower.upgrade();
         this.towerRange= new Circle(mTower.mLocation, mTower.mRange);
         this.mTower.mUpgradeCost=(int)(this.mTower.mUpgradeCost*1.3);
     }
 
-    public int upgradeCost(){
+    public int upgradeCost(){ //current cost to upgrade the tower
         return mTower.mUpgradeCost;
     }
 }

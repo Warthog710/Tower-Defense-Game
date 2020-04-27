@@ -9,8 +9,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import java.util.ArrayList;
 
-import static com.example.towerdefense.LaserProjectile.red;
-
 /*
 Deals with all the buttons and titles for when the game is running
  */
@@ -29,15 +27,13 @@ class HUD
     static int PlasmaTower=2;
     static int LaserTower=3;
     static int RocketTower=4;
-    static int white = Color.argb(255,255,255,255);
-    static int black = Color.argb(255,0,0,0);
     private Bitmap mPauseBitMap, mPlasmaTower, mLaserTower, mRocketTower, mSpeedUpBitMap, mWonSplashScreen, mLostSplashScreen;
     private Bitmap mPausedSplashScreen, mLevel1SplashScreen, mLevel2SplashScreen, mLevel3SplashScreen;
-    private Point mPauseLocation, mPlasmaTowerLocation, mLaserTowerLocation, mRocketTowerLocation, mSpeedUpLocation;
     private int buttonWidth;
     private int buttonHeight;
     private Point size;
     private int mSplashScreenSize=600;
+    public InfoContainer infoContainer;
 
     HUD(Point size)
     {
@@ -52,9 +48,10 @@ class HUD
         towerInfo=null;
         alienInfo=null;
         placingInfo=null;
+        infoContainer=new InfoContainer(size);
     }
 
-    private void prepareControls()
+    private void prepareControls() //creates all the buttons
     {
         int buttonPadding = mScreenWidth / 90;
         Rect pause = new Rect( //pause button
@@ -88,18 +85,11 @@ class HUD
         controls.add(LaserTower, laserTower);
         controls.add(RocketTower, rocketTower);
 
-
-        mPauseLocation= new Point(mScreenWidth - buttonPadding - buttonWidth,buttonPadding); //change this just use the rectangles location instead
-        mSpeedUpLocation= new Point(mScreenWidth - (buttonPadding*2) - (buttonWidth*2),buttonPadding); //use r.left and r.top
-        mPlasmaTowerLocation= new Point(mScreenWidth - (buttonPadding*3) - (buttonWidth*3), buttonPadding);
-        mLaserTowerLocation= new Point(mScreenWidth - (buttonPadding*4) - (buttonWidth*4), buttonPadding);
-        mRocketTowerLocation= new Point(mScreenWidth - (buttonPadding*5) - (buttonWidth*5), buttonPadding);
-
     }
 
     void draw(Canvas canvas, Paint paint, GameWorld mGameWorld, long FPS) //draw the HUD
     {
-        paint.setColor(black);
+        paint.setColor(GameWorld.black);
         paint.setTextSize(mTextFormatting);
 
         canvas.drawText("Lives: " + mGameWorld.getLives(), //draw lives
@@ -110,7 +100,7 @@ class HUD
         //TEMPORARY
         canvas.drawText("FPS: " + FPS, //draw FPS
                 mTextFormatting*12, mTextFormatting * 2,paint);
-        paint.setColor(red);
+        paint.setColor(GameWorld.red);
         paint.setTextSize(mTextFormatting*2);
         if(mGameWorld.errorTime>=System.currentTimeMillis()){
             canvas.drawText(mGameWorld.errorMessage, //draw FPS
@@ -169,20 +159,20 @@ class HUD
 
     private void drawControls(Canvas c, Paint p)
     {
-        p.setColor(black); //set color to black
+        p.setColor(GameWorld.black); //set color to black
         for(Rect r : controls)
         {
             c.drawRect(r.left, r.top, r.right, r.bottom, p);
         }
 
         // Set the color to white
-        p.setColor(white);
+        p.setColor(GameWorld.white);
     }
     ArrayList<Rect> getControls(){
         return controls;
     }
 
-    public void setGraphics(Context context) //add graphics to the buttons
+    public void setGraphics(Context context) //create all the graphics
     {
         HelperFactory helperFactory = new HelperFactory(context);
         this.mPauseBitMap=helperFactory.bitmapMaker(R.drawable.play, buttonWidth, buttonHeight);
@@ -200,31 +190,31 @@ class HUD
 
     private void drawGraphics(Canvas canvas) //draw the graphics for the buttons
     {
-        canvas.drawBitmap(mPauseBitMap, mPauseLocation.x, mPauseLocation.y, null);
-        canvas.drawBitmap(mSpeedUpBitMap, mSpeedUpLocation.x, mSpeedUpLocation.y, null);
-        canvas.drawBitmap(mPlasmaTower, mPlasmaTowerLocation.x, mPlasmaTowerLocation.y, null);
-        canvas.drawBitmap(mLaserTower, mLaserTowerLocation.x, mLaserTowerLocation.y, null);
-        canvas.drawBitmap(mRocketTower, mRocketTowerLocation.x, mRocketTowerLocation.y, null);
+        canvas.drawBitmap(mPauseBitMap, controls.get(PAUSE).left, controls.get(PAUSE).top, null);
+        canvas.drawBitmap(mSpeedUpBitMap, controls.get(SPEEDUP).left, controls.get(SPEEDUP).top, null);
+        canvas.drawBitmap(mPlasmaTower, controls.get(PlasmaTower).left, controls.get(PlasmaTower).top, null);
+        canvas.drawBitmap(mLaserTower, controls.get(LaserTower).left, controls.get(LaserTower).top, null);
+        canvas.drawBitmap(mRocketTower, controls.get(RocketTower).left, controls.get(RocketTower).top, null);
     }
 
-    public void addTowerInfo(Tower mTower){
+    public void addTowerInfo(Tower mTower){ //if showing tower info
 
         this.towerInfo=new TowerInfo(mTower, size);
         this.alienInfo=null;
         this.placingInfo=null;
     }
-    public void addAlienInfo(Alien mAlien){
+    public void addAlienInfo(Alien mAlien){//if showing alien info
 
         this.alienInfo=new AlienInfo(mAlien, size);
         this.towerInfo=null;
         this.placingInfo=null;
     }
-    public void addPlacementInfo(Tower.TowerType mTower){
+    public void addPlacementInfo(Tower.TowerType mTower){ //if showing placement info
         this.placingInfo=new PlacingInfo(mTower, size);
         this.alienInfo=null;
         this.towerInfo=null;
     }
-    public void removeAllInfo(){
+    public void removeAllInfo(){ //clear all info
 
         placingInfo=null;
         this.alienInfo=null;

@@ -20,4 +20,5 @@ public interface Alien
     Rect getHitbox();
     String getInfo();
     void kill();
+    String getResistance();
 }

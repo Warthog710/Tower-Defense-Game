@@ -3,10 +3,11 @@ package com.example.towerdefense;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
-
+/*
+abstract class for all towers
+ */
 public abstract class Tower extends GameObject
 {
-    //public TowerData mTowerData; //tower data
     public long lastShot; //time that the last shot was taken
     public int mRange; //range in pixels
     public float mRateOfFire; //shots per second
@@ -25,6 +26,8 @@ public abstract class Tower extends GameObject
     public abstract void shoot(GameWorld gameWorld); //method that calls the tower to shoot
 
     public abstract void upgrade(); //upgrades the tower;
+
+    public abstract int towerCost();
 
     public void setSize(){setAttributeSize(towerSize);} //set the size of the tower
 

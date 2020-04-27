@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-
 import java.util.Iterator;
+/*
+projectile from the plasma tower
+ */
 
 public class PlasmaProjectile extends Movable implements Projectile
 {
@@ -13,7 +15,7 @@ public class PlasmaProjectile extends Movable implements Projectile
     public final int mSize=25;
     int mDamage; //amount of damage
 
-    public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage)
+    public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage) //set up the projectile
     {
         this.mSpeed = (int)(2000/GameWorld.BASE_TICKS_PER_SECOND);
         this.mDamage=mDamage; //set damage
@@ -40,6 +42,8 @@ public class PlasmaProjectile extends Movable implements Projectile
 
     }
 
+    //check to see if the projectile should be remove
+    //(it has hit a alien or it has left the field of view)
     @Override
     public boolean remove(GameWorld gameWorld)
     {

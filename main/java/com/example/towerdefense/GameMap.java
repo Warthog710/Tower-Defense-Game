@@ -199,9 +199,8 @@ public class GameMap
     public int getCurrentWave() { return currentWave; }
     public void setCurrentWave(int currentWave) { this.currentWave = currentWave; this.spawnCounter = 0; }
 
-    //Called to check if something collides with the path.
 
-    //FIXED
+    //Returns true if the point is locationed on or near the path or base
     public boolean inPath(Point location)
     {
         boolean inpath=false;
@@ -223,8 +222,9 @@ public class GameMap
     }
     public void changeLevel(GameMap.level level){
         currentLevel=level;
-    }
-    public int getCurrentLevel(){
+    } //change the current level
+
+    public int getCurrentLevel(){ //return the current level
         int level=00000000;
         switch (currentLevel){
 
