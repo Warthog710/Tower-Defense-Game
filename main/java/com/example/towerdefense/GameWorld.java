@@ -34,21 +34,23 @@ class GameWorld
 
     private boolean fastGame;
 
-    private GameStarter gameStarter;
     private Context context;
     private Point size;
 
     public enum error{MONEY, PLACEMENT}
 
+    //Create enemy spawner
+    LevelSpawning enemySpawner;
+
     //Create sound manager.
     public GameSound mSound;
 
     //Collection of game objects go here...
-    ArrayList<Projectile> mProjectiles;
-    ArrayList<Tower> mTowers;
-    ArrayList<Alien> mAliens;
-    GameMap mMap;
-    StartScreen startScreen;
+     ArrayList<Projectile> mProjectiles;
+     ArrayList<Tower> mTowers;
+     ArrayList<Alien> mAliens;
+     GameMap mMap;
+     StartScreen startScreen;
 
 
 
@@ -57,21 +59,25 @@ class GameWorld
     private int mCash;
 
     //Class constructor
-    GameWorld(GameStarter gameStarter, Context context, Point size)
+    GameWorld(Context context, Point size)
     {
         this.startScreen=new StartScreen(context, size);
-        this.gameStarter = gameStarter;
         this.context = context;
         this.size = size;
         fastGame=false;
         ticksPerSecond=BASE_TICKS_PER_SECOND;
         mSound = new GameSound(context);
+        mTowers = new ArrayList<>();
+        mProjectiles = new ArrayList<>();
+        mAliens = new ArrayList<>();
+        mMap = new GameMap(context, size);
     }
 
     public void endGame()
     {
         mGameOver = true;
         mPaused = true;
+        //mGameRunning = false;
 
         //If you still have lives, you won!
         if (mLives > 0)
@@ -184,7 +190,7 @@ class GameWorld
         fastGame=false;
     }
 
-    public void addCashAmmount(int mCash){
+    public void addCashAmount(int mCash){
         this.mCash+=mCash;
     } //add a specific amount of cash
 
@@ -210,6 +216,8 @@ class GameWorld
 
 
     public void loadLevel(GameMap.level level){ //load the current level
+        mMap.changeLevel(level);
+        enemySpawner = new LevelSpawning(level);
         resetCash();
         setLives();
         mAliens = new ArrayList<>();
@@ -220,7 +228,6 @@ class GameWorld
         mReadyForNewGame=true;
         mGameRunning=true;
         mSound.playSoundTrack();
-        mMap.changeLevel(level);
         mGameWon=false;
         mPlacing=false;
     }

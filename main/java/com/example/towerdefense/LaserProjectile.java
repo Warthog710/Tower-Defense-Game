@@ -1,7 +1,6 @@
 package com.example.towerdefense;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 /*
@@ -11,7 +10,7 @@ The laser projectile
 
 public class LaserProjectile implements Projectile
 {
-    final static long TIME=200;
+    final static long TIME=100;
 
     private long startingTime;
     private Point mLocation;

@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class GameEngine extends SurfaceView implements Runnable, GameStarter, GameEngineBroadcaster
+public class GameEngine extends SurfaceView implements Runnable, GameEngineBroadcaster
 {
     //Class Variables
     private GameView mGameView;
@@ -32,16 +32,10 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
         mNextFrameTime=mNextDraw=System.currentTimeMillis();
         this.context = context;
         this.size = size;
-        mGameWorld = new GameWorld(this, this.context, size);
+        mGameWorld = new GameWorld(this.context, size);
         mGameView = new GameView(this, this.context, size);
         mHUD= new HUD(size);
         mHUD.setGraphics(context);
-        mGameWorld.mTowers=new ArrayList<Tower>();
-        mGameWorld.mProjectiles =new ArrayList<Projectile>();
-        mGameWorld.mAliens=new ArrayList<Alien>();
-        mGameWorld.setLives();
-        mGameWorld.resetCash();
-        mGameWorld.mMap = new GameMap(context, size);
         mUIController = new UIController(this, context);
     }
 
@@ -56,14 +50,20 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
                 //The game is paused...
             }
 
-            if (updateRequired())
+            if (updateRequired() && !mGameWorld.getPaused())
             {
                 //Called to update all gameObjects
                 update();
 
-                //If you have advanced past the last wave end the game.
-                if (mGameWorld.mMap.getCurrentWave() > mGameWorld.mMap.getWaveCount())
-                    mGameWorld.endGame();
+                //If the game is running
+                if (mGameWorld.getGameRunning())
+                {
+                    //Check to see if the last wave has occuerd. If so, end the game.
+                    if (mGameWorld.enemySpawner.getCurrentWave() >= mGameWorld.enemySpawner.getWaveCount())
+                    {
+                        mGameWorld.endGame();
+                    }
+                }
 
             }
             if(mNextDraw<= System.currentTimeMillis())
@@ -120,11 +120,13 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
 
             while(alienIterator.hasNext())
             {
+                Alien temp = alienIterator.next();
+
                 //If health < 0, remove enemy and add cash.
-                if (alienIterator.next().getHealth() <= 0)
+                if (temp.getStatus())
                 {
                     alienIterator.remove();
-                    mGameWorld.addCash();
+                    mGameWorld.addCashAmount(temp.getMoney());
                 }
             }
 
@@ -172,7 +174,8 @@ public class GameEngine extends SurfaceView implements Runnable, GameStarter, Ga
             }
 
             //Spawn more enemies if needed.
-            mGameWorld.mAliens = mGameWorld.mMap.spawn(context, mGameWorld.mAliens);
+            //mGameWorld.mAliens = mGameWorld.mMap.spawn(context, mGameWorld.mAliens);
+            mGameWorld.mAliens = mGameWorld.enemySpawner.spawn(mGameWorld.mAliens, mGameWorld.mMap.getPathCords().get(0));
         }
     }
 

@@ -10,15 +10,18 @@ import java.util.ArrayList;
 //Interface for all alien types
 public interface Alien
 {
-    void onHit(float dmg);
-    void setResistance(float resist);
+    void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused);
     void draw(Canvas canvas, Paint paint);
     void move(ArrayList<PathPoints> path);
+    boolean checkCollision(Rect base);
+    void setResistance(float resist);
+    String getResistance();
+    void onHit(float dmg);
+    boolean getStatus();
     Point getLocation();
     float getHealth();
-    boolean checkCollision(Rect base);
     Rect getHitbox();
     String getInfo();
+    int getMoney();
     void kill();
-    String getResistance();
 }

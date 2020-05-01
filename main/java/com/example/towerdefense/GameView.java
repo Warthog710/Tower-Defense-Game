@@ -16,6 +16,7 @@ class GameView
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
     private Point size;
+    private BitMapContainer mBitmaps;
 
     GameView(SurfaceView surfaceView, Context context, Point size)
     {
@@ -23,52 +24,68 @@ class GameView
         mSurfaceHolder = surfaceView.getHolder();
         mPaint = new Paint();
         this.size = size;
+        mBitmaps = new BitMapContainer(context, size);
     }
 
     void draw(GameWorld gameWorld, HUD mHUD, long FPS)
     {
-        if(mSurfaceHolder.getSurface().isValid()) {
+        if(mSurfaceHolder.getSurface().isValid())
+        {
             mCanvas = mSurfaceHolder.lockCanvas();
-            if (gameWorld.getGameRunning()) {
+
+            if (gameWorld.getGameRunning())
+            {
 
                 //Draw game background
-                gameWorld.mMap.draw(mCanvas, mPaint);
+                gameWorld.mMap.draw(mCanvas, mPaint, mBitmaps);
 
                 //If currently drawing...
-                if (gameWorld.getDrawing()) {
+                if (gameWorld.getDrawing())
+                {
 
                     //Draw projectiles
-                    if (gameWorld.mProjectiles != null) {
+                    if (gameWorld.mProjectiles != null)
+                    {
                         Iterator<Projectile> projectileIterator = gameWorld.mProjectiles.iterator();
-                        while (projectileIterator.hasNext()) {
+                        while (projectileIterator.hasNext())
+                        {
                             projectileIterator.next().draw(mCanvas, mPaint);
                         }
                     }
 
                     //Draw towers
-                    if (gameWorld.mTowers != null) {
+                    if (gameWorld.mTowers != null)
+                    {
                         Iterator<Tower> towerIterator = gameWorld.mTowers.iterator();
-                        while (towerIterator.hasNext()) {
+
+                        while (towerIterator.hasNext())
+                        {
                             towerIterator.next().draw(mCanvas, mPaint);
                         }
                     }
 
                     //Draw aliens
-                    if (gameWorld.mAliens != null) {
+                    if (gameWorld.mAliens != null)
+                    {
                         Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-                        while (alienIterator.hasNext()) {
-                            (alienIterator.next()).draw(mCanvas, mPaint);
+
+                        while (alienIterator.hasNext())
+                        {
+                            (alienIterator.next()).draw(mCanvas, mPaint, mBitmaps, gameWorld.getPaused());
                         }
                     }
-
                 }
 
                 //Draw HUD
                 mHUD.draw(mCanvas, mPaint, gameWorld, FPS);
 
-            }else if (!gameWorld.getGameRunning()){
+            }
+
+            else if (!gameWorld.getGameRunning())
+            {
                 gameWorld.startScreen.draw(mCanvas, mPaint, gameWorld.mSound.getSound());
             }
+
             //Unlock and post
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);
         }

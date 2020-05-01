@@ -46,7 +46,7 @@ public class LaserTower extends Tower
                 Alien alien=alienIterator.next();
 
                 //If an enemy is in range
-                if(inRange(alien))
+                if(inRange(alien) && alien.getHealth() > 0)
                 {
                     gameWorld.mSound.playLaserSound();
                     //Create new projectile

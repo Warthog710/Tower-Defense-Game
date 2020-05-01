@@ -42,7 +42,7 @@ public class PlasmaTower extends Tower
             while(alienIterator.hasNext()) //loop though aliens
             {
                 Alien alien=alienIterator.next();
-                if(inRange(alien)) //if the alien is in range, shoot
+                if(inRange(alien) && alien.getHealth() > 0) //if the alien is in range, shoot
                 {
                     gameWorld.mSound.playPlasmaSound();
                     gameWorld.mProjectiles.add(new PlasmaProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile

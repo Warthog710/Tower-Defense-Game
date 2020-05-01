@@ -18,9 +18,9 @@ public class GameMap
 {
     Bitmap mMap, base;
     Point size;
-    private final int pathWidth=30;
+    private final int pathWidth=50;
 
-    Path testPath = new Path();
+    Path path;
     ArrayList<PathPoints> mPathCords = new ArrayList<>();
 
     enum level {level1, level2, level3}
@@ -40,24 +40,13 @@ public class GameMap
         this.base = BitmapFactory.decodeResource(context.getResources(), R.drawable.base);
         this.mMap = Bitmap.createScaledBitmap(mMap, size.x, size.y, true);
         this.size = size;
-
-        //Pre-defined path. Move inside custom pathRoute object?
-        testPath.moveTo(0, size.y/2);
-        testPath.lineTo(100, size.y/2);
-        testPath.lineTo(150, (size.y /2) + 200);
-        testPath.cubicTo(150, (size.y /2) + 400, 234, (size.y /2) + 113, 300, (size.y /2));
-        testPath.cubicTo(1645, (size.y /2) + 212, -263, (size.y /2) + 634, 1000, (size.y /2));
-        testPath.cubicTo(1300, (size.y /2) - 177, 1200, (size.y /2) + 14, 1500, (size.y /2));
-        testPath.lineTo(1920, (size.y/2));
-
-        calculatePathCords();
     }
 
     //Converts the defined path into an ArrayList of points
     private void calculatePathCords()
     {
         //Method variables.
-        PathMeasure pm = new PathMeasure(testPath, false);
+        PathMeasure pm = new PathMeasure(path, false);
         float length = pm.getLength();
         float step = 1;
         float counter = 0;
@@ -92,16 +81,16 @@ public class GameMap
 
 
     //Draw the map
-    void draw (Canvas canvas, Paint paint)
+    void draw (Canvas canvas, Paint paint, BitMapContainer mBitmaps)
     {
         //Draw the background...
-        canvas.drawBitmap(mMap, 0, 0, null);
+        canvas.drawBitmap(mBitmaps.getBackground(getCurrentLevel() - 1), 0, 0, null);
 
         //Draw the path...
         paint.setStrokeWidth(pathWidth);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLUE);
-        canvas.drawPath(testPath, paint);
+        paint.setColor(Color.argb(255, 101, 67, 33));
+        canvas.drawPath(path, paint);
         paint.reset();
 
         //Draw the base...
@@ -114,84 +103,9 @@ public class GameMap
         return new Rect(size.x - base.getWidth(), (size.y / 2) - (base.getHeight() / 2), size.x, (size.y / 2) + (base.getHeight() / 2));
     }
 
-    //Used when an alien spawns to verify they spawn on the path.
-    public int getPathHeight()
-    {
-        return pathWidth;
-    }
-
     public ArrayList<PathPoints> getPathCords()
     {
         return mPathCords;
-    }
-
-    //Spawns a pre-defined set of waves when called.
-    public ArrayList<Alien> spawn(Context context, ArrayList<Alien> aliens)
-    {
-        ticks+=1;
-        switch(currentWave)
-        {
-            case 1:
-                //If enough time has elapsed since the last spawn
-                if (ticks - lastSpawn > 40)
-                {
-                    //Spawn five enemies.
-                    if (spawnCounter < 20)
-                    {
-                        //Make enemy, increment spawnCounter, and set lastSpawn.
-                        aliens.add(new AlienFactory(context, size, getPathHeight(), "drone", getPathCords().get(0)).getAlien());
-                        spawnCounter++;
-                        lastSpawn = ticks;
-                    }
-                }
-
-                //If five enemies have been spawned and the enemy list is empty... Spawn the next wave...
-                if (spawnCounter >= 20 && aliens.isEmpty())
-                {
-                    spawnCounter = 0;
-                    currentWave++;
-                }
-                break;
-
-                //Wave 2
-            case 2:
-                if (ticks - lastSpawn > 60)
-                {
-                    if (spawnCounter < 10)
-                    {
-                        aliens.add(new AlienFactory(context, size, getPathHeight(), "soldier", getPathCords().get(0)).getAlien());
-                        spawnCounter++;
-                        lastSpawn = ticks;
-                    }
-                }
-                if (spawnCounter >= 10 && aliens.isEmpty())
-                {
-                    spawnCounter = 0;
-                    currentWave++;
-                }
-                break;
-
-                //Wave 3
-            case 3:
-                if (ticks - lastSpawn > 80)
-                {
-                    if (spawnCounter < 15)
-                    {
-                        aliens.add(new AlienFactory(context, size, getPathHeight(), "behemoth", getPathCords().get(0)).getAlien());
-                        spawnCounter++;
-                        lastSpawn = ticks;
-                    }
-                }
-                if (spawnCounter >= 15 && aliens.isEmpty())
-                {
-                    spawnCounter = 0;
-                    currentWave++;
-                }
-                break;
-        }
-
-        //Return the new aliens list.
-        return aliens;
     }
 
     //Getter and setter methods.
@@ -220,9 +134,16 @@ public class GameMap
         }
         return  inpath;
     }
-    public void changeLevel(GameMap.level level){
-        currentLevel=level;
-    } //change the current level
+
+    //Change the current level
+    public void changeLevel(GameMap.level level)
+    {
+        this.path = new LevelPath(level, this.size).getPath();
+        mPathCords.clear();
+        calculatePathCords();
+        this.currentLevel = level;
+        System.out.println(level);
+    }
 
     public int getCurrentLevel(){ //return the current level
         int level=00000000;

@@ -38,7 +38,7 @@ public class RocketTower extends Tower {
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
             while(alienIterator.hasNext()){
                 Alien alien=alienIterator.next();
-                if(inRange(alien)){//if the alien is in range
+                if(inRange(alien) && alien.getHealth() > 0){//if the alien is in range
                     gameWorld.mSound.playRocketSound();
                     gameWorld.mProjectiles.add(new RocketProjectile(mProjectileBitmap, mLocation, alien, mDamage )); //create projectile
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;

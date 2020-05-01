@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class BehemothMovementStrategy implements EnemyMovable
 {
     //Class variables
-    private int mSpeed = 1; //speed
+    private int mSpeed = 2; //speed
     private int currentIndex = 0;
     private Angle mHeading;
     private Point mLocation;

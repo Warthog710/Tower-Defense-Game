@@ -19,6 +19,11 @@ public class Enemy extends GameObject implements Alien
     private String mInfo;
     private EnemyMovable movementStrategy;
     private AlienHealthBar mHealthBar;
+    private int animationIndex = 0;
+    private int enemyType;
+    private int money;
+
+    private boolean isDead = false;
 
     //Private class constructor
     private Enemy(EnemyBuilder builder)
@@ -26,39 +31,51 @@ public class Enemy extends GameObject implements Alien
         //Initialize variables
         this.health = builder.health;
         this.resist = builder.resist;
+        this.money = builder.money;
         this.movementStrategy = builder.movementStrategy;
         this.mHealthBar = builder.mHealthbar;
-        this.mBitmap = builder.mBitmap;
         this.mInfo=builder.mInfo;
         this.mLocation = builder.mLocation;
+        this.enemyType = builder.enemyType;
         this.setAttributeSize(builder.attributeSize);
-        mBitmap = Bitmap.createScaledBitmap(mBitmap, getAttributeSize(), getAttributeSize(), true);
     }
 
     //Call onHit to deal dmg
     public void onHit(float dmg)
     {
-        health = health - (dmg * resist);
-        if (health<0)
+        health = health - (dmg / resist);
+
+        //Prevents the healthbar from looking weird...
+        if (health < 0)
             health=0;
+
+        if (health == 0) {
+            enemyType = 4;
+            animationIndex = 0;
+        }
     }
 
     //Calls move() in the movement strategy to move the enemy along the path
-    public void move(ArrayList<PathPoints> path){ movementStrategy.move(path); }
+    public void move(ArrayList<PathPoints> path)
+    {
+        if (enemyType != 4)
+            movementStrategy.move(path);
+    }
 
     //Return a hitbox for the current location of the drone
     public Rect getHitbox()
     {
-        return new Rect(movementStrategy.getLocation().x - (mBitmap.getWidth() / 2),
-                movementStrategy.getLocation().y - (mBitmap.getHeight() / 2),
-                movementStrategy.getLocation().x + (mBitmap.getWidth() / 2),
-                movementStrategy.getLocation().y + (mBitmap.getHeight()) / 2);
+        return new Rect(movementStrategy.getLocation().x - (getAttributeSize() / 2),
+                movementStrategy.getLocation().y - (getAttributeSize() / 2),
+                movementStrategy.getLocation().x + (getAttributeSize() / 2),
+                movementStrategy.getLocation().y + (getAttributeSize() / 2));
     }
 
     //Getter methods.
     @Override
     public Point getLocation() { return movementStrategy.getLocation(); }
-    @Override
+
+    public int getMoney() { return money; }
     public String getInfo() {
         return mInfo;
     }
@@ -71,9 +88,8 @@ public class Enemy extends GameObject implements Alien
     }
 
     //Call to instantly kill the enemy
-    @Override
     public void kill() {
-        health=0;
+        health = 0;
     }
 
     @Override
@@ -92,19 +108,43 @@ public class Enemy extends GameObject implements Alien
     }
 
     //Custom drawing method for enemies
-    @Override
-    public void draw(Canvas canvas, Paint paint)
-    {
+
+    public void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused) {
         //Update heading...
         //Matrix matrix = new Matrix();
         //matrix.postRotate(movementStrategy.getAngle());
         //mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
 
         //Draw enemy
-        canvas.drawBitmap(mBitmap, movementStrategy.getLocation().x - getAttributeSize()/2, movementStrategy.getLocation().y - getAttributeSize()/2, null);
+        if (enemyType <= 3)
+        {
+            canvas.drawBitmap(mBitmaps.getEnemyBitmap(animationIndex, enemyType), movementStrategy.getLocation().x - getAttributeSize() / 2, movementStrategy.getLocation().y - getAttributeSize() / 2, null);
 
-        //Draw healthbar
-        mHealthBar.draw(canvas, paint, this.health, movementStrategy.getLocation());
+            //Draw healthbar
+            mHealthBar.draw(canvas, paint, this.health, movementStrategy.getLocation());
+
+            if (!isPaused)
+                animationIndex = mBitmaps.getNextEnemyIndex(animationIndex, enemyType);
+        }
+
+        //Enemy is type dead and will explode.
+        else
+        {
+            canvas.drawBitmap(mBitmaps.getEnemyBitmap(animationIndex, enemyType), movementStrategy.getLocation().x - getAttributeSize() / 2, movementStrategy.getLocation().y - getAttributeSize() / 2, null);
+
+            if (!isPaused)
+                animationIndex = mBitmaps.getNextEnemyIndex(animationIndex, enemyType);
+
+            if (animationIndex >= 4)
+            {
+                isDead = true;
+            }
+        }
+    }
+
+    public boolean getStatus()
+    {
+        return isDead;
     }
 
     //Inline builder class
@@ -112,10 +152,9 @@ public class Enemy extends GameObject implements Alien
     {
         //Necessary variables
         private float health, resist;
-        private int attributeSize, pathHeight, speed;
+        private int attributeSize, pathHeight, speed, enemyType, money;
         private EnemyMovable movementStrategy;
         private AlienHealthBar mHealthbar;
-        private Bitmap mBitmap;
         private Point mLocation;
         private String mInfo;
 
@@ -123,15 +162,6 @@ public class Enemy extends GameObject implements Alien
         public EnemyBuilder setLocation(PathPoints start)
         {
             this.mLocation = start.getPath();
-
-            return this;
-        }
-
-
-        //Set height of path. Randomly spawns at a certain height on the path.
-        public EnemyBuilder setPathHeight(int pathHeight)
-        {
-            this.pathHeight = pathHeight;
 
             return this;
         }
@@ -144,18 +174,17 @@ public class Enemy extends GameObject implements Alien
             return this;
         }
 
-        //Set enemy movement speed
-        public EnemyBuilder setSpeed(int speed)
+        //Set enemy resistance
+        public EnemyBuilder setResist(float resist)
         {
-            this.speed = speed;
+            this.resist = resist;
 
             return this;
         }
 
-        //Set enemy resistance
-        public EnemyBuilder setResist(int resist)
+        public EnemyBuilder setMoney(int money)
         {
-            this.resist = resist;
+            this.money = money;
 
             return this;
         }
@@ -164,6 +193,28 @@ public class Enemy extends GameObject implements Alien
         public EnemyBuilder setAttributeSize(int attributeSize)
         {
             this.attributeSize = attributeSize;
+
+            return this;
+        }
+
+        //Set enemy attribute size
+        public EnemyBuilder setType(String type)
+        {
+            switch(type)
+            {
+                case "soldier":
+                    enemyType = 2;
+                    break;
+
+                case "behemoth":
+                    enemyType = 3;
+                    break;
+
+                default:
+                    enemyType = 1;
+                    break;
+
+            }
 
             return this;
         }
@@ -192,27 +243,6 @@ public class Enemy extends GameObject implements Alien
                 default:
                     this.movementStrategy = new DroneMovementStrategy(mLocation);
                     break;
-
-            }
-            return this;
-        }
-
-        //Set the enemies Bitmap
-        public EnemyBuilder setBitmap(Context context, String type)
-        {
-            switch (type)
-            {
-                case "soldier":
-                    mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.soldier);
-                    break;
-
-                case "behemoth":
-                    mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.beehemoth);
-                    break;
-
-                 default:
-                     mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.drone);
-                     break;
 
             }
             return this;
