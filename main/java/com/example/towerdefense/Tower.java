@@ -17,7 +17,7 @@ public abstract class Tower extends GameObject
     public String mDescription;
     public String mName;
     public int mUpgradeCost;
-    final static int towerSize=50; //size of all the towers
+    final static int towerSize=150; //size of all the towers
     final static int ROCKET_COST=200;
     final static int PLASMA_COST=50;
     final static int LASER_COST=100;

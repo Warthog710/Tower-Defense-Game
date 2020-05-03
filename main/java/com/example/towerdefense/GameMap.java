@@ -16,7 +16,7 @@ import android.graphics.PathMeasure;
 
 public class GameMap
 {
-    Bitmap mMap, base;
+    Bitmap base;
     Point size;
     private final int pathWidth=50;
 
@@ -29,16 +29,13 @@ public class GameMap
 
     private int waveCount = 3;
     private int currentWave = 1;
-    int lastSpawn = 0;
     int spawnCounter = 0;
     private int ticks;
 
     //GameMap constructor
     public GameMap(Context context, Point size)
     {
-        this.mMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.test);
         this.base = BitmapFactory.decodeResource(context.getResources(), R.drawable.base);
-        this.mMap = Bitmap.createScaledBitmap(mMap, size.x, size.y, true);
         this.size = size;
     }
 

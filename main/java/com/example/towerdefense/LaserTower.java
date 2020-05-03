@@ -53,7 +53,7 @@ public class LaserTower extends Tower
                     gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien));
 
                     //Calculate damage
-                    alien.onHit(mDamage);
+                    alien.onHit(mDamage, GameEngine.dmgType.laser);
 
                     //Calculate angle and rotate bitmap
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 class GameWorld
@@ -37,6 +38,9 @@ class GameWorld
     private Context context;
     private Point size;
 
+    //Record dmg dealt per wave
+    private DmgDealt dmgDealt;
+
     public enum error{MONEY, PLACEMENT}
 
     //Create enemy spawner
@@ -65,12 +69,15 @@ class GameWorld
         this.context = context;
         this.size = size;
         fastGame=false;
-        ticksPerSecond=BASE_TICKS_PER_SECOND;
+        ticksPerSecond = BASE_TICKS_PER_SECOND;
         mSound = new GameSound(context);
         mTowers = new ArrayList<>();
         mProjectiles = new ArrayList<>();
         mAliens = new ArrayList<>();
         mMap = new GameMap(context, size);
+
+        //Initialize dmg dealt
+        dmgDealt = new DmgDealt();
     }
 
     public void endGame()
@@ -256,5 +263,92 @@ class GameWorld
         return cost;
     }
 
+    public void addDmgDealt(DmgDealt enemyDmg)
+    {
+        this.dmgDealt.recordDmg(GameEngine.dmgType.plasma, enemyDmg.getPlasmaDmg());
+        this.dmgDealt.recordDmg(GameEngine.dmgType.laser, enemyDmg.getLaserDmg());
+        this.dmgDealt.recordDmg(GameEngine.dmgType.rocket, enemyDmg.getRocketDmg());
+    }
 
+    public void spawn()
+    {
+        this.enemySpawner.spawn(mAliens, mMap.getPathCords().get(0), dmgDealt);
+    }
+
+    public boolean checkWave()
+    {
+        if (enemySpawner.getCurrentWave() >= enemySpawner.getWaveCount())
+            return true;
+
+        return false;
+    }
+
+    public void updateAliens()
+    {
+        Iterator<Alien> alienIterator = mAliens.iterator();
+
+        while (alienIterator.hasNext())
+        {
+            Alien temp = alienIterator.next();
+
+            //Check for dead aliens
+            if (temp.getStatus())
+            {
+                alienIterator.remove();
+                addCashAmount(temp.getMoney());
+                addDmgDealt(temp.getDmgDealt());
+            }
+
+            //Check for aliens that hit the base
+            else if (temp.checkCollision(mMap.getBaseCords()))
+            {
+                //Kill enemy
+                temp.kill();
+                alienIterator.remove();
+                loseLife();
+            }
+
+            //Else, move the enemy
+            else
+                mAliens.get(mAliens.indexOf(temp)).move(mMap.getPathCords());
+        }
+    }
+
+    public void updateProjectiles()
+    {
+        ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
+
+        Iterator<Projectile> projectileIterator = mProjectiles.iterator();
+
+        while (projectileIterator.hasNext())
+        {
+            Projectile temp = projectileIterator.next();
+
+            //Move
+            temp.move();
+
+            //Check if the projectile has hit something
+            if (temp.remove(this))
+            {
+                projectilesToRemove.add(temp);
+            }
+        }
+
+        projectileIterator = projectilesToRemove.iterator();
+
+        while (projectileIterator.hasNext())
+        {
+            mProjectiles.remove(projectileIterator.next());
+        }
+    }
+
+    public void fireTowers()
+    {
+        Iterator<Tower> towerIterator = mTowers.iterator();
+
+        while (towerIterator.hasNext())
+        {
+            towerIterator.next().shoot(this);
+        }
+    }
 }

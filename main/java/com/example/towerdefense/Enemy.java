@@ -1,28 +1,29 @@
 package com.example.towerdefense;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.content.Context;
+
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 public class Enemy extends GameObject implements Alien
 {
-    private float health, resist;
-    private String mInfo;
     private EnemyMovable movementStrategy;
     private AlienHealthBar mHealthBar;
     private int animationIndex = 0;
     private int enemyType;
+    private float health;
+    private String mInfo;
     private int money;
 
+    //Used to record the dmg dealt to this enemy in its "short" life
+    private DmgDealt dmgDealt;
+
+    //Used to hold the current resistances for this enemy
+    private Resistances resistances;
+
+    //Has the enemy demised?
     private boolean isDead = false;
 
     //Private class constructor
@@ -30,29 +31,36 @@ public class Enemy extends GameObject implements Alien
     {
         //Initialize variables
         this.health = builder.health;
-        this.resist = builder.resist;
         this.money = builder.money;
         this.movementStrategy = builder.movementStrategy;
         this.mHealthBar = builder.mHealthbar;
-        this.mInfo=builder.mInfo;
+        this.mInfo = builder.mInfo;
         this.mLocation = builder.mLocation;
         this.enemyType = builder.enemyType;
         this.setAttributeSize(builder.attributeSize);
+        this.resistances = builder.resistances;
+
+        //Initialize dmgdealt
+        dmgDealt = new DmgDealt();
     }
 
     //Call onHit to deal dmg
-    public void onHit(float dmg)
+    public void onHit(float dmg, GameEngine.dmgType dmgType)
     {
-        health = health - (dmg / resist);
+        health = health - (dmg / resistances.getReistances(dmgType));
 
         //Prevents the healthbar from looking weird...
-        if (health < 0)
-            health=0;
+        if (health <= 0)
+        {
+            health = 0;
 
-        if (health == 0) {
+            //Explode the enemy
             enemyType = 4;
             animationIndex = 0;
         }
+
+        //Record dmg dealt with resistance
+        dmgDealt.recordDmg(dmgType, dmg / resistances.getReistances(dmgType));
     }
 
     //Calls move() in the movement strategy to move the enemy along the path
@@ -81,12 +89,6 @@ public class Enemy extends GameObject implements Alien
     }
     public float getHealth() { return this.health; }
 
-    //Set method
-    public void setResistance(float resist)
-    {
-        this.resist = resist;
-    }
-
     //Call to instantly kill the enemy
     public void kill() {
         health = 0;
@@ -94,7 +96,9 @@ public class Enemy extends GameObject implements Alien
 
     @Override
     public String getResistance() {
-        return "Resistance | Plasma: "+resist+" | Rockets: "+resist+" | Lasers: "+resist;
+        return "Resistance | Plasma: "+resistances.getReistances(GameEngine.dmgType.plasma)+
+                " | Rockets: "+resistances.getReistances(GameEngine.dmgType.rocket)+
+                " | Lasers: "+resistances.getReistances(GameEngine.dmgType.laser);
     }
 
     //Call to check collision with another hitbox.
@@ -108,7 +112,6 @@ public class Enemy extends GameObject implements Alien
     }
 
     //Custom drawing method for enemies
-
     public void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused) {
         //Update heading...
         //Matrix matrix = new Matrix();
@@ -144,19 +147,25 @@ public class Enemy extends GameObject implements Alien
 
     public boolean getStatus()
     {
-        return isDead;
+        return this.isDead;
+    }
+
+    public DmgDealt getDmgDealt()
+    {
+        return this.dmgDealt;
     }
 
     //Inline builder class
     public static class EnemyBuilder
     {
         //Necessary variables
-        private float health, resist;
-        private int attributeSize, pathHeight, speed, enemyType, money;
+        private float health;
+        private int attributeSize, enemyType, money;
         private EnemyMovable movementStrategy;
         private AlienHealthBar mHealthbar;
         private Point mLocation;
         private String mInfo;
+        private Resistances resistances;
 
         //Set spawn location
         public EnemyBuilder setLocation(PathPoints start)
@@ -175,9 +184,9 @@ public class Enemy extends GameObject implements Alien
         }
 
         //Set enemy resistance
-        public EnemyBuilder setResist(float resist)
+        public EnemyBuilder setResist(Resistances resist)
         {
-            this.resist = resist;
+            this.resistances = resist;
 
             return this;
         }
@@ -198,20 +207,20 @@ public class Enemy extends GameObject implements Alien
         }
 
         //Set enemy attribute size
-        public EnemyBuilder setType(String type)
+        public EnemyBuilder setType(AlienFactory.enemyType enemyType)
         {
-            switch(type)
+            switch(enemyType)
             {
-                case "soldier":
-                    enemyType = 2;
+                case soldier:
+                    this.enemyType = 2;
                     break;
 
-                case "behemoth":
-                    enemyType = 3;
+                case behemoth:
+                    this.enemyType = 3;
                     break;
 
                 default:
-                    enemyType = 1;
+                    this.enemyType = 1;
                     break;
 
             }
@@ -228,15 +237,15 @@ public class Enemy extends GameObject implements Alien
         }
 
         //Attach a movement strategy
-        public EnemyBuilder attachMovementStrategy(String type)
+        public EnemyBuilder attachMovementStrategy(AlienFactory.enemyType enemyType)
         {
-            switch (type)
+            switch (enemyType)
             {
-                case "soldier":
+                case soldier:
                     this.movementStrategy = new SoldierMovementStrategy(mLocation);
                     break;
 
-                case "behemoth":
+                case behemoth:
                     this.movementStrategy = new BehemothMovementStrategy(mLocation);
                     break;
 

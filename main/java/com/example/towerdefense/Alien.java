@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public interface Alien
 {
     void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused);
+    void onHit(float dmg, GameEngine.dmgType dmgType);
     void draw(Canvas canvas, Paint paint);
     void move(ArrayList<PathPoints> path);
     boolean checkCollision(Rect base);
-    void setResistance(float resist);
+    DmgDealt getDmgDealt();
     String getResistance();
-    void onHit(float dmg);
     boolean getStatus();
     Point getLocation();
     float getHealth();

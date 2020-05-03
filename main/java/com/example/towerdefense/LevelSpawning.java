@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class LevelSpawning
 {
-    //Time till next wave in MS
+    //Time till next wave in ticks
     private int ticksTillNextWave = 0;
     private int timeTillNextSpawn = 0;
     private int waveCount;
@@ -17,6 +17,9 @@ public class LevelSpawning
     //Note behemoth chance is whatever is not covered by the drone and soldier chance
     private int droneChance;
     private int soldierChance;
+
+    //Current resistance modifiers
+    private Resistances resistances = new Resistances();
 
 
 
@@ -50,7 +53,7 @@ public class LevelSpawning
         }
     }
 
-    public ArrayList<Alien> spawn(ArrayList<Alien> aliens, PathPoints start)
+    public ArrayList<Alien> spawn(ArrayList<Alien> aliens, PathPoints start, DmgDealt dmgDealt)
     {
         this.ticks += 1;
 
@@ -78,7 +81,7 @@ public class LevelSpawning
             //Spawn a drone
             if (temp <= droneChance)
             {
-                aliens.add(new AlienFactory("drone", start).getAlien());
+                aliens.add(new AlienFactory(AlienFactory.enemyType.drone, start, resistances).getAlien());
                 timeTillNextSpawn = 40;
                 ticks = 0;
                 spawnCounter++;
@@ -87,7 +90,7 @@ public class LevelSpawning
             //Spawn a soldier
             else if (temp <= (droneChance + soldierChance))
             {
-                aliens.add(new AlienFactory("soldier", start).getAlien());
+                aliens.add(new AlienFactory(AlienFactory.enemyType.soldier, start, resistances).getAlien());
                 timeTillNextSpawn = 60;
                 ticks = 0;
                 spawnCounter++;
@@ -96,21 +99,26 @@ public class LevelSpawning
             //Spawn a behemoth
             else
             {
-                aliens.add(new AlienFactory("behemoth", start).getAlien());
+                aliens.add(new AlienFactory(AlienFactory.enemyType.behemoth, start, resistances).getAlien());
                 timeTillNextSpawn = 80;
                 ticks = 0;
                 spawnCounter++;
             }
         }
 
-        //If we have spawned the number of enemies in each wave. Wait until it is dead
+        //If we have spawned the number of enemies in each wave. Wait until all enemies die...
+        //Then spawn the next wave after a certain wait time.
         if(spawnCounter >= enemyPerWave && aliens.isEmpty())
         {
             timeTillNextSpawn = 0;
             ticks = 0;
             spawnCounter = 0;
             currentWave++;
-            System.out.println("Next wave: " + currentWave);
+
+            //Determine resistance for next wave
+            resistances.modifyResistances(dmgDealt.getMaxType());
+
+            //Set wait time
             ticksTillNextWave = 250;
         }
 

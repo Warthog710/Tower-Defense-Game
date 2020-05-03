@@ -15,6 +15,7 @@ public class PlasmaProjectile extends Movable implements Projectile
     public final int mSize=25;
     int mDamage; //amount of damage
 
+
     public PlasmaProjectile(Bitmap mBitMap, Point mLocation, Alien mTarget, int mDamage) //set up the projectile
     {
         this.mSpeed = (int)(2000/GameWorld.BASE_TICKS_PER_SECOND);
@@ -58,7 +59,7 @@ public class PlasmaProjectile extends Movable implements Projectile
             Alien alien = alienIterator.next();
             if (alien.checkCollision(hitbox))
             { //see if the projectile hit the alien
-                alien.onHit(mDamage);
+                alien.onHit(mDamage, GameEngine.dmgType.plasma);
                 value=true;
                 break;
             }
