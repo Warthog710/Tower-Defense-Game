@@ -13,16 +13,16 @@ strategy along the path. No animation is required for enemies or towers.
 <b>Tasks:</b>
 * [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
 * [ ] Make 3 "good" levels with increasing difficulty.
-* [ ] Make the aliens give different amounts of cash based on how strong they are.
-* [ ] Add more waves of enemies.
-* [ ] Finish art for aliens.
-* [ ] Make new art for towers.
+* [x] Make the aliens give different amounts of cash based on how strong they are.
+* [x] Add more waves of enemies.
+* [x] Finish art for aliens.
+* [x] Make new art for towers.
 * [ ] Add a rules to the game.
 * [ ] Clean up GameWorld class.
 * [ ] HUD class has a lot of variables, find a better way of dealing with this.
 * [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
-* [ ] Make resistances adaptive and have them change each wave.
-* [ ] Make resistances work rather than just be ornamental.
+* [x] Make resistances adaptive and have them change each wave.
+* [x] Make resistances work rather than just be ornamental.
 * [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
 
 
