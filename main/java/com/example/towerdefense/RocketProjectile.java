@@ -59,7 +59,7 @@ public class RocketProjectile extends Movable implements Projectile {
         while(alienIterator.hasNext()) {
             Alien alien = alienIterator.next();
             if (alien.checkCollision(hitbox)) { //see if the projectile hit the alien
-                alien.onHit(mDamage);
+                alien.onHit(mDamage, GameEngine.dmgType.rocket);
                 value=true;
                 break;
             }

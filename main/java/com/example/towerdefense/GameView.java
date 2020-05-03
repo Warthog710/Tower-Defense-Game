@@ -56,11 +56,9 @@ class GameView
                     //Draw towers
                     if (gameWorld.mTowers != null)
                     {
-                        Iterator<Tower> towerIterator = gameWorld.mTowers.iterator();
-
-                        while (towerIterator.hasNext())
+                        for (int count = 0; count < gameWorld.mTowers.size(); count++)
                         {
-                            towerIterator.next().draw(mCanvas, mPaint);
+                            gameWorld.mTowers.get(count).draw(mCanvas, mPaint);
                         }
                     }
 

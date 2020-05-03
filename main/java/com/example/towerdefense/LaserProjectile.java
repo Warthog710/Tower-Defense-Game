@@ -1,6 +1,9 @@
 package com.example.towerdefense;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 /*
@@ -33,18 +36,19 @@ public class LaserProjectile implements Projectile
     @Override
     public boolean remove(GameWorld gameWorld) //check if the beam has timed out
     {
-        return (System.currentTimeMillis()>=startingTime+TIME);
+        return (System.currentTimeMillis()>= startingTime+ TIME);
     }
 
-    @Override
     public void draw(Canvas canvas, Paint paint) //draw the beam
     {
-        paint.setColor(GameWorld.red);
+        paint.setColor(Color.argb(255, 34, 107, 59));
         paint.setStrokeWidth(10);
         canvas.drawLine(mLocation.x, mLocation.y, mDestination.x, mDestination.y, paint);
-        paint.setColor(GameWorld.orange);
-        paint.setStrokeWidth(3);
+        paint.setColor(Color.argb(255, 12, 237, 87));
+        paint.setStrokeWidth(4);
         canvas.drawLine(mLocation.x, mLocation.y, mDestination.x, mDestination.y, paint);
         paint.setColor(GameWorld.white);
+
+
     }
 }
