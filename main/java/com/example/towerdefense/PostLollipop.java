@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PostLollipop implements ISound
 {
     private SoundPool mSP;
-    private int mLaser_ID, mPlasma_ID, mRocket_ID, mSoundTrack_ID;
+    private int mLaser_ID, mPlasma_ID, mRocket_ID, mExplosion_ID, mSoundTrack_ID;
     private MediaPlayer mediaPlayer;
 
     //Initialize SoundPool
@@ -54,6 +54,8 @@ public class PostLollipop implements ISound
             mRocket_ID = mSP.load(descriptor, 0);
             descriptor = assetManager.openFd("plasma_sound.ogg");
             mPlasma_ID = mSP.load(descriptor, 0);
+            descriptor = assetManager.openFd("explosion.ogg");
+            mExplosion_ID = mSP.load(descriptor, 0);
             descriptor = assetManager.openFd("sound_track.ogg");
             mSoundTrack_ID = mSP.load(descriptor, 0);
     }
@@ -78,6 +80,9 @@ public class PostLollipop implements ISound
     public void playPlasma() {
         mSP.play(mPlasma_ID, 1, 1, 0, 0, 1);
     }
+
+    @Override
+    public void playExplosion() { mSP.play(mExplosion_ID, 1, 1, 0, 0, 1); }
 
     @Override
     public void playSoundTrack() {

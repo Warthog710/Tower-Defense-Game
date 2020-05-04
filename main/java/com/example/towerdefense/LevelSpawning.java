@@ -7,7 +7,7 @@ public class LevelSpawning
 {
     //Time till next wave in ticks
     private int ticksTillNextWave = 0;
-    private int timeTillNextSpawn = 0;
+    private int ticksTillNextSpawn = 0;
     private int waveCount;
     private int currentWave = 0;
     private int spawnCounter = 0;
@@ -21,8 +21,6 @@ public class LevelSpawning
     //Current resistance modifiers
     private Resistances resistances = new Resistances();
 
-
-
     public LevelSpawning(GameMap.level currentLevel)
     {
         switch (currentLevel)
@@ -32,7 +30,6 @@ public class LevelSpawning
                 enemyPerWave = 10;
                 droneChance = 75;
                 soldierChance = 20;
-                //ticksTillNextWave = 250;
                 break;
 
             case level2:
@@ -40,7 +37,6 @@ public class LevelSpawning
                 enemyPerWave = 15;
                 droneChance = 50;
                 soldierChance = 40;
-                //ticksTillNextWave = 250;
                 break;
 
             case level3:
@@ -48,7 +44,6 @@ public class LevelSpawning
                 enemyPerWave = 20;
                 droneChance = 30;
                 soldierChance = 50;
-                //ticksTillNextWave = 250;
                 break;
         }
     }
@@ -62,17 +57,14 @@ public class LevelSpawning
         //2. Not waiting for a new wave
         //3. Soldiers per wave is not full.
 
-
-
-        if (spawnCounter < enemyPerWave && ticksTillNextWave - ticks <= 0 && timeTillNextSpawn - ticks <= 0)
+        if (spawnCounter < enemyPerWave && ticksTillNextWave - ticks <= 0 && ticksTillNextSpawn - ticks <= 0)
         {
             Random random = new Random();
 
-            //System.out.println("I'm in spawning");
             //Spawn an enemy based on the defined chance
             //Set wait time till next spawn
-
             //Set wait time till next wave to zero since we are in a wave
+
             ticksTillNextWave = 0;
 
             //Get a random number 0-99
@@ -82,7 +74,7 @@ public class LevelSpawning
             if (temp <= droneChance)
             {
                 aliens.add(new AlienFactory(AlienFactory.enemyType.drone, start, resistances).getAlien());
-                timeTillNextSpawn = 40;
+                ticksTillNextSpawn = 40;
                 ticks = 0;
                 spawnCounter++;
             }
@@ -91,7 +83,7 @@ public class LevelSpawning
             else if (temp <= (droneChance + soldierChance))
             {
                 aliens.add(new AlienFactory(AlienFactory.enemyType.soldier, start, resistances).getAlien());
-                timeTillNextSpawn = 60;
+                ticksTillNextSpawn = 60;
                 ticks = 0;
                 spawnCounter++;
             }
@@ -100,19 +92,20 @@ public class LevelSpawning
             else
             {
                 aliens.add(new AlienFactory(AlienFactory.enemyType.behemoth, start, resistances).getAlien());
-                timeTillNextSpawn = 80;
+                ticksTillNextSpawn = 80;
                 ticks = 0;
                 spawnCounter++;
             }
         }
 
-        //If we have spawned the number of enemies in each wave. Wait until all enemies die...
+        //If we have spawned the number of enemies in a wave. Wait until all enemies die...
         //Then spawn the next wave after a certain wait time.
         if(spawnCounter >= enemyPerWave && aliens.isEmpty())
         {
-            timeTillNextSpawn = 0;
+            ticksTillNextSpawn = 0;
             ticks = 0;
             spawnCounter = 0;
+
             currentWave++;
 
             //Determine resistance for next wave
