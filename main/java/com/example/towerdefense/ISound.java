@@ -9,6 +9,8 @@ public interface ISound
 
     void playPlasma();
 
+    void playExplosion();
+
     void playSoundTrack();
 
     void stopSoundTrack();

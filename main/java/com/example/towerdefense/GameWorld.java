@@ -283,6 +283,8 @@ class GameWorld
         return false;
     }
 
+    public LevelSpawning getSpawner() { return this.enemySpawner; }
+
     public void updateAliens()
     {
         Iterator<Alien> alienIterator = mAliens.iterator();
@@ -297,6 +299,7 @@ class GameWorld
                 alienIterator.remove();
                 addCashAmount(temp.getMoney());
                 addDmgDealt(temp.getDmgDealt());
+                mSound.playExplosionSound();
             }
 
             //Check for aliens that hit the base

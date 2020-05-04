@@ -52,6 +52,8 @@ public class GameSound
         strategy.playRocket();
     }
 
+    public void playExplosionSound() { strategy.playExplosion(); }
+
     public void soundOff(){
         this.strategy=new SilentStrategy();
         soundPlaying=false;
@@ -63,11 +65,9 @@ public class GameSound
 
     }
 
-    public void playSoundTrack(){
-        strategy.playSoundTrack();
-    }
+    public void playSoundTrack(){ /*strategy.playSoundTrack();*/ }
     public void stopSoundTrack(){
-        strategy.stopSoundTrack();
+        //strategy.stopSoundTrack();
     }
 
     public boolean getSound(){

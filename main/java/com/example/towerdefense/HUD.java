@@ -91,9 +91,18 @@ class HUD
         canvas.drawText("Cash: " + mGameWorld.getCash(), //draw cash
                 mTextFormatting*6, mTextFormatting * 2,paint);
 
-        //TEMPORARY
+        int currentWave = mGameWorld.getSpawner().getCurrentWave();
+        int waveCount = mGameWorld.getSpawner().getWaveCount();
+
+        //Prevents zero display
+        if (currentWave + 1 > waveCount)
+            currentWave--;
+
+        canvas.drawText("Wave: " + (currentWave + 1) + "/" + waveCount,
+                mTextFormatting*12, mTextFormatting * 2, paint);
+
         canvas.drawText("FPS: " + FPS, //draw FPS
-                mTextFormatting*12, mTextFormatting * 2,paint);
+                mTextFormatting*18, mTextFormatting * 2,paint);
         paint.setColor(GameWorld.red);
         paint.setTextSize(mTextFormatting*2);
         if(mGameWorld.errorTime>=System.currentTimeMillis()){

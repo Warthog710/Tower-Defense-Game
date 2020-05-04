@@ -20,6 +20,11 @@ public class SilentStrategy implements ISound
     }
 
     @Override
+    public void playExplosion() {
+
+    }
+
+    @Override
     public void playSoundTrack() {
 
     }
