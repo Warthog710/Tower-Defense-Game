@@ -26,7 +26,7 @@ public class PlasmaTower extends Tower
         this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.test_plasma);
         lastShot=System.currentTimeMillis();
 
-        this.mDamage=5;
+        this.mDamage=2;
         this.mRateOfFire=4;
         this.mRange=300;
         this.mUpgradeCost=25;

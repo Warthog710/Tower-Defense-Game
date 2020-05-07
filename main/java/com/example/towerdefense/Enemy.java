@@ -47,7 +47,7 @@ public class Enemy extends GameObject implements Alien
     //Call onHit to deal dmg
     public void onHit(float dmg, GameEngine.dmgType dmgType)
     {
-        health = health - (dmg / resistances.getReistances(dmgType));
+        health = health - (dmg / resistances.getResistances(dmgType));
 
         //Prevents the healthbar from looking weird...
         if (health <= 0)
@@ -60,7 +60,7 @@ public class Enemy extends GameObject implements Alien
         }
 
         //Record dmg dealt with resistance
-        dmgDealt.recordDmg(dmgType, dmg / resistances.getReistances(dmgType));
+        dmgDealt.recordDmg(dmgType, dmg / resistances.getResistances(dmgType));
     }
 
     //Calls move() in the movement strategy to move the enemy along the path
@@ -96,9 +96,9 @@ public class Enemy extends GameObject implements Alien
 
     @Override
     public String getResistance() {
-        return "Resistance | Plasma: "+resistances.getReistances(GameEngine.dmgType.plasma)+
-                " | Rockets: "+resistances.getReistances(GameEngine.dmgType.rocket)+
-                " | Lasers: "+resistances.getReistances(GameEngine.dmgType.laser);
+        return "Resistance | Plasma: "+resistances.getResistances(GameEngine.dmgType.plasma)+
+                " | Rockets: "+resistances.getResistances(GameEngine.dmgType.rocket)+
+                " | Lasers: "+resistances.getResistances(GameEngine.dmgType.laser);
     }
 
     //Call to check collision with another hitbox.

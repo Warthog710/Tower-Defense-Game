@@ -59,7 +59,7 @@ public class GameSound
         soundPlaying=false;
     }
 
-    public void soundOn(){
+    public void soundOn() {
         this.strategy=this.version_strategy;
         soundPlaying=true;
 

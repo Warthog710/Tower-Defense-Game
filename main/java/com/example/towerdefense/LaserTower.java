@@ -26,9 +26,9 @@ public class LaserTower extends Tower
         this.mProjectileBitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.blank_image);
         lastShot=System.currentTimeMillis();
 
-        this.mDamage=15;
-        this.mRateOfFire=1;
-        this.mRange=500;
+        this.mDamage=10;
+        this.mRateOfFire=0.5f;
+        this.mRange=400;
         this.mUpgradeCost=50;
     }
 
