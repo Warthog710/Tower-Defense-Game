@@ -25,7 +25,7 @@ public class RocketTower extends Tower {
         lastShot=System.currentTimeMillis();
 
         this.mDamage=50;
-        this.mRateOfFire=0.5f;
+        this.mRateOfFire=0.25f;
         this.mRange=500;
         this.mUpgradeCost=50;
     }

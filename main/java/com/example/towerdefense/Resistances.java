@@ -31,7 +31,7 @@ public class Resistances
         }
     }
 
-    public int getReistances(GameEngine.dmgType dmgType)
+    public int getResistances(GameEngine.dmgType dmgType)
     {
         switch (dmgType)
         {

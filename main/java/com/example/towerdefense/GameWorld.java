@@ -163,7 +163,7 @@ class GameWorld
         mLives=20;
     }
     public int getCash(){ return mCash;}
-    public void resetCash(){this.mCash=500;}
+    public void resetCash(){this.mCash=150;}
     public void addCash(){this.mCash+=10;}
     public void loseCash(int amount){this.mCash-=amount;}
 
@@ -347,11 +347,9 @@ class GameWorld
 
     public void fireTowers()
     {
-        Iterator<Tower> towerIterator = mTowers.iterator();
-
-        while (towerIterator.hasNext())
+        for (int count = 0; count < mTowers.size(); count++)
         {
-            towerIterator.next().shoot(this);
+            mTowers.get(count).shoot(this);
         }
     }
 }

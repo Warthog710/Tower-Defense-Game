@@ -15,6 +15,8 @@ public class BitMapContainer
     private ArrayList<Bitmap> explosion = new ArrayList<>();;
     private ArrayList<Bitmap> backgrounds = new ArrayList<>();;
 
+    private Bitmap base;
+
     public BitMapContainer(Context context, Point size)
     {
         //Create drone list
