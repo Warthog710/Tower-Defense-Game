@@ -17,7 +17,7 @@ public class LaserTower extends Tower
     {
         //Set the size.
         setSize();
-        this.mDescription="Lasers deal high damage instantly to a single target";
+        this.mDescription="Lasers deal medium damage instantly to a single target";
         this.mName="Laser Tower: Fires a laser at medium speeds.";
         this.mLocation=location;
         this.mBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.laser_turret);
@@ -41,13 +41,14 @@ public class LaserTower extends Tower
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
 
-            while(alienIterator.hasNext())
+            while(alienIterator.hasNext()) //loop through the
             {
                 Alien alien=alienIterator.next();
 
                 //If an enemy is in range
                 if(inRange(alien) && alien.getHealth() > 0)
                 {
+                    //play the sound
                     gameWorld.mSound.playLaserSound();
                     //Create new projectile
                     gameWorld.mProjectiles.add(new LaserProjectile(mLocation, alien));
@@ -55,7 +56,7 @@ public class LaserTower extends Tower
                     //Calculate damage
                     alien.onHit(mDamage, GameEngine.dmgType.laser);
 
-                    //Calculate angle and rotate bitmap
+                    //Calculate angle and rotate tower
                     int angle=(int)Math.toDegrees(Math.atan2((alien.getLocation().y-mLocation.y),(alien.getLocation().x-mLocation.x)))+90;
                     Matrix matrix = new Matrix();
                     matrix.postRotate(angle);

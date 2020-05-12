@@ -9,17 +9,19 @@ import android.media.SoundPool;
 
 import java.io.IOException;
 
+/*
+Strategy for sound in post lollipop api
+ */
 public class PreLollipop implements ISound
 {
     private SoundPool mSP;
-    private int mLaser_ID, mPlasma_ID, mRocket_ID, mExplosion_ID, mSoundTrack_ID;
+    private int mLaser_ID, mPlasma_ID, mRocket_ID, mExplosion_ID;
     private MediaPlayer mediaPlayer;
     //Initialize the SoundPool
     PreLollipop(Context context)
     {
         mSP = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
 
-        mediaPlayer = MediaPlayer.create(context, mSoundTrack_ID);
 
         loadAssets(context);
     }
@@ -41,8 +43,6 @@ public class PreLollipop implements ISound
             mPlasma_ID = mSP.load(descriptor, 0);
             descriptor = assetManager.openFd("explosion.ogg");
             mExplosion_ID = mSP.load(descriptor, 0);
-            descriptor = assetManager.openFd("sound_track.ogg");
-            mSoundTrack_ID = mSP.load(descriptor, 0);
         }
         catch (IOException e)
         {
@@ -71,15 +71,4 @@ public class PreLollipop implements ISound
         mSP.play(mExplosion_ID, 1, 1, 0, 0, 1);
     }
 
-    @Override
-    public void playSoundTrack() {
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
-    }
-
-    @Override
-    public void stopSoundTrack() {
-        mediaPlayer.stop();
-        mediaPlayer.setLooping(false);
-    }
 }

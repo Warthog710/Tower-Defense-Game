@@ -7,7 +7,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import java.util.Iterator;
 /*
-Rocket Projectile
+Rocket Projectile:
+Pass it a target which it follows.
  */
 
 public class RocketProjectile extends Movable implements Projectile {

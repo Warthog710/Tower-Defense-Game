@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 /*
 Plasma Tower
+Set up the tower
  */
 
 public class PlasmaTower extends Tower
@@ -54,7 +55,7 @@ public class PlasmaTower extends Tower
                                     0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
 
 
-                    break;
+                    break; //stop looping after shooting at a alien
                 }
             }
         }

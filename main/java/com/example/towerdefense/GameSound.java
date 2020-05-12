@@ -65,11 +65,6 @@ public class GameSound
 
     }
 
-    public void playSoundTrack(){ /*strategy.playSoundTrack();*/ }
-    public void stopSoundTrack(){
-        //strategy.stopSoundTrack();
-    }
-
     public boolean getSound(){
         return soundPlaying;
     }

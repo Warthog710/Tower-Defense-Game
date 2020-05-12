@@ -12,11 +12,12 @@ public class InfoContainer {
     private Tower mTower;
     private Alien mAlien;
     private Circle towerRange;
-    public Rect upgradeButton;
+    public Rect upgradeButton, background;
     private enum state{TOWER, PLACING, ALIEN}
     private state currentState;
     private String line1, line2, line3, buttonLine1, buttonLine2;
     private boolean hideInfo;
+    private int textStart;
 
     private int mTextFormatting;
     private int mScreenHeight;
@@ -38,6 +39,12 @@ public class InfoContainer {
                 mScreenHeight-buttonHeight-buttonPadding,
                 mScreenWidth - buttonPadding,
                 mScreenHeight-buttonPadding);
+        textStart=mScreenWidth - buttonPadding - buttonWidth - mTextFormatting * 18;
+        background = new Rect( //tower button
+                textStart-buttonPadding,
+                mScreenHeight-buttonHeight-buttonPadding*2,
+                mScreenWidth,
+                mScreenHeight);
     }
     public void setInfo(Tower tower){ //set the info if the data is a tower
         this.hideInfo=false;
@@ -89,6 +96,8 @@ public class InfoContainer {
 
     public void draw(Canvas canvas, Paint paint){ //draw the tower info
         if (!hideInfo) {
+            paint.setColor(GameWorld.grey);
+            canvas.drawRect(background, paint);
             if (currentState == state.TOWER) {
                 towerRange.draw(canvas, paint); //draw range
                 line3 = "Damage: " + mTower.mDamage + " | Rate of Fire: " + mTower.mRateOfFire + " | Range: " + mTower.mRange; //update line 3
@@ -99,28 +108,27 @@ public class InfoContainer {
             if (currentState != state.ALIEN) { //if the info is not a alien, show the button
                 canvas.drawRect(upgradeButton.left, upgradeButton.top, upgradeButton.right, upgradeButton.bottom, paint);
             }
-
-            //draw stats
-            paint.setTextSize(mTextFormatting / 1.5f);
-            canvas.drawText(line1,
-                    mScreenWidth - buttonPadding - buttonWidth - mTextFormatting * 18, mScreenHeight - mTextFormatting * 3, paint);
-            canvas.drawText(line2,
-                    mScreenWidth - buttonPadding - buttonWidth - mTextFormatting * 18, mScreenHeight - mTextFormatting * 2, paint);
-            canvas.drawText(line3,
-                    mScreenWidth - buttonPadding - buttonWidth - mTextFormatting * 18, mScreenHeight - mTextFormatting, paint);
-            // Set the color to white
             paint.setColor(GameWorld.white);
+            paint.setTextSize(mTextFormatting / 1.5f);
             canvas.drawText(buttonLine1,
                     mScreenWidth - buttonPadding - buttonWidth, mScreenHeight - buttonHeight, paint);
             canvas.drawText(buttonLine2,
                     mScreenWidth - buttonPadding - buttonWidth, mScreenHeight - buttonHeight + mTextFormatting, paint);
+            //draw stats
+            paint.setColor(GameWorld.black);
+            canvas.drawText(line1,
+                    textStart, mScreenHeight - mTextFormatting * 3, paint);
+            canvas.drawText(line2,
+                    textStart, mScreenHeight - mTextFormatting * 2, paint);
+            canvas.drawText(line3,
+                    textStart, mScreenHeight - mTextFormatting, paint);
         }
 
     }
 
-    public void buttonClick(){ //button has been clicked
+    public void buttonClick(GameWorld gameWorld){ //button has been clicked
         if(currentState==state.TOWER){ //tower is showing so upgrade button was hit
-            towerUpgrade();
+            towerUpgrade(gameWorld);
         }else{ //cancel placement button so hide state
             hideInfo();
 
@@ -132,9 +140,14 @@ public class InfoContainer {
         hideInfo=true;
     }
 
-    private void towerUpgrade(){ //upgrade the tower
-        this.mTower.upgrade();
-        this.towerRange= new Circle(mTower.mLocation, mTower.mRange);
-        this.mTower.mUpgradeCost=(int)(this.mTower.mUpgradeCost*1.3);
+    private void towerUpgrade(GameWorld gameWorld){ //upgrade the tower
+        if (gameWorld.getCash()>=this.mTower.mUpgradeCost) {
+            gameWorld.loseCash(this.mTower.mUpgradeCost);
+            this.mTower.upgrade();
+            this.towerRange = new Circle(mTower.mLocation, mTower.mRange);
+            this.mTower.mUpgradeCost = (int) (this.mTower.mUpgradeCost * 1.3);
+        }else{
+            gameWorld.error(GameWorld.error.MONEY);
+        }
     }
 }

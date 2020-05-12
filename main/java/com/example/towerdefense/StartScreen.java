@@ -17,8 +17,7 @@ Set up and display the "start" or home screen
 public class StartScreen {
     Bitmap background, level1, level2, level3, rules, title, back, soundOn, soundOff; //images
     private int mTextFormatting, mScreenHeight, mScreenWidth, levelButtonWidth, infoButtonWidth;
-    private int levelButtonTopPadding, infoButtonPadding, infoButtonHeight;
-    private final int levelButtonPadding=20;
+    private int levelButtonTopPadding, infoButtonPadding, infoButtonHeight, levelButtonPadding;
     private ArrayList<Rect> buttons; //buttons
     Point size;
     static int LEVEL1 = 0;
@@ -31,9 +30,6 @@ public class StartScreen {
     boolean showingRules;
 
 
-    static int white = Color.argb(255,255,255,255);
-    static int grey = Color.argb(255,161,161,161);
-
     public StartScreen(Context context, Point size){ //set up start screen
 
 
@@ -41,10 +37,10 @@ public class StartScreen {
         mScreenHeight = size.y;
         mScreenWidth = size.x;
         mTextFormatting = size.x / 50;
-        levelButtonWidth=(size.x-80)/3;
+        levelButtonWidth=(size.x-(mScreenWidth / 90)*4)/3;
         infoButtonWidth = mScreenHeight / 6;
         levelButtonTopPadding=(size.y)/4;
-        infoButtonPadding = mScreenWidth / 90;
+        levelButtonPadding = infoButtonPadding = mScreenWidth / 90;
         infoButtonHeight = mScreenHeight / 12;
         buttons= new ArrayList<Rect>();
         HelperFactory helperFactory = new HelperFactory(context);
@@ -97,26 +93,42 @@ public class StartScreen {
     void draw(Canvas canvas, Paint paint, boolean sound){ //display the start screen
         canvas.drawBitmap(background, 0, 0, null);
         if(showingRules){ //if the rules should be shown
-            paint.setColor(white); //set color to white
+            paint.setColor(GameWorld.white); //set color to white
             paint.setTextSize(mTextFormatting);
-            canvas.drawText("These are the rules of the game. Don't lose, and make lots of money.", //rules
+            //display all the rules
+            canvas.drawText("You are the space commander charged with protecting planets from alien invasion. Your mission is to keep the", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*16,paint);
+            canvas.drawText("aliens from reaching your base. You must survive 5 waves until reinforcements arrive. If 20 aliens reach", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*14,paint);
+            canvas.drawText("your headquarters they will over run you and you will lose the game. At your disposal are 3 types of towers:", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*12,paint);
+            canvas.drawText("a plasma tower that shoots very quickly with low damage, a laser tower that deals medium damage with an ", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*10,paint);
+            canvas.drawText("average rate of fire, and finally a rocket tower that deals massive damage with its heat seeking rockets, ", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*8,paint);
+            canvas.drawText("however it has an incredibly low rate of fire. Your foes, are smart, over time they will build a resistance ", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*6,paint);
+            canvas.drawText("to whichever tower they are taking the most damage from. Prepare accordingly. Finally, your towers will target ", //rules
+                    0, buttons.get(RULES).top-(mTextFormatting+2)*4,paint);
+            canvas.drawText("the strongest enemy in range, use this to your advantage. Best of luck commander.", //rules
                     0, buttons.get(RULES).top-(mTextFormatting+2)*2,paint);
-            paint.setColor(grey); //set color to black
+            paint.setColor(GameWorld.grey); //set color to black
             canvas.drawRect(buttons.get(RULES).left, buttons.get(RULES).top, buttons.get(RULES).right, buttons.get(RULES).bottom, paint);
             canvas.drawBitmap(back, buttons.get(RULES).left, buttons.get(RULES).top, null);
-        }else { //otherwise
+        }else { //otherwise draw start screen
 
-            paint.setColor(grey); //set color to black
+            paint.setColor(GameWorld.grey); //set color to black
             for (Rect r : buttons) {
                 canvas.drawRect(r.left, r.top, r.right, r.bottom, paint);
             }
+            //draw all the bitmaps
             canvas.drawBitmap(level1, buttons.get(LEVEL1).left, buttons.get(LEVEL1).top, null);
             canvas.drawBitmap(level2, buttons.get(LEVEL2).left, buttons.get(LEVEL2).top, null);
             canvas.drawBitmap(level3, buttons.get(LEVEL3).left, buttons.get(LEVEL3).top, null);
             canvas.drawBitmap(rules, buttons.get(RULES).left, buttons.get(RULES).top, null);
             canvas.drawBitmap(title, 0, 0, null);
         }
-        paint.setColor(grey);
+        paint.setColor(GameWorld.grey);
         canvas.drawRect(buttons.get(SOUND).left, buttons.get(SOUND).top, buttons.get(SOUND).right, buttons.get(SOUND).bottom, paint);
         if(sound){ //if the sound is on
             canvas.drawBitmap(soundOn, buttons.get(SOUND).left, buttons.get(SOUND).top, null);

@@ -27,7 +27,7 @@ public class RocketTower extends Tower {
         this.mDamage=50;
         this.mRateOfFire=0.25f;
         this.mRange=500;
-        this.mUpgradeCost=50;
+        this.mUpgradeCost=100;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class RocketTower extends Tower {
         if (System.currentTimeMillis()-lastShot>(1000/(mRateOfFire*gameWorld.getSpeed()))){ //can the tower fire?
             lastShot=System.currentTimeMillis();
             Iterator<Alien> alienIterator = gameWorld.mAliens.iterator();
-            while(alienIterator.hasNext()){
+            while(alienIterator.hasNext()){ //loop through the aliens
                 Alien alien=alienIterator.next();
                 if(inRange(alien) && alien.getHealth() > 0){//if the alien is in range
                     gameWorld.mSound.playRocketSound();
@@ -47,7 +47,7 @@ public class RocketTower extends Tower {
                     mBitmap = Bitmap //rotate bitmap to face enemy
                             .createBitmap(mOriginalBitMap,
                                     0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
-                    break;
+                    break; //stop looping if a enemy has been found.
                 }
             }
         }

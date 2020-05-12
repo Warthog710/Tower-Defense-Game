@@ -1,13 +1,12 @@
 package com.example.towerdefense;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 /*
 The laser projectile
+draws a green line between tower and alien
 
  */
 

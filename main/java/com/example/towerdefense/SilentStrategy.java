@@ -1,7 +1,8 @@
 package com.example.towerdefense;
 
-//This strategy can only be chosen by setting the silent mode to true when the game sound object is
-//created. Intended for debugging purposes.
+/*
+Silent strategy, do nothing when the play sound method is called.
+ */
 public class SilentStrategy implements ISound
 {
     @Override
@@ -21,16 +22,6 @@ public class SilentStrategy implements ISound
 
     @Override
     public void playExplosion() {
-
-    }
-
-    @Override
-    public void playSoundTrack() {
-
-    }
-
-    @Override
-    public void stopSoundTrack() {
 
     }
 }

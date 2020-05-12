@@ -82,7 +82,7 @@ public class UIController implements InputObserver
                 }
                 else if (mHud.infoContainer.upgradeButton.contains(x,y))
                 { //hit the upgrade button
-                    mHud.infoContainer.buttonClick();
+                    mHud.infoContainer.buttonClick(gameState);
                     gameState.closemPlacing();
                 }
                 //if the player has a tower to place and the game is not paused and the location is not on the path
@@ -106,7 +106,6 @@ public class UIController implements InputObserver
                         Alien currentAlien = alienIterator.next();
                         if (currentAlien.getHitbox().contains(x, y)) {
                             mHud.infoContainer.setInfo(currentAlien);
-                            System.out.println("hereeee");
                             break;
                         }
                     }

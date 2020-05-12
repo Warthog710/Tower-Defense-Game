@@ -11,7 +11,4 @@ public interface ISound
 
     void playExplosion();
 
-    void playSoundTrack();
-
-    void stopSoundTrack();
 }

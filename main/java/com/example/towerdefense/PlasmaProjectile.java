@@ -6,13 +6,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import java.util.Iterator;
 /*
-projectile from the plasma tower
+projectile from the plasma tower.
  */
 
 public class PlasmaProjectile extends Movable implements Projectile
 {
     Point mDestination; //where the projectile is going to
-    public final int mSize=25;
+    public final int mSize=25; //size of the projectile
     int mDamage; //amount of damage
 
 

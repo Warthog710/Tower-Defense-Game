@@ -11,12 +11,14 @@ import android.net.Uri;
 
 import java.io.IOException;
 
-//Set target API to 21 (Post Lollipop)
+/*
+Strategy for sound in post lollipop api
+ */
 @TargetApi(21)
 public class PostLollipop implements ISound
 {
     private SoundPool mSP;
-    private int mLaser_ID, mPlasma_ID, mRocket_ID, mExplosion_ID, mSoundTrack_ID;
+    private int mLaser_ID, mPlasma_ID, mRocket_ID, mExplosion_ID;
     private MediaPlayer mediaPlayer;
 
     //Initialize SoundPool
@@ -35,8 +37,6 @@ public class PostLollipop implements ISound
 
         loadAssets(context);
 
-
-        mediaPlayer = MediaPlayer.create(context, R.raw.sound_track);
     }
 
     //Load sound assets into SoundPool
@@ -56,8 +56,6 @@ public class PostLollipop implements ISound
             mPlasma_ID = mSP.load(descriptor, 0);
             descriptor = assetManager.openFd("explosion.ogg");
             mExplosion_ID = mSP.load(descriptor, 0);
-            descriptor = assetManager.openFd("sound_track.ogg");
-            mSoundTrack_ID = mSP.load(descriptor, 0);
     }
         catch (IOException e)
         {
@@ -84,15 +82,4 @@ public class PostLollipop implements ISound
     @Override
     public void playExplosion() { mSP.play(mExplosion_ID, 1, 1, 0, 0, 1); }
 
-    @Override
-    public void playSoundTrack() {
-        mediaPlayer.start();
-        mediaPlayer.setLooping(true);
-    }
-
-    @Override
-    public void stopSoundTrack() {
-        mediaPlayer.pause();
-        mediaPlayer.setLooping(false);
-    }
 }

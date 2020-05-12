@@ -18,9 +18,9 @@ public abstract class Tower extends GameObject
     public String mName;
     public int mUpgradeCost;
     final static int towerSize=150; //size of all the towers
-    final static int ROCKET_COST=200;
-    final static int PLASMA_COST=50;
-    final static int LASER_COST=100;
+    final static int ROCKET_COST=200; //cost of rocket
+    final static int PLASMA_COST=50; //cost of plasma
+    final static int LASER_COST=100; //cost of laser
     enum TowerType {PLASMA, LASER, ROCKET} //types of towers
 
     public abstract void shoot(GameWorld gameWorld); //method that calls the tower to shoot

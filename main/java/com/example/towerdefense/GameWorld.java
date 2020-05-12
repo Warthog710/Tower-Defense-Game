@@ -23,7 +23,7 @@ class GameWorld
     static final int white = Color.argb(255,255,255,255);
     static final int black = Color.argb(255,0,0,0);
     static final int red = Color.argb(255,255,0,0);
-    static final int orange = Color.argb(150,255,102,0);
+    static final int grey = Color.argb(255,161,161,161);
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
 
@@ -136,11 +136,9 @@ class GameWorld
     public boolean getGameRunning(){ return mGameRunning;}
     public void setGameRunningOn(){
         mGameRunning=true;
-        mSound.playSoundTrack();
     }
     public void setGameRunningOff(){
         mGameRunning=false;
-        mSound.stopSoundTrack();
     }
 
     public void addTower(Tower tower)
@@ -234,7 +232,6 @@ class GameWorld
         resetSpeed();
         mReadyForNewGame=true;
         mGameRunning=true;
-        mSound.playSoundTrack();
         mGameWon=false;
         mPlacing=false;
     }

@@ -2,6 +2,9 @@ package com.example.towerdefense;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+/*
+Projectile interface
+ */
 
 public interface Projectile {
     void move();
