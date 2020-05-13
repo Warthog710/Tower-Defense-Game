@@ -23,9 +23,6 @@ public abstract class GameObject
     public Point getLocation() { return mLocation; }
     public int getAttributeSize(){ return mAttributeSize; }
 
-    //Setters
-    public void setLocation(Point mLocation){ this.mLocation = mLocation; }
-
     public void setAttributeSize(int size)
     {
         if (!sizeSet)

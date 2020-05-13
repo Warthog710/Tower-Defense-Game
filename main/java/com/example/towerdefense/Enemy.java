@@ -79,23 +79,9 @@ public class Enemy extends GameObject implements Alien
                 movementStrategy.getLocation().y + (getAttributeSize() / 2));
     }
 
-    //Getter methods.
     @Override
-    public Point getLocation() { return movementStrategy.getLocation(); }
-
-    public int getMoney() { return money; }
-    public String getInfo() {
-        return mInfo;
-    }
-    public float getHealth() { return this.health; }
-
-    //Call to instantly kill the enemy
-    public void kill() {
-        health = 0;
-    }
-
-    @Override
-    public String getResistance() {
+    public String getResistance()
+    {
         return "Resistance | Plasma: "+resistances.getResistances(GameEngine.dmgType.plasma)+
                 " | Rockets: "+resistances.getResistances(GameEngine.dmgType.rocket)+
                 " | Lasers: "+resistances.getResistances(GameEngine.dmgType.laser);
@@ -112,12 +98,8 @@ public class Enemy extends GameObject implements Alien
     }
 
     //Custom drawing method for enemies
-    public void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused) {
-        //Update heading...
-        //Matrix matrix = new Matrix();
-        //matrix.postRotate(movementStrategy.getAngle());
-        //mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, getAttributeSize(), getAttributeSize(), matrix, true);
-
+    public void draw(Canvas canvas, Paint paint, BitMapContainer mBitmaps, boolean isPaused)
+    {
         //Draw enemy
         if (enemyType <= 3)
         {
@@ -145,14 +127,26 @@ public class Enemy extends GameObject implements Alien
         }
     }
 
+    //Getter methods.
+    @Override
+    public Point getLocation() { return movementStrategy.getLocation(); }
+    public DmgDealt getDmgDealt()
+    {
+        return this.dmgDealt;
+    }
     public boolean getStatus()
     {
         return this.isDead;
     }
+    public float getHealth() { return this.health; }
+    public String getInfo() {
+        return mInfo;
+    }
+    public int getMoney() { return money; }
 
-    public DmgDealt getDmgDealt()
-    {
-        return this.dmgDealt;
+    //Call to instantly kill the enemy
+    public void kill() {
+        health = 0;
     }
 
     //Inline builder class
@@ -222,9 +216,7 @@ public class Enemy extends GameObject implements Alien
                 default:
                     this.enemyType = 1;
                     break;
-
             }
-
             return this;
         }
 
@@ -232,7 +224,6 @@ public class Enemy extends GameObject implements Alien
         public EnemyBuilder attachHealthBar(int height)
         {
             this.mHealthbar = new AlienHealthBar(height, attributeSize, health);
-
             return this;
         }
 
@@ -252,7 +243,6 @@ public class Enemy extends GameObject implements Alien
                 default:
                     this.movementStrategy = new DroneMovementStrategy(mLocation);
                     break;
-
             }
             return this;
         }
@@ -261,7 +251,6 @@ public class Enemy extends GameObject implements Alien
         public EnemyBuilder setInfo(String info)
         {
             this.mInfo = info;
-
             return this;
         }
 
