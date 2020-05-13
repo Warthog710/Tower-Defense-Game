@@ -17,6 +17,5 @@ public class PathPoints
 
     //Getters...
     public Point getPath() { return this.path; }
-    public int getAngle() { return this.angle; }
 
 }

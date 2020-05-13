@@ -4,15 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+
 /*
 The laser projectile
 draws a green line between tower and alien
-
  */
 
-public class LaserProjectile implements Projectile
-{
-    final static long TIME=100;
+public class LaserProjectile implements Projectile {
+    final static long TIME = 100;
 
     private long startingTime;
     private Point mLocation;
@@ -21,21 +20,20 @@ public class LaserProjectile implements Projectile
 
     public LaserProjectile(Point mLocation, Alien mTarget) //create laser beam
     {
-        this.mLocation=mLocation;
-        this.mDestination=mTarget.getLocation();
-        this.startingTime=System.currentTimeMillis();
+        this.mLocation = mLocation;
+        this.mDestination = mTarget.getLocation();
+        this.startingTime = System.currentTimeMillis();
     }
 
     @Override
-    public void move() //dont move
-    {
+    public void move() {
         //Do nothing
     }
 
     @Override
     public boolean remove(GameWorld gameWorld) //check if the beam has timed out
     {
-        return (System.currentTimeMillis()>= startingTime+ TIME);
+        return (System.currentTimeMillis() >= startingTime + TIME);
     }
 
     public void draw(Canvas canvas, Paint paint) //draw the beam

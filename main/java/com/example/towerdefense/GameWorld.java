@@ -27,16 +27,12 @@ class GameWorld
 
     final static long BASE_TICKS_PER_SECOND=40, FPS=30;
 
-    private long ticksPerSecond;
     public String errorMessage;
     private final int SPEED_MULTIPLIER=5;
 
     public long errorTime;
 
     private boolean fastGame;
-
-    private Context context;
-    private Point size;
 
     //Record dmg dealt per wave
     private DmgDealt dmgDealt;
@@ -66,10 +62,7 @@ class GameWorld
     GameWorld(Context context, Point size)
     {
         this.startScreen=new StartScreen(context, size);
-        this.context = context;
-        this.size = size;
         fastGame=false;
-        ticksPerSecond = BASE_TICKS_PER_SECOND;
         mSound = new GameSound(context);
         mTowers = new ArrayList<>();
         mProjectiles = new ArrayList<>();
@@ -103,7 +96,6 @@ class GameWorld
 
     }
 
-
     void startGame()
     {
         //Don't want to draw while updating game field
@@ -119,33 +111,36 @@ class GameWorld
     void pause() { mPaused = true; }
     void resume() { mGameOver = false; mPaused = false; }
     void startThread() { mThreadRunning = true; }
-
     boolean getThreadRunning() { return mThreadRunning; }
     boolean getDrawing() { return mDrawing; }
     boolean getPaused() {return mPaused; }
     boolean getGameOver() { return mGameOver; }
-
     private void stopDrawing() { mDrawing = false; }
     private void startDrawing() { mDrawing = true; }
-    public void setmPlacing() { mPlacing=true;}
-    public void closemPlacing(){ mPlacing=false;}
-    public void setTowerType(Tower.TowerType type){mTowerType=type;}
-    public Tower.TowerType getTowerType(){ return mTowerType;}
-    public boolean getmPlacing(){ return mPlacing;}
-    public boolean getmGameWon() { return mGameWon; }
-    public boolean getGameRunning(){ return mGameRunning;}
-    public void setGameRunningOn(){
-        mGameRunning=true;
-    }
-    public void setGameRunningOff(){
+    void setmPlacing() { mPlacing=true;}
+    void closemPlacing(){ mPlacing=false;}
+    void setTowerType(Tower.TowerType type){mTowerType=type;}
+    Tower.TowerType getTowerType(){ return mTowerType;}
+    boolean getmPlacing(){ return mPlacing;}
+    boolean getmGameWon() { return mGameWon; }
+    boolean getGameRunning(){ return mGameRunning;}
+    void setGameRunningOff(){
         mGameRunning=false;
     }
-
-    public void addTower(Tower tower)
+    void addTower(Tower tower)
     {
         mTowers.add(tower);
     }
-
+    int getLives() {
+        return mLives;
+    }
+    void setLives(){
+        mLives=20;
+    }
+    int getCash(){ return mCash;}
+    void resetCash(){this.mCash=150;}
+    void loseCash(int amount){this.mCash-=amount;}
+    public LevelSpawning getSpawner() { return this.enemySpawner; }
 
     void stopEverything()
     {
@@ -154,18 +149,8 @@ class GameWorld
         mThreadRunning = false;
     }
 
-    public int getLives() {
-        return mLives;
-    }
-    public void setLives(){
-        mLives=20;
-    }
-    public int getCash(){ return mCash;}
-    public void resetCash(){this.mCash=150;}
-    public void addCash(){this.mCash+=10;}
-    public void loseCash(int amount){this.mCash-=amount;}
-
-    public void loseLife() {
+    void loseLife()
+    {
         mLives -= 1;
 
         //Check for death
@@ -173,40 +158,43 @@ class GameWorld
             endGame();
     }
 
-    public void changeSpeed(){
-        if(!fastGame){
-            ticksPerSecond=SPEED_MULTIPLIER*BASE_TICKS_PER_SECOND;
+    void changeSpeed()
+    {
+        if(!fastGame)
             fastGame=true;
-        }else{
+
+        else
             fastGame=false;
-            ticksPerSecond=BASE_TICKS_PER_SECOND;
-        }
     }
 
-    public int getSpeed(){
-        if(fastGame){
+    int getSpeed()
+    {
+        if(fastGame)
             return SPEED_MULTIPLIER;
-        }else{
+        else
             return 1;
-        }
     }
 
-    public void resetSpeed(){
+    private void resetSpeed(){
         fastGame=false;
     }
-
-    public void addCashAmount(int mCash){
+    private void addCashAmount(int mCash)
+    {
         this.mCash+=mCash;
-    } //add a specific amount of cash
+    }
 
-    public Tower getTower(Point location){ //returns the tower that is situated at that point
+    //Returns the tower that is situated at that point
+    public Tower getTower(Point location)
+    {
         Tower tower=null;
-        if(mTowers != null){
+        if(mTowers != null)
+        {
             Iterator<Tower> towerIterator = mTowers.iterator();
             while(towerIterator.hasNext())
             {
                 Tower currentTower = towerIterator.next();
-                if (currentTower.contains(location)){
+                if (currentTower.contains(location))
+                {
                     tower=currentTower;
                     break;
                 }
@@ -214,13 +202,17 @@ class GameWorld
         }
         return tower;
     }
-    public boolean overTower(Point location){ //returns true if the point is located on a tower
+
+    //Returns true if the point is located on a tower.
+    public boolean overTower(Point location)
+    {
         Tower temp = getTower(location);
         return (temp != null);
     }
 
-
-    public void loadLevel(GameMap.level level){ //load the current level
+    //Load the current level
+    public void loadLevel(GameMap.level level)
+    {
         mMap.changeLevel(level);
         enemySpawner = new LevelSpawning(level);
         resetCash();
@@ -228,7 +220,6 @@ class GameWorld
         mAliens = new ArrayList<>();
         mTowers = new ArrayList<>();
         mProjectiles = new ArrayList<>();
-        mMap.setCurrentWave(1);
         resetSpeed();
         mReadyForNewGame=true;
         mGameRunning=true;
@@ -236,9 +227,6 @@ class GameWorld
         mPlacing=false;
     }
 
-    public void setReadyForNewGameTrue(){
-        mReadyForNewGame=true;
-    }
     public void setReadyForNewGameFalse(){
         mReadyForNewGame=false;
     }
@@ -246,17 +234,19 @@ class GameWorld
         return mReadyForNewGame;
     }
 
-    public int getCurrentTowerCost(){
+    public int getCurrentTowerCost()
+    {
         int cost=0;
-        if(mPlacing && mTowerType==Tower.TowerType.LASER){
+
+        if(mPlacing && mTowerType==Tower.TowerType.LASER)
             cost = Tower.LASER_COST;
-        }
-        else if(mPlacing && mTowerType==Tower.TowerType.PLASMA){
+
+        else if(mPlacing && mTowerType==Tower.TowerType.PLASMA)
             cost = Tower.PLASMA_COST;
-        }
-        else if(mPlacing && mTowerType==Tower.TowerType.ROCKET){
+
+        else if(mPlacing && mTowerType==Tower.TowerType.ROCKET)
             cost = Tower.ROCKET_COST;
-        }
+
         return cost;
     }
 
@@ -279,8 +269,6 @@ class GameWorld
 
         return false;
     }
-
-    public LevelSpawning getSpawner() { return this.enemySpawner; }
 
     public void updateAliens()
     {

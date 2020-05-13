@@ -8,7 +8,5 @@ import java.util.ArrayList;
 public interface EnemyMovable
 {
     void move(ArrayList<PathPoints> path);
-    int getAngle();
     Point getLocation();
-
 }

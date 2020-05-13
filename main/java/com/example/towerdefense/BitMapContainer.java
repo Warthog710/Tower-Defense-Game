@@ -46,6 +46,7 @@ public class BitMapContainer
         backgrounds.add(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.background_3), size.x, size.y, true));
     }
 
+    //Returns the enemies bitmap based on type and index.
     public Bitmap getEnemyBitmap(int index, int type)
     {
         switch (type)
@@ -64,6 +65,7 @@ public class BitMapContainer
         }
     }
 
+    //Returns the next index of the enemies animation loop
     public int getNextEnemyIndex(int index, int type)
     {
         switch (type)

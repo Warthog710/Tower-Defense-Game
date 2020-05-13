@@ -16,9 +16,7 @@ public class GameEngine extends SurfaceView implements Runnable, GameEngineBroad
     private HUD mHUD;
     private Context context;
     private Thread mThread = null;
-    private Point size;
-    private long mFPS;
-    private long mNextFrameTime, mLastFrameTime, mNextDraw;
+    private long mNextFrameTime, mLastFrameTime, mNextDraw, mFPS;
     private ArrayList<InputObserver> inputObservers = new ArrayList();
     UIController mUIController;
     final long MILLIS_PER_SECOND = 1000;
@@ -31,7 +29,6 @@ public class GameEngine extends SurfaceView implements Runnable, GameEngineBroad
         super(context);
         mNextFrameTime=mNextDraw=System.currentTimeMillis();
         this.context = context;
-        this.size = size;
         mGameWorld = new GameWorld(this.context, size);
         mGameView = new GameView(this, this.context, size);
         mHUD= new HUD(size);

@@ -13,7 +13,8 @@ import java.io.IOException;
 
 /*
 Strategy for sound in post lollipop api
- */
+*/
+
 @TargetApi(21)
 public class PostLollipop implements ISound
 {
