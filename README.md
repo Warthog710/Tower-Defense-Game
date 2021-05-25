@@ -1,84 +1,19 @@
-# Tower-Defense-Game
-<b>Intitial Tasks due by March 25</b>
+# Space Force Commander
+#### Description:
+Space Force Commander is a Tower Defense game written in Java for Android. It features 3 levels of varying difficulty, 3 tower types (plasma, laster, and rocket), and 3 enemy types (each with unique attributes). One of the special features of this game is how the enemies slowly gain resistance to damage from a certain source. This means that the player is discouraged from relying on a single tower type. In brief, the goal of this game is to eliminate all the enemy forces before they reach your base.
 
-<b>Goal:</b> Get the game working with a single enemy & tower type with simple (non-animated) movement and straight paths.
- 
-<b>In the Professor's words:</b>
-> You should spend some time deciding on your class hierarchy and structure. You will supply
-simple CRC cards (or a reasonable facsimile) of your design. The majority of the
-requirements are outlined below. For this first version you only need implement the most
-basic enemy and tower type. Towers are fixed, and enemies follow a basic movement
-strategy along the path. No animation is required for enemies or towers.
+#### How To Play:
+The gameplay is similar to many tower defense games but with a few twists. The goal of the game is to survive 5 waves of alien cyborgs who are trying to reach the player’s base. If 20 aliens reach the player’s base before the 5 waves are over, then the player loses the game. The player has 3 options for towers to defend their base. They can place a plasma turret for 50 dollars, these have a high rate of fire, but low damage and range. They can place a laser tower for 100 dollars, these are a well rounded tower, dealing medium damage with an average rate of fire. Finally there is the rocket tower for 200 dollars. These deal massive damage and the rockets will track their targets, however this tower fires extremely slowly. Towers can also be upgraded once they are bought. Everytime a tower is upgraded the cost for the next upgrade increases. The cost of the towers and the upgrades force the player to manage their money. The player starts with 100 dollars and can earn more by killing the cyborgs. The stronger the cyborg the more money the player will earn from killing it. The cyborgs come in 3 types. Drones are the weakest and most common of the cyborgs. However, they are fast and can even out-run the rockets. Soldiers are the standard infantry unit. They possess an average health pool and move at a reasonable speed. Then there are the behemoths. These are highly armored cyborgs with huge amounts of health. However, they pay for this with their slow movement. The cyborgs are smart though, every wave they increase their resistance to one of the 3 damage types (plasma, laser, or rockets) based on which one deals the most damage. So, if a player only buys towers of one type they will quickly be overwhelmed by the hyper resistant cyborgs.
 
-<b>Tasks:</b>
-* [ ] Make a bitmap storage class so only one bitmap is used (see page 606 of packt book).
-* [ ] Make 3 "good" levels with increasing difficulty.
-* [x] Make the aliens give different amounts of cash based on how strong they are.
-* [x] Add more waves of enemies.
-* [x] Finish art for aliens.
-* [x] Make new art for towers.
-* [ ] Add a rules to the game.
-* [ ] Clean up GameWorld class.
-* [ ] HUD class has a lot of variables, find a better way of dealing with this.
-* [ ] GameObjectFactory??? Make a factory pattern for all the gameobjects rather than several different factory patterns.
-* [x] Make resistances adaptive and have them change each wave.
-* [x] Make resistances work rather than just be ornamental.
-* [ ] Once the towers and aliens are done, spend some time balancing the game, not too hard, but a new player shouldn't win on their first try.
+#### How To Install:
+Under releases you will find the source code packaged with an APK. This can be directly installed on an Android phone as a 3rd party application.
 
+#### Game Structure:
+A simple UML diagram outlining the basic class structure of the game.
+![](Images/tower.png)
 
-<b>Finished Tasks:</b>
-* [x] Make a new background with a path.
-* [x] Make towers turn without moving.
-* [x] Add sound using a sound strategy.
-* [x] Add a place for the rules so players can read them.
-* [x] Add start screen (with level selection, rules, ect)
-* [x] Add a level selection (page 660 of paktbook)
-* [x] Keep towers from being placed on top of each other.
-* [x] Show tower stats before placing (cancel placement button in lower right?)
-* [x] Have the aliens follow the path.
-* [x] Add a button to speed up the game.
-* [x] Develop initial class hierarchy and control structure.
-* [x] Implement "GameWorld" which holds a collection of game objects and other state variables
-* [x] Implement a top-level Game class to manage the flow of controling the game (touch, manipulate data, etc)
-* [x] Implement a GameView class which will assume the responsibility of displaying information about the state of the game (Quinn)
-* [x] Implement abstract GameObject (implement fixed & moveable interfaces for different types (Quinn)
-* [x] Implement a single tower type. Not rotational and with a fixed location and cost.
-* [x] Implement a single enemy type. That follows a basic movement strategy (Quinn)
-* [x] Implement a simple GUI that holds basic game info. In addition, tower selection is done here. We will not use buttons but simply rectangular regions<br/>
-* [x] Check up on FPS (FPS should be at 30, but seems to be running much higher, usually around the 50's)
-* [x] Keep towers from being placed on the path or on the base.
-* [x] Create CRC cards.
-* [x] Allow towers to be upgraded.
-* [x] Show tower data when selected.
-* [x] Calculate damage upon being hit by a projectile, rather than when the projectile is fired. Note this is a big project and probally require some careful thought and discussion.
-
-<b>Known Bugs:</b>
-
-<b>Notes:</b>
-* Enemies must implement various strategies, I.E. movement and/or attack strategies.
-* Enemies will be constructed using a factory pattern. A strategy will be chosen during this initial construction, and other properties set.
-* All game objects have an attribute size. The size can be retrieved (getter) but can be changed once created.
-* All game objects have a location (x, y point) as the center of the object. GameObjects location can be retrieved (getter) and/or set (setter). Unless explicitly stated that a location cannot be changed once created.
-* GameObjects that implement the movable interface must have integer attributes for heading and speed. Telling an object to move() causes the object to move based on this information. All objects use their strategy to move. Heading is specified by a compass angle in degrees (90 = east, 0 = north).
-* No animation is required for this first part of the assignment.
-* The game world does not need to extend pass the visible display for the first part of the assignment.
-* The "gameMap" consists of a background image with pre-defined paths for enemies.
-* Towers are bought using an in-game currency or resource.
-* The player can pause and resume the game.
-* The player will be presented with a win/loss message when appropriate.
-
-<b>For documentation purposes:<b></br>
-https://docs.google.com/document/d/1jzjNmYaw-pGcg-SYwLC3hfwqSHZ0u_GVHPIjyIMxmWo/edit?usp=sharing
-</br>
-<b>Friday Report:<b></br>
-https://docs.google.com/document/d/1TSupbw9Hd_TAnXFZTY03NKdHLTAj-OMv-aI7SMWg1d4/edit?usp=sharing
- </br>
- <b>Monday Reports:<b></br>
-https://docs.google.com/document/d/1br4GeKOxJJSdTLnf_GR609Gh7VzEDjNKywmE7VS0D28/edit?usp=sharing
- </br>
- <b>Final Report<b></br>
-https://docs.google.com/document/d/15aFICkX8C-BrtC_9eMwqSW-j88pc3l-4XJjuNPo4J-8/edit?usp=sharing </br>
- </br>
- <b>For clarifying hierarchy:<b></br>
-![](Images/tower.png)</br>
-see Image folder for uml diagram
+#### Links:
+<a href="https://docs.google.com/document/d/1jzjNmYaw-pGcg-SYwLC3hfwqSHZ0u_GVHPIjyIMxmWo/edit?usp=sharing">Initial Report</a>  
+<a href="https://docs.google.com/document/d/1TSupbw9Hd_TAnXFZTY03NKdHLTAj-OMv-aI7SMWg1d4/edit?usp=sharing">Friday Report</a>  
+<a href="https://docs.google.com/document/d/1br4GeKOxJJSdTLnf_GR609Gh7VzEDjNKywmE7VS0D28/edit?usp=sharing">Monday Reports</a>  
+<a href="https://docs.google.com/document/d/15aFICkX8C-BrtC_9eMwqSW-j88pc3l-4XJjuNPo4J-8/edit?usp=sharing">Final Report</a>
